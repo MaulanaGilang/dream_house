@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 1010" font-family="Georgia, serif" font-size="13">
+  <!-- Scale: 10 px = 1 m. Plot 25 m x 80 m = 2,000 m². Plot origin at (60,110). Beach at top, road at bottom. -->
+  <rect width="760" height="1010" fill="#f6f1e7"/>
+  <text x="380" y="30" text-anchor="middle" font-size="20" fill="#3b3227">SITE PLAN — DRAFT v1</text>
+  <text x="380" y="50" text-anchor="middle" fill="#7a6b58">Plot ≈ 25 m × 80 m (2,000 m²) · 1 square = 5 m</text>
+
+  <!-- Beach + drop -->
+  <rect x="20" y="60" width="330" height="30" fill="#e9d9b4"/>
+  <text x="185" y="80" text-anchor="middle" fill="#7a6b58">BEACH (lower level)</text>
+  <rect x="60" y="90" width="250" height="20" fill="#cdbf9f"/>
+  <text x="330" y="104" fill="#7a6b58">drop / retaining edge</text>
+
+  <!-- Plot with grid -->
+  <defs>
+    <pattern id="g" width="50" height="50" patternUnits="userSpaceOnUse">
+      <path d="M50 0H0V50" fill="none" stroke="#e3dccd" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect x="60" y="110" width="250" height="800" fill="#cfe0b5"/>
+  <rect x="60" y="110" width="250" height="800" fill="url(#g)"/>
+
+  <!-- Perimeter: hedge (inner) + stone wall (outer) -->
+  <rect x="56" y="106" width="258" height="808" fill="none" stroke="#a69a85" stroke-width="4"/>
+  <rect x="60" y="110" width="250" height="800" fill="none" stroke="#4f6b3a" stroke-width="10"/>
+
+  <!-- Back gate + steps to beach -->
+  <rect x="170" y="104" width="30" height="14" fill="#f6f1e7"/>
+  <rect x="172" y="88" width="26" height="18" fill="#bfb39a"/>
+  <path d="M174 92h22M174 97h22M174 102h22" stroke="#8d806b"/>
+
+  <!-- Backyard -->
+  <text x="185" y="200" text-anchor="middle" fill="#3b3227">BACKYARD</text>
+  <text x="185" y="216" text-anchor="middle" fill="#5d6e4a" font-size="11">open lawn · BBQ / play / gatherings (flexible)</text>
+  <!-- beach path, lined -->
+  <rect x="176" y="118" width="18" height="232" fill="#e2d6bd"/>
+  <path d="M170 125V345M200 125V345" stroke="#9b7fc0" stroke-width="4" stroke-dasharray="4 4"/>
+
+  <!-- Covered terrace -->
+  <rect x="85" y="350" width="170" height="40" fill="#e6c9a8" stroke="#a7795a"/>
+  <text x="170" y="374" text-anchor="middle" font-size="11" fill="#3b3227">COVERED ARCHED TERRACE</text>
+
+  <!-- Foot rinse -->
+  <circle cx="205" cy="345" r="6" fill="#7fb2c9"/>
+  <text x="215" y="340" font-size="10" fill="#3b3227">foot rinse</text>
+
+  <!-- House -->
+  <rect x="80" y="390" width="180" height="180" fill="#f2e6cf" stroke="#8a6a4b" stroke-width="2"/>
+  <text x="170" y="470" text-anchor="middle" font-size="15" fill="#3b3227">HOUSE</text>
+  <text x="170" y="488" text-anchor="middle" font-size="11" fill="#7a6b58">2 floors · ≈ 18 × 18 m</text>
+  <!-- Garage attached -->
+  <rect x="260" y="470" width="45" height="100" fill="#e8dcc4" stroke="#8a6a4b" stroke-width="2"/>
+  <text x="282" y="520" text-anchor="middle" font-size="10" fill="#3b3227" transform="rotate(-90 282 520)">GARAGE</text>
+  <!-- Front door -->
+  <rect x="160" y="566" width="20" height="8" fill="#5a3f2a"/>
+
+  <!-- Service yard (hidden side) -->
+  <rect x="66" y="400" width="14" height="150" fill="#d8d2c4" stroke="#999"/>
+  <text x="73" y="475" text-anchor="middle" font-size="10" fill="#3b3227" transform="rotate(-90 73 475)">LAUNDRY / DRYING (screened)</text>
+
+  <!-- Driveway: garage → passes front door → down right side → curves to central gate -->
+  <path d="M282 570 L282 600 Q282 610 270 610 L170 610 M282 610 L282 800 Q282 860 195 880 L185 910"
+        fill="none" stroke="#d9cfb8" stroke-width="22" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- trees lining driveway -->
+  <g fill="#6f8f4e">
+    <circle cx="300" cy="640" r="7"/><circle cx="300" cy="690" r="7"/><circle cx="300" cy="740" r="7"/><circle cx="300" cy="790" r="7"/>
+    <circle cx="262" cy="660" r="7"/><circle cx="262" cy="720" r="7"/><circle cx="262" cy="780" r="7"/>
+  </g>
+  <!-- lavender lining driveway -->
+  <path d="M250 630V800" stroke="#9b7fc0" stroke-width="4" stroke-dasharray="4 4"/>
+
+  <!-- Front lawn + picnic tree -->
+  <text x="140" y="660" text-anchor="middle" fill="#3b3227">FRONT LAWN</text>
+  <circle cx="145" cy="740" r="38" fill="#5e7f41" opacity="0.85"/>
+  <text x="145" y="744" text-anchor="middle" font-size="10" fill="#fff">PICNIC TREE</text>
+
+  <!-- Lavender + roses along hedge -->
+  <path d="M70 120V900M300 120V630M70 900H160M215 900H300M70 120H165M205 120H300" stroke="#9b7fc0" stroke-width="4" stroke-dasharray="4 4"/>
+  <path d="M75 125V895M295 125V625M75 895H160M215 895H295M75 125H165M205 125H295" stroke="#d97a96" stroke-width="3" stroke-dasharray="2 6"/>
+
+  <!-- Front gate (arched, solid) -->
+  <rect x="160" y="904" width="55" height="14" fill="#4a3424"/>
+  <path d="M160 904 Q187 890 215 904" fill="#4a3424"/>
+  <text x="187" y="940" text-anchor="middle" fill="#3b3227">MAIN GATE (solid, arched)</text>
+  <text x="187" y="960" text-anchor="middle" fill="#7a6b58">ROAD</text>
+
+  <!-- Section labels -->
+  <g font-size="11" fill="#7a6b58">
+    <text x="330" y="235">≈ 24 m backyard</text>
+    <text x="330" y="480">≈ 22 m house + terrace</text>
+    <text x="330" y="760">≈ 34 m front garden</text>
+  </g>
+  <path d="M322 115V345M322 350V575M322 580V905" stroke="#b9ad97" stroke-width="2"/>
+
+  <!-- Legend -->
+  <g transform="translate(470 620)" font-size="12" fill="#3b3227">
+    <text y="0" font-size="14">LEGEND</text>
+    <rect y="14" width="16" height="10" fill="#4f6b3a"/><text x="24" y="23">Tall boxy hedge</text>
+    <rect y="34" width="16" height="10" fill="none" stroke="#a69a85" stroke-width="3"/><text x="24" y="43">Low stone wall (outside hedge)</text>
+    <path d="M0 58h16" stroke="#9b7fc0" stroke-width="4" stroke-dasharray="4 4"/><text x="24" y="62">Lavender</text>
+    <path d="M0 78h16" stroke="#d97a96" stroke-width="3" stroke-dasharray="2 6"/><text x="24" y="82">Roses</text>
+    <rect y="94" width="16" height="10" fill="#d9cfb8"/><text x="24" y="103">Driveway (garage + front door)</text>
+    <rect y="114" width="16" height="10" fill="#e2d6bd"/><text x="24" y="123">Footpath to beach</text>
+    <circle cx="8" cy="139" r="6" fill="#6f8f4e"/><text x="24" y="143">Driveway trees</text>
+    <circle cx="8" cy="159" r="6" fill="#7fb2c9"/><text x="24" y="163">Foot rinse</text>
+  </g>
+</svg>
