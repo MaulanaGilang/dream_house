@@ -11,6 +11,15 @@ Decision sheet for the next phase. Nothing here is built yet.
 5. **Language:** English.
 6. **Blueprint:** must look like a real construction blueprint. It is built as CAD geometry (DXF via ezdxf) and rendered in blueprint style. See `.claude/skills/architectural-blueprint` and `tools/blueprint/poc.py`.
 
+## Decisions, round 2 (2026-10-04)
+
+1. **Name: La Casa**, used everywhere (tab, site, drawing title blocks). Logo: a simple maroon arch with a silver inner arch (`src/app/icon.svg`, `ArchMark`).
+2. **Single source of truth: `design/site-plan-1000m2.svg` (v5).** The CAD model (`tools/blueprint/model.py`), the drawings, the massing model (`tools/massing/build_scene.py`, guide renders in `design/massing/`) and every render and film frame follow it.
+3. **Back gate:** a 1.4 m solid arched timber door set in a 3.2 m arched plaster portal wall (crown 4 m), on the beach-path axis. It is not see-through.
+4. **Thuja** only along the straight part of the driveway; none along the front hedge.
+5. **Renders and film:** all old images and clips deleted and regenerated from massing views of the plan. The film is three Kling 3.0 Pro 1080p clips plus a cove drift, cut to 12 fps AVIF frames at 1920 px. Clip 2 is trimmed at 6.9 s, because later frames invent a second gateway.
+6. **Website:** rebuilt on the DNA of era-residence.com: condensed serif capitals, a script accent word, an extended sans for labels, a circle reveal, sky-blue fields, a maroon block, bougainvillea cut-outs, a route line and a rotating emblem. A single theme only; the Day / Dusk mode is removed.
+
 The sections below are the original options, kept for reference.
 
 ## 1. Website style references

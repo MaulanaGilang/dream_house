@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parents[2]
 DXF_DIR = ROOT / "design" / "blueprints"
 SVG_DIR = ROOT / "public" / "blueprints"
 DATA = ROOT / "src" / "data" / "blueprint-rooms.json"
-PROJECT = "COVE HOUSE"
+PROJECT = "LA CASA"
 DRAWN = "G. MAULANA"
 DATE = date(2026, 10, 4).strftime("%d.%m.%Y")
 
@@ -425,30 +425,40 @@ def site_sheet():
     gates = {0: M.FRONT_GATE, M.PLOT_D: M.BACK_GATE}
     outer = box(-M.STONE_T, -M.STONE_T, M.PLOT_W + M.STONE_T, M.PLOT_D + M.STONE_T).difference(box(0, 0, M.PLOT_W, M.PLOT_D))
     hedge = box(0, 0, M.PLOT_W, M.PLOT_D).difference(box(M.HEDGE_T, M.HEDGE_T, M.PLOT_W - M.HEDGE_T, M.PLOT_D - M.HEDGE_T))
+    px0, px1 = M.BACK_PORTAL
+    py0, py1 = M.PLOT_D - M.PORTAL_T / 2, M.PLOT_D + M.PORTAL_T / 2
     gaps = unary_union([box(M.FRONT_GATE[0], -M.STONE_T - 10, M.FRONT_GATE[1], M.HEDGE_T + 10),
-                        box(M.BACK_GATE[0], M.PLOT_D - M.HEDGE_T - 10, M.BACK_GATE[1], M.PLOT_D + M.STONE_T + 10)])
+                        box(px0, M.PLOT_D - M.HEDGE_T - 10, px1, M.PLOT_D + M.STONE_T + 10)])
     from shapely.affinity import affine_transform
     T = lambda g: affine_transform(g, [0, 1, -1, 0, OX, OY + M.PLOT_W])
     sw = T(outer.difference(gaps)); hg = T(hedge.difference(gaps))
     sh.hatch(sw, "ANSI37", 1.2); sh.outline(sw, "WALL")
     sh.hatch(hg, "DOTS", 0.9, layer="PLANT"); sh.outline(hg, "PLANT")
-    # gates: two leaves each, swinging inward, with pillars
-    for y, (gx0, gx1), sgn in ((0, M.FRONT_GATE, 1), (M.PLOT_D, M.BACK_GATE, -1)):
-        for px in (gx0 - 600, gx1):
-            p = T(box(px, y - M.STONE_T if sgn > 0 else y - M.HEDGE_T, px + 600, y + M.HEDGE_T if sgn > 0 else y + M.STONE_T))
-            sh.hatch(p, "ANSI31", 0.6); sh.outline(p, "WALL")
-        w = (gx1 - gx0) / 2
-        yy = y + (0 if sgn > 0 else 0)
-        for hx_, dirx in ((gx0, 1), (gx1, -1)):
-            tip = (hx_, yy + sgn * w)
-            sh.line(R(hx_, yy), R(*tip), "OPEN")
-            a_closed = R(hx_ + dirx * w, yy)
-            c = R(hx_, yy)
-            ang = lambda p: math.degrees(math.atan2(p[1] - c[1], p[0] - c[0]))
-            a0, a1 = ang(a_closed), ang(R(*tip))
-            if (a1 - a0) % 360 > 180:
-                a0, a1 = a1, a0
-            sh.arc(c, w, a0, a1, "OPEN")
+
+    def leaf(hx_, yy, w, dirx, sgn):
+        tip = (hx_, yy + sgn * w)
+        sh.line(R(hx_, yy), R(*tip), "OPEN")
+        c = R(hx_, yy)
+        ang = lambda p: math.degrees(math.atan2(p[1] - c[1], p[0] - c[0]))
+        a0, a1 = ang(R(hx_ + dirx * w, yy)), ang(R(*tip))
+        if (a1 - a0) % 360 > 180:
+            a0, a1 = a1, a0
+        sh.arc(c, w, a0, a1, "OPEN")
+
+    # front gate: two solid leaves swinging inward between limestone pillars
+    gx0, gx1 = M.FRONT_GATE
+    for px in (gx0 - 600, gx1):
+        p = T(box(px, -M.STONE_T, px + 600, M.HEDGE_T))
+        sh.hatch(p, "ANSI31", 0.6); sh.outline(p, "WALL")
+    w = (gx1 - gx0) / 2
+    leaf(gx0, 0, w, 1, 1)
+    leaf(gx1, 0, w, -1, 1)
+    # back gate: arched plaster portal wall (crown 4.0 m) with one solid arched door, opening inward
+    dx0, dx1 = M.BACK_GATE
+    portal = T(box(px0, py0, px1, py1).difference(box(dx0, py0 - 10, dx1, py1 + 10)))
+    sh.hatch(portal, "ANSI31", 0.6); sh.outline(portal, "WALL")
+    leaf(dx0, py0, dx1 - dx0, 1, -1)
+    sh.text(R((px0 + px1) / 2 - 2600, M.PLOT_D - 2600), "ARCHED PORTAL", 1.4, cls="bp-note")
     # house roof plan (hipped, 1000 eaves), garage hip roof, laundry pergola, terrace/balcony
     hx0, hy0 = M.HOUSE_ORIGIN
     rx0, ry0, rx1, ry1 = hx0 - M.EAVE, hy0 - M.EAVE, hx0 + M.HOUSE_W + M.EAVE, hy0 + M.HOUSE_D + M.EAVE
@@ -526,7 +536,7 @@ def site_sheet():
     sh.poly(Rp(toe), "SITE", closed=False)
     face = Polygon(Rp(edge + toe[::-1]))
     stairs = [
-        ("land", (5200, 50400, 9200, 51600)),
+        ("land", (M.BACK_PORTAL[0], 50400, M.BACK_PORTAL[1], 51600)),
         ("flight", (1800, 51600, 6000, 52800), -1),
         ("land", (600, 51600, 1800, 54000)),
         ("flight", (1800, 52800, 6000, 54000), 1),
@@ -660,6 +670,11 @@ def section_sheet():
     sh.poly(Sp([(y0, gf - 450), (y0, 2900), (y0 + 8000, 2900), (y0 + 8000, gf - 450)]), "SITE", closed=False)
     # back hedge, stone wall, back gate beyond
     sh.poly(Sp([(49_000, 0), (49_000, 3000), (50_000, 3000), (50_000, 0)]), "PLANT", closed=False)
+    # arched plaster portal beyond the cut (crown 4.0 m)
+    pt = M.PORTAL_T / 2
+    sh.poly(Sp([(50_000 - pt, 0), (50_000 - pt, M.PORTAL_CROWN - 300), (50_000 - pt + 120, M.PORTAL_CROWN),
+                (50_000 + pt - 120, M.PORTAL_CROWN), (50_000 + pt, M.PORTAL_CROWN - 300), (50_000 + pt, 0)]), "SITE", closed=False)
+    sh.text(S(50_000, M.PORTAL_CROWN + 700), "PORTAL 4.0", 1.5, cls="bp-note")
     sh.rect(*S(50_000, 0), *S(50_400, 1200), "WALL")
     sh.hatch(Polygon(Sp([(50_000, 0), (50_400, 0), (50_400, 1200), (50_000, 1200)])), "ANSI37", 1.0)
     # cliff stairs beyond (thin stepped profile)

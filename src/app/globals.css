@@ -2,25 +2,26 @@
 @import "./tokens.css";
 
 @theme inline {
-  --color-paper: var(--color-paper);
-  --color-paper-2: var(--color-paper-2);
-  --color-paper-3: var(--color-paper-3);
+  --color-cream: var(--color-cream);
+  --color-cream-2: var(--color-cream-2);
   --color-ink: var(--color-ink);
   --color-ink-2: var(--color-ink-2);
   --color-ink-3: var(--color-ink-3);
   --color-rule: var(--color-rule);
-  --color-accent: var(--color-accent);
-  --color-accent-ink: var(--color-accent-ink);
-  --color-on-image: var(--color-on-image);
+  --color-sky: var(--color-sky);
+  --color-sky-2: var(--color-sky-2);
+  --color-maroon: var(--color-maroon);
+  --color-maroon-2: var(--color-maroon-2);
+  --color-silver: var(--color-silver);
+  --color-white: var(--color-white);
   --color-blueprint: var(--color-blueprint);
   --color-blueprint-2: var(--color-blueprint-2);
   --color-blueprint-ink: var(--color-blueprint-ink);
   --color-blueprint-dim: var(--color-blueprint-dim);
   --color-blueprint-hot: var(--color-blueprint-hot);
   --font-display: var(--font-display);
+  --font-script: var(--font-script);
   --font-sans: var(--font-body);
-  --font-mono: var(--font-mono);
-  --ease-out-soft: var(--ease-out);
 }
 
 html,
@@ -33,38 +34,37 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
-:root[data-theme="dusk"] {
-  color-scheme: dark;
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
 }
 
 body {
-  background: var(--color-paper);
+  background: var(--color-cream);
   color: var(--color-ink);
   font-family: var(--font-body);
   font-size: var(--text-base);
-  line-height: 1.6;
+  font-stretch: 112%;
+  line-height: 1.55;
   text-rendering: optimizeLegibility;
-  transition: background-color var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out);
-}
-
-/* lime-plaster grain: fixed, non-interactive, never on a scrolling layer */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 ::selection {
-  background: var(--color-accent);
-  color: var(--color-accent-ink);
+  background: var(--color-maroon);
+  color: var(--color-cream);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-maroon-2);
+  outline-offset: 3px;
 }
 
 section[id] {
-  scroll-margin-top: 5rem;
+  scroll-margin-top: 4rem;
 }
 
 a,
@@ -72,52 +72,71 @@ button {
   touch-action: manipulation;
 }
 
-:focus-visible {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 3px;
+/* ERA type system: condensed caps for display, script for the one accent word, extended sans for labels */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 0.87;
+}
+
+.caps {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.008em;
+  line-height: 1;
+}
+
+.script {
+  font-family: var(--font-script);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.label {
+  font-family: var(--font-body);
+  font-stretch: 125%;
+  font-size: var(--text-micro);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.45;
+}
+
+.body-small {
+  font-size: var(--text-sm);
+  font-stretch: 112%;
+  line-height: 1.55;
 }
 
 h1,
 h2,
-h3 {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-style: normal;
-  letter-spacing: -0.015em;
-  line-height: 0.98;
-  text-wrap: balance;
+h3,
+h4 {
+  font-weight: 400;
   overflow-wrap: anywhere;
   min-width: 0;
-}
-
-p {
-  text-wrap: pretty;
-}
-
-.label {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.arch {
-  border-radius: var(--radius-arch);
+  text-wrap: balance;
 }
 
 .wrap {
   width: 100%;
-  max-width: 1440px;
+  max-width: 1600px;
   margin-inline: auto;
   padding-inline: var(--gutter);
 }
 
-/* entrance reveal (driven by Reveal.tsx); hidden only once JS confirms motion is allowed */
+/* entrance reveal, enabled only when motion is allowed */
 .js-motion [data-reveal] {
   opacity: 0;
-  transform: translateY(28px);
+  transform: translateY(32px);
   transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
-  transition-delay: calc(var(--reveal-i, 0) * 90ms);
+  transition-delay: calc(var(--reveal-i, 0) * 110ms);
 }
 
 .js-motion [data-reveal].is-in {
@@ -134,15 +153,15 @@ p {
 }
 
 .bp-viewer text {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
+  font-stretch: 100%;
   letter-spacing: 0.04em;
   stroke: none;
 }
 
 .bp-viewer .bp-room-name,
 .bp-viewer .bp-title {
-  font-family: var(--font-body);
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.08em;
 }
 
@@ -160,7 +179,7 @@ p {
 
 .bp-viewer .bp-room {
   cursor: pointer;
-  transition: fill var(--dur-fast) var(--ease-out);
+  transition: fill 160ms var(--ease-out);
 }
 
 .bp-viewer .bp-room:hover,
@@ -171,6 +190,16 @@ p {
 .bp-viewer .bp-room.is-active {
   stroke: var(--color-blueprint-hot);
   stroke-width: 6;
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin-slow {
+  animation: spin-slow 26s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

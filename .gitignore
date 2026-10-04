@@ -55,3 +55,6 @@ __pycache__/
 design/renders/
 design/film/*.mp4
 
+
+.playwright-mcp/
+

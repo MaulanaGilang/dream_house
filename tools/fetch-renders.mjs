@@ -1,5 +1,5 @@
-// Download the chosen Higgsfield renders and store web-ready WebP copies in src/assets/photos.
-// Usage: node tools/fetch-renders.mjs
+// Download the La Casa renders (all guided by the massing model built from design/site-plan-1000m2.svg)
+// and store web-ready copies in src/assets/photos. Usage: node tools/fetch-renders.mjs
 import { mkdir, writeFile, access } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
@@ -8,27 +8,26 @@ const CDN = "https://d8j0ntlcm91z4.cloudfront.net/user_3HRGlCWAJ2JSOIUWtb4HPHGZ7
 const RAW = path.resolve("design/renders");
 const OUT = path.resolve("src/assets/photos");
 
-// name -> Higgsfield result file (job id in the name)
+// name -> Higgsfield result file (the job id is in the name)
 const RENDERS = {
-  aerial: "hf_20261004_100346_3ee15f3b-ff5f-4fc0-89e7-ead2eb179915.png",
-  gate: "hf_20261004_100550_cbf51f21-af73-42db-8f90-46b45167c435.png",
-  "cove-view": "hf_20261004_100549_2dffed04-7b79-4ed3-ae58-9ed9aedb4063.png",
-  "back-gate": "hf_20261004_100550_5557645c-24c2-47b9-8d63-28492a58300e.png",
-  "cliff-stairs": "hf_20261004_100549_69271653-44a9-46e1-85e6-59d5742fc9b0.png",
-  facade: "hf_20261001_060625_1148c785-7121-4273-bfcf-72e8e612163c.png",
-  "front-garden": "hf_20261004_061954_88dedc2b-8019-45d6-a859-d3e3f8489b78.png",
-  "front-walk": "hf_20261004_061954_1a04687a-e3df-436b-b1cc-a548053e93cd.png",
-  terrace: "hf_20261001_070734_7add675e-afd2-43b2-829d-b2b80b35ddb2.png",
-  living: "hf_20261001_061433_5e7dd8c6-cb9b-4e00-bc21-4e3c1499acc4.png",
-  kitchen: "hf_20261004_094512_076f9877-ba5c-45fd-8143-625131de0302.png",
-  master: "hf_20261001_061433_34961bc8-4a1a-4205-b092-a9f448cb9bfd.png",
-  ensuite: "hf_20261004_094512_34d318a4-661e-484d-8441-e5da547aa447.png",
-  "work-room": "hf_20261001_061433_e7837ecb-cb50-431a-90d6-6ac061d6b609.png",
-  "bedroom-2": "hf_20261001_061433_7e38db3c-2fcf-4e2c-95b0-b84d44bf4f45.png",
-  workout: "hf_20261001_061433_0f960cd7-04ec-4d39-aee9-69a2c0d12178.png",
-  "guest-bath": "hf_20261004_094512_dee0921f-dc9e-4b44-a3b0-c31c89169934.png",
-  laundry: "hf_20261001_061432_2a5d59f9-36fc-4e98-9778-a6310f1c601a.png",
-  materials: "hf_20261004_104123_4ef72a40-6e6c-436a-a3a0-d55be94594f7.png",
+  gate: "hf_20261004_113715_db14bf50-bb32-4e73-bc34-2219e88afafd.png",
+  facade: "hf_20261004_113715_afaec0b4-c045-4a2e-91b4-878ca7781254.png",
+  aerial: "hf_20261004_130315_060fd9d9-bca8-4686-8f66-323f95f4ed29.png",
+  portal: "hf_20261004_113715_91288aff-d94c-4b6b-b970-a1f7677f625e.png",
+  "cove-view": "hf_20261004_113945_bcdab7e9-9b39-46f4-9c9e-aea680f1d977.png",
+  rear: "hf_20261004_113945_6534d6f4-80b5-4582-a1e7-c8348032bd95.png",
+  terrace: "hf_20261004_113945_b97be51a-a64d-46ed-a51d-f5631e098aeb.png",
+  laundry: "hf_20261004_113944_bd44d63f-d3fc-4c33-9ad3-1c56727a9ed0.png",
+  "rear-night": "hf_20261004_114456_367853d2-356a-4c32-918b-fc89e51a6399.png",
+  living: "hf_20261004_113944_a4f384f9-7bef-45d5-b3e4-da48355a69a1.png",
+  kitchen: "hf_20261004_113945_d6172376-5667-4e81-a259-f6e862257505.png",
+  "bedroom-2": "hf_20261004_113946_6e6b7e6f-3391-4e47-aeb9-9ab19cab398b.png",
+  "guest-bath": "hf_20261004_114455_d51a88ff-2926-4130-bbcf-f0045dbbaa3e.png",
+  workout: "hf_20261004_114456_10860f53-6e2f-44cf-bc8b-4b53e871292c.png",
+  master: "hf_20261004_114459_c9a6239c-abd4-4e16-864c-7f12fa6ee932.png",
+  ensuite: "hf_20261004_114457_feafd5d7-e700-4e85-9a7a-2f2daabf1a69.png",
+  "work-room": "hf_20261004_114456_6411475f-de81-4caa-b047-76f31f7f4f5e.png",
+  bougainvillea: "hf_20261004_114455_7af71c9f-a784-47f9-8ebc-15d6eb108a44.png",
 };
 
 await mkdir(RAW, { recursive: true });
@@ -43,9 +42,21 @@ for (const [name, file] of Object.entries(RENDERS)) {
     if (!res.ok) throw new Error(`${name}: HTTP ${res.status}`);
     await writeFile(raw, Buffer.from(await res.arrayBuffer()));
   }
+  if (name === "bougainvillea") {
+    // studio shot on white: key the white out into alpha for a floating cut-out
+    const { data, info } = await sharp(raw).resize({ width: 1400 }).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+    for (let i = 0; i < data.length; i += 4) {
+      const m = Math.min(data[i], data[i + 1], data[i + 2]);
+      const a = m > 244 ? 0 : m > 214 ? Math.round(((244 - m) / 30) * 255) : 255;
+      data[i + 3] = Math.min(data[i + 3], a);
+    }
+    const out = await sharp(data, { raw: info }).webp({ quality: 82, alphaQuality: 90 }).toFile(path.join(OUT, `${name}.webp`));
+    console.log(name.padEnd(14), `${out.width}x${out.height}`, `${Math.round(out.size / 1024)} KB`);
+    continue;
+  }
   const info = await sharp(raw)
     .resize({ width: 2400, withoutEnlargement: true })
-    .webp({ quality: 78 })
+    .webp({ quality: 82 })
     .toFile(path.join(OUT, `${name}.webp`));
   console.log(name.padEnd(14), `${info.width}x${info.height}`, `${Math.round(info.size / 1024)} KB`);
 }

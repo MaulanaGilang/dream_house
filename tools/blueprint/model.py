@@ -17,7 +17,10 @@ LAUNDRY = (11_000, 8_000, 16_500, 13_000)
 TERRACE = (0, 13_000, 11_000, 16_000)
 HEDGE_T, STONE_T = 1_000, 400
 FRONT_GATE = (6_800, 13_200)             # site x range
-BACK_GATE = (4_000, 10_400)
+BACK_GATE = (6_500, 7_900)               # single solid arched door, 1.4 m, on the beach-path axis
+BACK_PORTAL = (5_600, 8_800)             # arched plaster portal wall in the back hedge (site plan v5)
+PORTAL_T = 600
+PORTAL_CROWN = 4_000
 BLUFF = 6_000                            # garden to beach, mm
 
 # levels (mm above garden level)
