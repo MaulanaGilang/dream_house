@@ -1,0 +1,102 @@
+/* Hallmark · macrostructure: bespoke chaptered narrative (film → story → drawings → rooms → materials → walk) · tone: editorial luxury · anchor hue: terracotta 42
+ * theme: custom (vibe: "lime plaster, terracotta, limestone, sea glass, blueprint ink")
+ * paper oklch(96.5% 0.008 95) · accent oklch(56% 0.125 42) terracotta · display Cormorant Garamond + body Geist + Geist Mono
+ * axes: light / classical-serif / warm · one deliberate theme switch: blueprint section
+ */
+:root {
+  /* day: lime plaster paper, sea-ink text, terracotta accent */
+  --color-paper: oklch(96.5% 0.008 95);
+  --color-paper-2: oklch(93.5% 0.012 90);
+  --color-paper-3: oklch(89% 0.016 85);
+  --color-ink: oklch(23% 0.02 210);
+  --color-ink-2: oklch(40% 0.02 210);
+  --color-ink-3: oklch(52% 0.018 210);
+  --color-rule: oklch(23% 0.02 210 / 0.14);
+  --color-accent: oklch(56% 0.125 42);
+  --color-accent-ink: oklch(98% 0.01 80);
+  --color-focus: oklch(56% 0.125 42);
+  --color-scrim: oklch(18% 0.02 220 / 0.62);
+  --color-on-image: oklch(98% 0.008 90);
+
+  /* blueprint sheet colours */
+  --color-blueprint: oklch(41% 0.115 256);
+  --color-blueprint-2: oklch(36% 0.11 256);
+  --color-blueprint-ink: oklch(96% 0.02 250);
+  --color-blueprint-dim: oklch(96% 0.02 250 / 0.62);
+  --color-blueprint-hot: oklch(84% 0.1 75);
+
+  /* swatches (material names, used only in the materials section) */
+  --swatch-plaster: oklch(93% 0.025 85);
+  --swatch-terracotta: oklch(62% 0.11 45);
+  --swatch-stone: oklch(80% 0.035 80);
+  --swatch-bronze: oklch(33% 0.03 60);
+  --swatch-seaglass: oklch(72% 0.05 215);
+  --swatch-sage: oklch(68% 0.06 135);
+
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-body: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1.0625rem;
+  --text-lg: 1.25rem;
+  --text-xl: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  --text-2xl: clamp(2rem, 1.4rem + 2.2vw, 3.25rem);
+  --text-3xl: clamp(2.6rem, 1.6rem + 3.6vw, 4.75rem);
+  --text-display: clamp(3.1rem, 1.6rem + 5.6vw, 7.25rem);
+
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 4rem;
+  --space-section: clamp(6rem, 4rem + 8vw, 11rem);
+  --gutter: clamp(1rem, 0.5rem + 2.4vw, 3rem);
+
+  --radius-pill: 999px;
+  --radius-arch: 999px 999px 0 0;
+  --rule-hair: 1px;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.55, 0, 1, 0.45);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 160ms;
+  --dur-base: 320ms;
+  --dur-slow: 900ms;
+}
+
+/* dusk: sea-ink paper, plaster text, warmer accent */
+:root[data-theme="dusk"] {
+  --color-paper: oklch(20% 0.018 225);
+  --color-paper-2: oklch(24% 0.02 225);
+  --color-paper-3: oklch(29% 0.022 225);
+  --color-ink: oklch(94% 0.012 85);
+  --color-ink-2: oklch(80% 0.014 85);
+  --color-ink-3: oklch(68% 0.014 85);
+  --color-rule: oklch(94% 0.012 85 / 0.16);
+  --color-accent: oklch(70% 0.12 48);
+  --color-accent-ink: oklch(18% 0.02 225);
+  --color-focus: oklch(78% 0.11 60);
+  --color-blueprint: oklch(30% 0.09 258);
+  --color-blueprint-2: oklch(26% 0.085 258);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="day"]) {
+    --color-paper: oklch(20% 0.018 225);
+    --color-paper-2: oklch(24% 0.02 225);
+    --color-paper-3: oklch(29% 0.022 225);
+    --color-ink: oklch(94% 0.012 85);
+    --color-ink-2: oklch(80% 0.014 85);
+    --color-ink-3: oklch(68% 0.014 85);
+    --color-rule: oklch(94% 0.012 85 / 0.16);
+    --color-accent: oklch(70% 0.12 48);
+    --color-accent-ink: oklch(18% 0.02 225);
+    --color-focus: oklch(78% 0.11 60);
+    --color-blueprint: oklch(30% 0.09 258);
+    --color-blueprint-2: oklch(26% 0.085 258);
+  }
+}

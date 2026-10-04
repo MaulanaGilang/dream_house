@@ -1,0 +1,101 @@
+{
+  "ground": [
+    {
+      "id": "bedroom-2",
+      "label": "Bedroom 2",
+      "area": 15.9
+    },
+    {
+      "id": "guest-bath",
+      "label": "Guest Bath",
+      "area": 5.2
+    },
+    {
+      "id": "entrance",
+      "label": "Entrance",
+      "area": 21.0
+    },
+    {
+      "id": "workout",
+      "label": "Workout",
+      "area": 8.9
+    },
+    {
+      "id": "boot-room",
+      "label": "Boot Room",
+      "area": 6.1
+    },
+    {
+      "id": "pantry",
+      "label": "Pantry",
+      "area": 4.0
+    },
+    {
+      "id": "kitchen",
+      "label": "Kitchen + Dining",
+      "area": 23.2
+    },
+    {
+      "id": "living",
+      "label": "Living",
+      "area": 34.3
+    },
+    {
+      "id": "terrace",
+      "label": "Covered Terrace",
+      "area": 32.4
+    },
+    {
+      "id": "garage",
+      "label": "Garage",
+      "area": 40.3
+    },
+    {
+      "id": "laundry",
+      "label": "Laundry Yard",
+      "area": 25.4
+    }
+  ],
+  "upper": [
+    {
+      "id": "ensuite",
+      "label": "Ensuite",
+      "area": 15.3
+    },
+    {
+      "id": "landing",
+      "label": "Landing",
+      "area": 9.5
+    },
+    {
+      "id": "walk-in",
+      "label": "Walk-In",
+      "area": 13.5
+    },
+    {
+      "id": "linen",
+      "label": "Linen",
+      "area": 2.5
+    },
+    {
+      "id": "master",
+      "label": "Master Bedroom",
+      "area": 40.1
+    },
+    {
+      "id": "work-room",
+      "label": "Work Room",
+      "area": 33.6
+    },
+    {
+      "id": "balcony",
+      "label": "Balcony",
+      "area": 33.0
+    },
+    {
+      "id": "front-balcony",
+      "label": "Balcony",
+      "area": 3.2
+    }
+  ]
+}

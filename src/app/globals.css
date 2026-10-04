@@ -1,26 +1,185 @@
 @import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import "./tokens.css";
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: var(--color-paper);
+  --color-paper-2: var(--color-paper-2);
+  --color-paper-3: var(--color-paper-3);
+  --color-ink: var(--color-ink);
+  --color-ink-2: var(--color-ink-2);
+  --color-ink-3: var(--color-ink-3);
+  --color-rule: var(--color-rule);
+  --color-accent: var(--color-accent);
+  --color-accent-ink: var(--color-accent-ink);
+  --color-on-image: var(--color-on-image);
+  --color-blueprint: var(--color-blueprint);
+  --color-blueprint-2: var(--color-blueprint-2);
+  --color-blueprint-ink: var(--color-blueprint-ink);
+  --color-blueprint-dim: var(--color-blueprint-dim);
+  --color-blueprint-hot: var(--color-blueprint-hot);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-mono);
+  --ease-out-soft: var(--ease-out);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  overflow-x: clip;
+}
+
+html {
+  color-scheme: light;
+  -webkit-text-size-adjust: 100%;
+}
+
+:root[data-theme="dusk"] {
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  transition: background-color var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out);
+}
+
+/* lime-plaster grain: fixed, non-interactive, never on a scrolling layer */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+}
+
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
+a,
+button {
+  touch-action: manipulation;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-style: normal;
+  letter-spacing: -0.015em;
+  line-height: 0.98;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.arch {
+  border-radius: var(--radius-arch);
+}
+
+.wrap {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* entrance reveal (driven by Reveal.tsx); hidden only once JS confirms motion is allowed */
+.js-motion [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
+  transition-delay: calc(var(--reveal-i, 0) * 90ms);
+}
+
+.js-motion [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------------------------------------------------------------- blueprint sheets */
+.bp-viewer svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: var(--color-blueprint-ink);
+}
+
+.bp-viewer text {
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+  stroke: none;
+}
+
+.bp-viewer .bp-room-name,
+.bp-viewer .bp-title {
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+.bp-viewer .bp-room-area,
+.bp-viewer .bp-note {
+  opacity: 0.78;
+}
+
+.bp-viewer .bp-hatch,
+.bp-viewer .bp-furn,
+.bp-viewer .bp-grid,
+.bp-viewer .bp-plant {
+  opacity: 0.72;
+}
+
+.bp-viewer .bp-room {
+  cursor: pointer;
+  transition: fill var(--dur-fast) var(--ease-out);
+}
+
+.bp-viewer .bp-room:hover,
+.bp-viewer .bp-room.is-active {
+  fill: color-mix(in oklch, var(--color-blueprint-hot) 22%, transparent);
+}
+
+.bp-viewer .bp-room.is-active {
+  stroke: var(--color-blueprint-hot);
+  stroke-width: 6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 120ms !important;
+    scroll-behavior: auto !important;
+  }
 }

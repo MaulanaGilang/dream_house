@@ -50,3 +50,8 @@ tools/blueprint/*.svg
 tools/blueprint/*.png
 __pycache__/
 
+
+# raw Higgsfield downloads (re-fetch with tools/fetch-renders.mjs); film clips are the source of public/film
+design/renders/
+design/film/*.mp4
+

@@ -13,15 +13,6 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
-  // Vendored motion-primitives components: relax React Compiler rules they predate.
-  {
-    files: ["src/components/motion-primitives/**"],
-    rules: {
-      "react-hooks/set-state-in-effect": "off",
-      "react-hooks/static-components": "off",
-      "@typescript-eslint/no-unused-vars": "off",
-    },
-  },
 ]);
 
 export default eslintConfig;
