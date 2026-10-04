@@ -39,3 +39,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# graphify knowledge graph output (regenerate with: graphify update .)
+graphify-out/
+
+
+# blueprint pipeline scratch output
+tools/blueprint/*.dxf
+tools/blueprint/*.svg
+tools/blueprint/*.png
+__pycache__/
+

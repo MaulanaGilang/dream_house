@@ -1,0 +1,6 @@
+﻿# Keep the code graph focused on the app, not vendored agent skills
+.claude/
+.agents/
+design/
+public/
+
