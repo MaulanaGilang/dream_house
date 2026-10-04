@@ -9,10 +9,13 @@ The blueprint must read as a real construction drawing, not an illustration. Eve
 
 ## Pipeline
 
-1. **Source of truth:** `tools/blueprint/*.py` build a DXF with `ezdxf` (`python -m pip install -r tools/blueprint/requirements.txt`). Geometry comes from the measured layout (plot 20 × 50 m, house 11 × 13 m, garage 5.5 × 8 m, laundry yard 5.5 × 5 m, 6 m bluff). Keep all dimensions in one data module so plans and sections agree.
-2. **Outputs per sheet:** `design/blueprints/<sheet>.dxf` (opens in AutoCAD, LibreCAD, etc.), `<sheet>.svg` for the web, and `<sheet>.png` for preview and checking.
-3. **Render** with `ezdxf.addons.drawing` (SVG backend), then post-process: add the paper grid, wrap each DXF layer in `<g id="layer-…">` so GSAP can draw the layers in order, and keep strokes as strokes (no outlines) so `stroke-dashoffset` animation works.
-4. **Look at the PNG before shipping.** Check dimension text values (set `dimlfac = 1`), overlaps, and that tags sit inside their rooms.
+1. **Source of truth:** `tools/blueprint/model.py` holds every measurement: plot, walls, openings, rooms and levels (install with `python -m pip install -r tools/blueprint/requirements.txt` plus `shapely`). Change the house here, never in the SVG.
+2. **Build:** `python tools/blueprint/build.py` draws each sheet once as primitives (`sheet.py`) and writes two backends from the same primitives:
+   - `design/blueprints/A-0x-<sheet>.dxf`: real CAD with layers, hatches and DIMENSION entities. A copy goes to `public/blueprints/` for download.
+   - `public/blueprints/<sheet>.svg`: one `<g class="bp-layer bp-<layer>">` per layer in drawing order, every stroke with `pathLength="1"` so GSAP can draw it, and room hit areas in `.bp-rooms` with `data-room` ids.
+   - `src/data/blueprint-rooms.json`: net room areas (room polygon minus walls) used across the site.
+3. **Check:** `python tools/blueprint/preview.py <out-dir>` renders the DXFs to blueprint PNGs. Look at them for overlaps, dimension values, and tags sitting inside their rooms.
+4. Walls are shapely unions with openings subtracted. Doors, windows and arches come from the opening table, so the symbols and the wall gaps always agree.
 
 ## Drawing standards
 
