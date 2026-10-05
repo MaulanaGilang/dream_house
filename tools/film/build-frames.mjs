@@ -49,13 +49,14 @@ for (const set of ["desktop", "mobile"]) {
 let bytes = { desktop: 0, mobile: 0 };
 for (const [i, f] of frames.entries()) {
   const src = path.join(TMP, f);
-  const name = `f${String(i + 1).padStart(3, "0")}.avif`;
-  const d = await sharp(src).resize({ width: 1920 }).avif({ quality: 62, effort: 4, chromaSubsampling: "4:2:0" })
+  // WebP rather than AVIF: same weight here, but it decodes several times faster while scrubbing
+  const name = `f${String(i + 1).padStart(3, "0")}.webp`;
+  const d = await sharp(src).resize({ width: 1920 }).webp({ quality: 74, effort: 4 })
     .toFile(path.join(OUT, "desktop", name));
   const meta = await sharp(src).metadata();
   const cw = Math.round((meta.height * 9) / 16);
   const m = await sharp(src).extract({ left: Math.round((meta.width - cw) / 2), top: 0, width: cw, height: meta.height })
-    .resize({ height: 1080 }).avif({ quality: 58, effort: 4 }).toFile(path.join(OUT, "mobile", name));
+    .resize({ height: 1080 }).webp({ quality: 70, effort: 4 }).toFile(path.join(OUT, "mobile", name));
   bytes.desktop += d.size;
   bytes.mobile += m.size;
   if (i === 0) await sharp(src).resize({ width: 1920 }).avif({ quality: 70 }).toFile(path.join(OUT, "poster.avif"));
@@ -63,3 +64,5 @@ for (const [i, f] of frames.entries()) {
 console.log(`${frames.length} frames · desktop ${(bytes.desktop / 1e6).toFixed(1)} MB · mobile ${(bytes.mobile / 1e6).toFixed(1)} MB`);
 rmSync(TMP, { recursive: true, force: true });
 writeFileSync(path.resolve("src/data/film.json"), JSON.stringify({ count: frames.length }) + "\n");
+// light 1280 px set the canvas shows while gliding
+execFileSync(process.execPath, [path.resolve("tools/film/build-lite.mjs")], { stdio: "inherit" });

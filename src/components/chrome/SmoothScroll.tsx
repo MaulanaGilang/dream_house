@@ -14,9 +14,34 @@ export function SmoothScroll() {
   useEffect(() => {
     history.scrollRestoration = "manual";
     window.scrollTo(0, 0);
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 1, touchMultiplier: 1.4, autoRaf: false });
+    // anything that changes the page height (a drawing loading, a sheet switch, late images) moves every
+    // pinned scene below it; re-measure them, otherwise a pin starts late and the page jumps back
+    let lastH = document.body.scrollHeight;
+    let t = 0;
+    const ro = new ResizeObserver(() => {
+      const h = document.body.scrollHeight;
+      if (Math.abs(h - lastH) < 2) return;
+      lastH = h;
+      window.clearTimeout(t);
+      t = window.setTimeout(() => ScrollTrigger.refresh(), 120);
+    });
+    ro.observe(document.body);
+    const stopObserving = () => {
+      window.clearTimeout(t);
+      ro.disconnect();
+    };
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return stopObserving;
+
+    // era-residence.com's own settings: a 1.2 s expo-out glide per wheel input
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      touchMultiplier: 2,
+      autoRaf: false,
+    });
     setLenis(lenis);
     lenis.on("scroll", ScrollTrigger.update);
     const tick = (time: number) => lenis.raf(time * 1000);
@@ -30,10 +55,11 @@ export function SmoothScroll() {
       const el = id === "#top" ? 0 : document.querySelector<HTMLElement>(id);
       if (el === null) return;
       e.preventDefault();
-      lenis.scrollTo(el, { offset: 0, duration: 1.8, force: true });
+      lenis.scrollTo(el, { offset: 0, duration: 1.8, easing: (t) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2), force: true });
     };
     document.addEventListener("click", onClick);
     return () => {
+      stopObserving();
       document.removeEventListener("click", onClick);
       gsap.ticker.remove(tick);
       lenis.destroy();

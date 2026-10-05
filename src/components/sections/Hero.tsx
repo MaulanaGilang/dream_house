@@ -15,7 +15,7 @@ const captions = [
 ];
 const STOPS = [0, ...captions.map((c) => c.at), END];
 
-const frameUrl = (set: string, i: number) => `/film/${set}/f${String(i + 1).padStart(3, "0")}.avif`;
+const frameUrl = (set: string, i: number) => `/film/${set}/f${String(i + 1).padStart(3, "0")}.webp`;
 const clamp = gsap.utils.clamp;
 
 /**
@@ -32,7 +32,8 @@ export function Hero() {
   useGSAP(
     () => {
       const cv = canvas.current!;
-      const ctx = cv.getContext("2d");
+      // opaque, low-latency canvas: the film always covers it, so the compositor never blends it
+      const ctx = cv.getContext("2d", { alpha: false, desynchronized: true });
       if (!ctx) return;
 
       // title entrance waits for the intro arch to open
@@ -55,59 +56,146 @@ export function Hero() {
         { any: "all", motion: "(prefers-reduced-motion: no-preference)", narrow: "(max-width: 767px) and (orientation: portrait)" },
         (context) => {
           const { motion, narrow } = context.conditions as { motion: boolean; narrow: boolean };
-          const set = narrow ? "mobile" : "desktop";
+          // two frame sets: light 1280 px frames for motion (they decode fast enough to keep a glide at
+          // 60 fps) and the full 1920 px frame, fetched and swapped in once the playhead rests. Phones use
+          // their own small portrait set for both.
+          const liteSet = narrow ? "mobile" : "desktop-lite";
+          const fullSet = narrow ? "mobile" : "desktop";
+          const sharpen = liteSet !== fullSet;
           const count = film.count;
-          const frames: (HTMLImageElement | null)[] = new Array(count).fill(null);
+          const blobs: (Blob | null)[] = new Array(count).fill(null);
           const state = { frame: 0 };
           let cancelled = false;
 
-          const nearest = (i: number) => {
-            for (let d = 0; d < count; d++) {
-              if (frames[i - d]) return frames[i - d];
-              if (frames[i + d]) return frames[i + d];
-            }
-            return null;
+          // A sliding window of decoded light frames around the playhead (every other frame first, in the
+          // direction of travel, so a fast glide never outruns the decoder), cross-faded in pairs so
+          // 12 fps footage still glides when the scroll is slow. createImageBitmap(blob) without
+          // resizing decodes off the main thread.
+          const bitmaps = new Map<number, ImageBitmap>();
+          const pending = new Map<number, Promise<void>>();
+          let dirF = 1;
+          let lastF = -1;
+          const AHEAD = 40;
+          const BEHIND = 8;
+          const KEEP = 50;
+          let full: { i: number; bmp: ImageBitmap } | null = null;
+          let restTimer = 0;
+
+          const decode = (i: number): Promise<void> | undefined => {
+            const blob = blobs[i];
+            if (!blob || bitmaps.has(i)) return;
+            if (pending.has(i)) return pending.get(i);
+            const job = createImageBitmap(blob)
+              .then((b) => {
+                pending.delete(i);
+                if (cancelled) return void b.close();
+                bitmaps.set(i, b);
+                if (Math.abs(i - state.frame) < 1.5) draw(true);
+              })
+              .catch(() => void pending.delete(i));
+            pending.set(i, job);
+            return job;
           };
-          let drawn = -1;
+          const prime = (center: number) => {
+            const c = Math.round(center);
+            const at = (i: number) => i >= 0 && i < count && decode(i);
+            for (let d = 0; d <= AHEAD && pending.size < 4; d += 2) at(c + d * dirF);
+            for (let d = 1; d <= AHEAD && pending.size < 4; d += 2) at(c + d * dirF);
+            for (let d = 1; d <= BEHIND && pending.size < 4; d++) at(c - d * dirF);
+            for (const [i, b] of bitmaps) {
+              if (Math.abs(i - c) > KEEP) {
+                b.close();
+                bitmaps.delete(i);
+              }
+            }
+          };
+          // the decoded frame at i, or the closest decoded one (never a synchronous decode on the main thread)
+          const pick = (i: number): ImageBitmap | null => {
+            const b = bitmaps.get(i);
+            if (b) return b;
+            let best: ImageBitmap | null = null;
+            let bestD = Infinity;
+            for (const [j, bm] of bitmaps) {
+              const d = Math.abs(j - i);
+              if (d < bestD) {
+                bestD = d;
+                best = bm;
+              }
+            }
+            return best;
+          };
+          const paint = (src: ImageBitmap, alpha: number) => {
+            const s = Math.max(cv.width / src.width, cv.height / src.height);
+            ctx.globalAlpha = alpha;
+            ctx.drawImage(src, (cv.width - src.width * s) / 2, (cv.height - src.height * s) / 2, src.width * s, src.height * s);
+          };
+          // at rest: fetch and decode the sharp 1920 px frame, then show it if the playhead is still there
+          const restOn = (i: number) => {
+            if (!sharpen || full?.i === i) return;
+            fetch(frameUrl(fullSet, i))
+              .then((r) => (r.ok ? r.blob() : null))
+              .then((b) => (b ? createImageBitmap(b) : null))
+              .then((bmp) => {
+                if (!bmp) return;
+                if (cancelled || Math.abs(state.frame - i) > 0.02) return void bmp.close();
+                full?.bmp.close();
+                full = { i, bmp };
+                draw(true);
+              })
+              .catch(() => undefined);
+          };
           const draw = (force?: boolean) => {
-            const want = Math.round(state.frame);
-            const img = nearest(want);
-            if (!img) return;
+            const f = clamp(0, count - 1, state.frame);
+            const moved = Math.abs(f - lastF) >= 0.01;
+            if (moved && lastF >= 0) dirF = f > lastF ? 1 : -1;
+            const base = Math.floor(f);
             const dpr = Math.min(window.devicePixelRatio || 1, 2);
             const w = Math.round(cv.clientWidth * dpr);
             const h = Math.round(cv.clientHeight * dpr);
+            prime(f); // evicts far frames first, so the frame picked below is never a closed bitmap
+            if (moved) {
+              window.clearTimeout(restTimer);
+              restTimer = window.setTimeout(() => restOn(Math.round(state.frame)), 150);
+            }
+            const resting = full && Math.abs(f - full.i) < 0.02;
+            const a = resting ? full!.bmp : pick(base);
+            if (!a) return;
             const resized = cv.width !== w || cv.height !== h;
             if (resized) {
               cv.width = w;
               cv.height = h;
             }
-            if (!force && !resized && drawn === want && frames[want]) return;
-            drawn = frames[want] ? want : -1;
-            const s = Math.max(w / img.naturalWidth, h / img.naturalHeight);
-            ctx.drawImage(img, (w - img.naturalWidth * s) / 2, (h - img.naturalHeight * s) / 2, img.naturalWidth * s, img.naturalHeight * s);
+            if (!force && !resized && !moved) return;
+            lastF = f;
+            paint(a, 1);
+            if (!resting) {
+              const t = f - base;
+              // blend in the next frame only while the playhead really sits between two frames
+              const next = t > 0.12 && t < 0.88 && base + 1 < count ? bitmaps.get(base + 1) : undefined;
+              if (next) paint(next, t);
+            }
+            ctx.globalAlpha = 1;
           };
           const load = (i: number) =>
-            new Promise<void>((resolve) => {
-              const img = new window.Image();
-              img.decoding = "async";
-              img.onload = () => {
-                if (!cancelled) {
-                  frames[i] = img;
-                  if (Math.abs(i - state.frame) < 8) draw(true);
-                }
-                resolve();
-              };
-              img.onerror = () => resolve();
-              img.src = frameUrl(set, i);
-            });
+            fetch(frameUrl(liteSet, i))
+              .then((r) => (r.ok ? r.blob() : null))
+              .then((b) => {
+                if (cancelled || !b) return;
+                blobs[i] = b;
+                if (Math.abs(i - state.frame) <= AHEAD) decode(i);
+              })
+              .catch(() => undefined);
 
           // coarse pass first (every 12th frame) so the whole film scrubs at once, then fill in
           const order: number[] = [];
-          for (const step of [12, 4, 1]) for (let i = 0; i < count; i += step) if (!order.includes(i)) order.push(i);
+          for (const step of [12, 4, 2, 1]) for (let i = 0; i < count; i += step) if (!order.includes(i)) order.push(i);
           const firstPass = Math.ceil(count / 12);
           (async () => {
             await load(0);
+            await decode(0);
             if (cancelled) return;
+            draw(true);
+            restOn(0);
             setReady(true);
             if (!motion) return loading.set(1);
             let done = 1;
@@ -137,7 +225,6 @@ export function Hero() {
           });
           tl.to(state, { frame: count - 1, duration: 1, onUpdate: () => draw() }, 0);
           tl.to(".hero-title", { yPercent: -16, autoAlpha: 0, duration: 0.12 }, 0.02);
-          tl.to(".hero-flank", { autoAlpha: 0, duration: 0.08 }, 0.02);
           captions.forEach((c, i) => {
             tl.fromTo(`.hero-cap-${i}`, { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.06 }, c.at - 0.07);
             tl.to(`.hero-cap-${i}`, { autoAlpha: 0, y: -30, duration: 0.05 }, i < captions.length - 1 ? c.at + 0.07 : 0.97);
@@ -147,7 +234,8 @@ export function Hero() {
           tl.fromTo(".hero-arc", { rotate: -18, autoAlpha: 0 }, { rotate: 0, autoAlpha: 1, duration: 0.12 }, 1.06);
           tl.fromTo(".hero-sky-copy", { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.08 }, 1.11);
 
-          // one gesture = one chapter: when the wheel or finger stops inside the film, glide to the next stop
+          // one gesture = one chapter, timed like era-residence.com's section snap: 40 ms after the scroll
+          // settles inside the film, a 1.2 s glide to the next stop in the direction of travel.
           // (Lenis is created after this layout effect, so it is looked up when a glide starts)
           const st = tl.scrollTrigger!;
           let timer = 0;
@@ -161,15 +249,14 @@ export function Hero() {
             const next = dir > 0 ? STOPS.find((s) => s > p) : [...STOPS].reverse().find((s) => s < p);
             if (next === undefined) return;
             const target = st.start + (next / tl.duration()) * (st.end - st.start);
-            const duration = clamp(0.7, 1.5, (Math.abs(target - y) / window.innerHeight) * 0.95);
-            getLenis()?.scrollTo(target, { duration, easing: (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2) });
+            getLenis()?.scrollTo(target, { duration: 1.2, easing: (t: number) => 1 - (1 - t) ** 3 });
           };
           const onScroll = () => {
             const y = window.scrollY;
             if (y !== lastY) dir = y > lastY ? 1 : -1;
             lastY = y;
             window.clearTimeout(timer);
-            if (getLenis()) timer = window.setTimeout(snap, 110);
+            if (getLenis()) timer = window.setTimeout(snap, 40);
           };
           window.addEventListener("scroll", onScroll, { passive: true });
 
@@ -177,6 +264,10 @@ export function Hero() {
           window.addEventListener("resize", onResize);
           return () => {
             cancelled = true;
+            window.clearTimeout(restTimer);
+            bitmaps.forEach((b) => b.close());
+            bitmaps.clear();
+            full?.bmp.close();
             window.clearTimeout(timer);
             window.removeEventListener("scroll", onScroll);
             window.removeEventListener("resize", onResize);
@@ -214,16 +305,13 @@ export function Hero() {
             </span>
           ))}
         </h1>
-        <div className="mt-[-0.15em] grid w-full max-w-[1500px] grid-cols-1 items-center justify-items-center gap-[3vw] md:grid-cols-[1fr_auto_1fr] md:justify-items-stretch">
-          <div className="hero-flank hidden justify-self-end text-right md:block">
-            <p className="caps text-[clamp(1.6rem,0.9rem+1.6vw,2.9rem)]">A house</p>
-            <p className="label mt-3 opacity-85">Two floors, two bedrooms</p>
+        {/* ERA's lockup: the script tilts up across the foot of the title, the two flank words sit a step lower */}
+        <div className="mt-[-0.3em] grid w-full max-w-[1500px] grid-cols-1 items-center justify-items-center gap-[3vw] md:grid-cols-[1fr_auto_1fr] md:justify-items-stretch">
+          <p className="hero-flank caps hidden justify-self-end text-right text-[clamp(1.6rem,0.9rem+1.6vw,2.9rem)] md:block md:translate-y-[85%]">A house</p>
+          <div className="ml-[0.9em] -rotate-[11deg] md:ml-[1.6em]">
+            <p className="hero-script script text-[length:var(--text-script)] [text-shadow:0_2px_24px_oklch(20%_0.05_255/0.45)]">Indonesia</p>
           </div>
-          <p className="hero-script script text-[length:var(--text-script)] [text-shadow:0_2px_24px_oklch(20%_0.05_255/0.45)]">Indonesia</p>
-          <div className="hero-flank hidden justify-self-start text-left md:block">
-            <p className="caps text-[clamp(1.6rem,0.9rem+1.6vw,2.9rem)]">Above the cove</p>
-            <p className="label mt-3 opacity-85">On a 6 m limestone bluff</p>
-          </div>
+          <p className="hero-flank caps hidden justify-self-start text-left text-[clamp(1.6rem,0.9rem+1.6vw,2.9rem)] md:block md:translate-y-[85%]">Above the cove</p>
           <p className="hero-flank caps mt-4 text-[1.35rem] md:hidden">A house above the cove</p>
         </div>
       </div>

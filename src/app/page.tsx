@@ -10,7 +10,6 @@ import { Footer } from "@/components/sections/Footer";
 import { Hero } from "@/components/sections/Hero";
 import { Materials } from "@/components/sections/Materials";
 import { Night } from "@/components/sections/Night";
-import { Quote } from "@/components/sections/Quote";
 import { Reasons } from "@/components/sections/Reasons";
 import { Rooms } from "@/components/sections/Rooms";
 import { Walk } from "@/components/sections/Walk";
@@ -27,7 +26,6 @@ export default function Home() {
       <main>
         <Hero />
         <Reasons />
-        <Quote />
         <Concept />
         <Bluff />
         <Walk />

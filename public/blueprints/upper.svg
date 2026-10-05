@@ -263,22 +263,22 @@
 <text x="1754.5" y="1740.0" font-size="18.0" text-anchor="middle" dominant-baseline="central">DN</text>
 <text class="bp-note" x="2410.0" y="1745.0" font-size="16.0" text-anchor="middle" dominant-baseline="central">GARAGE ROOF</text>
 <text class="bp-note" x="2410.0" y="1775.0" font-size="16.0" text-anchor="middle" dominant-baseline="central">BELOW</text>
-<text class="bp-room-name" x="1304.5" y="1959.5" font-size="24.0" text-anchor="middle" dominant-baseline="central">ENSUITE</text>
-<text class="bp-room-area" x="1304.5" y="1993.5" font-size="18.0" text-anchor="middle" dominant-baseline="central">15.29 m²</text>
-<text class="bp-room-name" x="1695.0" y="1959.5" font-size="24.0" text-anchor="middle" dominant-baseline="central">LANDING</text>
-<text class="bp-room-area" x="1695.0" y="1993.5" font-size="18.0" text-anchor="middle" dominant-baseline="central">9.46 m²</text>
-<text class="bp-room-name" x="1265.0" y="1564.0" font-size="24.0" text-anchor="middle" dominant-baseline="central">WALK-IN</text>
-<text class="bp-room-area" x="1265.0" y="1598.0" font-size="18.0" text-anchor="middle" dominant-baseline="central">13.54 m²</text>
-<text class="bp-room-name" x="1715.0" y="1289.0" font-size="24.0" text-anchor="middle" dominant-baseline="central">LINEN</text>
-<text class="bp-room-area" x="1715.0" y="1323.0" font-size="18.0" text-anchor="middle" dominant-baseline="central">2.46 m²</text>
-<text class="bp-room-name" x="1315.0" y="929.0" font-size="24.0" text-anchor="middle" dominant-baseline="central">MASTER BEDROOM</text>
-<text class="bp-room-area" x="1315.0" y="963.0" font-size="18.0" text-anchor="middle" dominant-baseline="central">40.09 m²</text>
-<text class="bp-room-name" x="1965.0" y="1449.0" font-size="24.0" text-anchor="middle" dominant-baseline="central">WORK ROOM</text>
-<text class="bp-room-area" x="1965.0" y="1483.0" font-size="18.0" text-anchor="middle" dominant-baseline="central">33.62 m²</text>
-<text class="bp-room-name" x="1565.0" y="676.0" font-size="24.0" text-anchor="middle" dominant-baseline="central">BALCONY</text>
-<text class="bp-room-area" x="1565.0" y="710.0" font-size="18.0" text-anchor="middle" dominant-baseline="central">32.99 m²</text>
-<text class="bp-room-name" x="1965.0" y="2194.0" font-size="24.0" text-anchor="middle" dominant-baseline="central">BALCONY</text>
-<text class="bp-room-area" x="1965.0" y="2228.0" font-size="18.0" text-anchor="middle" dominant-baseline="central">3.25 m²</text>
+<text class="bp-room-name" x="1304.5" y="1955.5" font-size="32.0" text-anchor="middle" dominant-baseline="central">ENSUITE</text>
+<text class="bp-room-area" x="1304.5" y="1998.5" font-size="22.0" text-anchor="middle" dominant-baseline="central">15.29 m²</text>
+<text class="bp-room-name" x="1695.0" y="1955.5" font-size="32.0" text-anchor="middle" dominant-baseline="central">LANDING</text>
+<text class="bp-room-area" x="1695.0" y="1998.5" font-size="22.0" text-anchor="middle" dominant-baseline="central">9.46 m²</text>
+<text class="bp-room-name" x="1265.0" y="1560.0" font-size="32.0" text-anchor="middle" dominant-baseline="central">WALK-IN</text>
+<text class="bp-room-area" x="1265.0" y="1603.0" font-size="22.0" text-anchor="middle" dominant-baseline="central">13.54 m²</text>
+<text class="bp-room-name" x="1715.0" y="1285.0" font-size="32.0" text-anchor="middle" dominant-baseline="central">LINEN</text>
+<text class="bp-room-area" x="1715.0" y="1328.0" font-size="22.0" text-anchor="middle" dominant-baseline="central">2.46 m²</text>
+<text class="bp-room-name" x="1315.0" y="925.0" font-size="32.0" text-anchor="middle" dominant-baseline="central">MASTER BEDROOM</text>
+<text class="bp-room-area" x="1315.0" y="968.0" font-size="22.0" text-anchor="middle" dominant-baseline="central">40.09 m²</text>
+<text class="bp-room-name" x="1965.0" y="1445.0" font-size="32.0" text-anchor="middle" dominant-baseline="central">WORK ROOM</text>
+<text class="bp-room-area" x="1965.0" y="1488.0" font-size="22.0" text-anchor="middle" dominant-baseline="central">33.62 m²</text>
+<text class="bp-room-name" x="1565.0" y="672.0" font-size="32.0" text-anchor="middle" dominant-baseline="central">BALCONY</text>
+<text class="bp-room-area" x="1565.0" y="715.0" font-size="22.0" text-anchor="middle" dominant-baseline="central">32.99 m²</text>
+<text class="bp-room-name" x="1965.0" y="2190.0" font-size="32.0" text-anchor="middle" dominant-baseline="central">BALCONY</text>
+<text class="bp-room-area" x="1965.0" y="2233.0" font-size="22.0" text-anchor="middle" dominant-baseline="central">3.25 m²</text>
 <text x="1015.0" y="165.0" font-size="22.0" text-anchor="middle" dominant-baseline="central">A</text>
 <text x="1435.0" y="165.0" font-size="22.0" text-anchor="middle" dominant-baseline="central">B</text>
 <text x="1575.0" y="165.0" font-size="22.0" text-anchor="middle" dominant-baseline="central">C</text>

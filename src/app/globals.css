@@ -51,6 +51,20 @@ html[data-intro-seen] .intro {
   display: none;
 }
 
+/* intro lockup fades up from the very first paint, before any script runs; fill "backwards" only,
+   so once it ends GSAP can take the parts out again with inline styles */
+@keyframes intro-part {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+.intro [data-part] {
+  animation: intro-part 1s var(--ease-out) backwards;
+  animation-delay: calc(0.1s + var(--i, 0) * 70ms);
+}
+
 /* top of the film darkened enough for white display type on a pale golden sky */
 .hero-scrim {
   background: linear-gradient(

@@ -105,9 +105,10 @@ export function BlueprintViewer() {
         box = `${x0 - pad} ${y0 - pad} ${x1 - x0 + pad * 2} ${y1 - y0 + pad * 2}`;
       }
     }
+    // the frame keeps one fixed height for every sheet (so the page never changes length when you switch);
+    // the drawing scales to fill it as large as it fits
     el.setAttribute("viewBox", box);
-    const [, , w, h] = box.split(" ").map(Number);
-    host.style.aspectRatio = `${w} / ${h}`;
+    el.setAttribute("preserveAspectRatio", "xMidYMid meet");
   }, [svg, fullSheet]);
 
   // reflect the picked room on the drawing
@@ -141,9 +142,8 @@ export function BlueprintViewer() {
   const index = sheets.findIndex((s) => s.id === sheet);
 
   return (
-    <div ref={root} className="grid grid-cols-1 gap-10 lg:grid-cols-[12rem_minmax(0,1fr)_18rem] lg:items-start">
-      {/* side columns stick below the fixed emblem and menu button so the frame never covers them */}
-      <dl className="grid grid-cols-3 gap-6 lg:sticky lg:top-[9rem] lg:grid-cols-1 lg:gap-8">
+    <div ref={root} className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_17rem] lg:items-start lg:gap-x-10">
+      <dl className="flex flex-wrap gap-x-[clamp(2rem,5vw,5rem)] gap-y-4 lg:col-span-2">
         {[
           ["Bedrooms", "2"],
           ["Floor area", "286 m²"],
@@ -163,7 +163,7 @@ export function BlueprintViewer() {
               ref={frame}
               onClick={onSheetPointer}
               onMouseOver={onSheetPointer}
-              className="bp-viewer relative mx-auto aspect-[420/297] max-h-[74dvh] min-w-[620px] bg-blueprint shadow-[0_30px_80px_-40px_oklch(25%_0.05_265/0.6)]"
+              className="bp-viewer relative mx-auto h-[min(84dvh,64vw)] min-h-[440px] w-full min-w-[640px] bg-blueprint shadow-[0_30px_80px_-40px_oklch(25%_0.05_265/0.6)]"
               dangerouslySetInnerHTML={svg ? { __html: svg } : undefined}
             />
           </div>
@@ -213,6 +213,7 @@ export function BlueprintViewer() {
         </div>
       </div>
 
+      {/* sticks below the fixed menu button so the frame never covers it */}
       <aside className="flex flex-col gap-6 lg:sticky lg:top-[7rem]">
         {isPlan ? (
           <>

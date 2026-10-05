@@ -42,12 +42,13 @@ export function areaOf(id: string): number | undefined {
 
 export type Slide = { image: StaticImageData; alt: string };
 
-export type Reason = { title: string; script?: string; text: string; slides: Slide[] };
+export type Reason = { title: string; text: string; slides: Slide[] };
 
+/** Set big in caps over a full-bleed picture (ERA's quote panel), so each line stays short. */
 export const reasons: Reason[] = [
   {
     title: "Private by design",
-    text: "A 3 m clipped hedge closes the garden on all four sides, with a dry-stone wall outside it. Two solid timber gates, one at the road and one at the sea, are the only ways in.",
+    text: "A three-metre hedge closes the garden on all four sides. Two solid arched gates, one at the road and one at the sea, are the only ways in.",
     slides: [
       { image: gate, alt: "The wide arched timber front gate between limestone pillars in the tall hedge" },
       { image: portal, alt: "The arched plaster portal with its solid timber door in the back hedge, the cove beyond" },
@@ -56,7 +57,7 @@ export const reasons: Reason[] = [
   },
   {
     title: "Above the cove",
-    text: "The garden ends at a 6 m limestone bluff. Thirty-six stone steps go down to a crescent of sand that two rocky headlands hide from the coast.",
+    text: "The garden ends at a six-metre limestone bluff. Thirty-six stone steps go down to a crescent of sand that only the house can reach.",
     slides: [
       { image: coveView, alt: "The house seen from the water: beach, bluff, stone stairs and the arched portal" },
       { image: portal, alt: "The back portal with the cove and headlands beyond" },
@@ -64,10 +65,10 @@ export const reasons: Reason[] = [
   },
   {
     title: "Made for a family",
-    text: "Two bedrooms, a long work room and a living floor that opens through four arches to a covered terrace and a lawn for play.",
+    text: "Every room opens through an arch, and every arch looks out to green or to the sea. Two bedrooms, a work room, and a terrace for long dinners.",
     slides: [
-      { image: rear, alt: "The back of the house: four arches over the terrace and a balcony above" },
       { image: terrace, alt: "The covered terrace under the arches with a long oak dining table" },
+      { image: rear, alt: "The back of the house: four arches over the terrace and a balcony above" },
       { image: living, alt: "The living room with linen sofas and tall arched doors to the terrace" },
     ],
   },

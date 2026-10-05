@@ -100,8 +100,9 @@ def room_tags(sh: Sheet, rooms, solid, off=(0, 0), meta=None):
         area = net.area / 1e6
         cx, cy = M.TAG_AT.get(rid, (net.representative_point().x, net.representative_point().y))
         cx, cy = cx + off[0], cy + off[1]
-        sh.text((cx, cy + sh.p(1.6)), label, 2.4, cls="bp-room-name")
-        sh.text((cx, cy - sh.p(1.8)), f"{area:.2f} m²", 1.8, cls="bp-room-area")
+        # 3.2 / 2.2 mm: still standard drawing sizes, and readable on screen without leaning in
+        sh.text((cx, cy + sh.p(2.0)), label, 3.2, cls="bp-room-name")
+        sh.text((cx, cy - sh.p(2.3)), f"{area:.2f} m²", 2.2, cls="bp-room-area")
         sh.room(rid, translate(geom, *off), label, area)
         out.append(dict(id=rid, label=label.title(), area=round(area, 1)))
     return out
@@ -467,7 +468,7 @@ def site_sheet():
     portal = T(box(px0, py0, px1, py1).difference(box(dx0, py0 - 10, dx1, py1 + 10)))
     sh.hatch(portal, "ANSI31", 0.6); sh.outline(portal, "WALL")
     leaf(dx0, py0, dx1 - dx0, 1, -1)
-    sh.text(R((px0 + px1) / 2 - 2600, M.PLOT_D - 2600), "ARCHED PORTAL", 1.4, cls="bp-note")
+    sh.text(R((px0 + px1) / 2 - 2600, M.PLOT_D - 2600), "ARCHED PORTAL", 1.8, cls="bp-note")
     # house roof plan (hipped, 1000 eaves), garage hip roof, laundry pergola, terrace/balcony
     hx0, hy0 = M.HOUSE_ORIGIN
     rx0, ry0, rx1, ry1 = hx0 - M.EAVE, hy0 - M.EAVE, hx0 + M.HOUSE_W + M.EAVE, hy0 + M.HOUSE_D + M.EAVE
@@ -496,39 +497,38 @@ def site_sheet():
         sh.line(R(x, ly0 + 400), R(x, ly1), "SITE")
     tx0, ty0, tx1, ty1 = hx0, hy0 + M.HOUSE_D + M.EAVE, hx0 + M.HOUSE_W, hy0 + 16_000
     sh.outline(rbox(tx0, ty0, tx1, ty1), "OPEN")
-    sh.text(R((tx0 + tx1) / 2, (ty0 + ty1) / 2), "TERRACE + BALCONY", 1.6, cls="bp-note")
+    sh.text(R((tx0 + tx1) / 2, (ty0 + ty1) / 2), "TERRACE + BALCONY", 2.0, cls="bp-note")
     sh.text(R(xm - 2600, hy0 + 4200), "HOUSE", 3.0, cls="bp-room-name")
-    sh.text(R(xm - 1000, hy0 + 4200), "2 FLOORS, RIDGE +9.47", 1.6, cls="bp-note")
-    sh.text(R(gm + 1400, hy0 + 2600), "GARAGE", 1.8, cls="bp-room-name")
-    sh.text(R((lx0 + lx1) / 2, ly1 + 2600), "LAUNDRY YARD", 1.5, cls="bp-note")
-    # front walk: stepping stones + lavender
-    for y in range(1500, 20700, 800):
-        sh.rect(*R(9550, y), *R(10450, y + 500), "SITE")
-    for x in (9150, 10850):
-        for y in range(1600, 20600, 600):
-            sh.circle(R(x, y), 220, "PLANT")
-    # driveway: straight up the right side, curving into the right half of the gate
-    pts = []
-    for t in range(0, 21):
-        u = t / 20
-        # quadratic bezier from gate (11600, 0) via (15400, 0) to (15400, 5500)
-        x = (1 - u) ** 2 * 11600 + 2 * (1 - u) * u * 15400 + u ** 2 * 15400
-        y = (1 - u) ** 2 * 0 + 2 * (1 - u) * u * 0 + u ** 2 * 5500
-        pts.append((x, y))
-    pts.append((15400, hy0))
-    centre = __import__("shapely.geometry", fromlist=["LineString"]).LineString(pts)
-    drive = centre.buffer(1400, cap_style=2).intersection(box(M.HEDGE_T, -10, M.PLOT_W - M.HEDGE_T, hy0))
+    sh.text(R(xm - 1000, hy0 + 4200), "2 FLOORS, RIDGE +9.47", 2.0, cls="bp-note")
+    sh.text(R(gm + 1400, hy0 + 2600), "GARAGE", 2.6, cls="bp-room-name")
+    sh.text(R((lx0 + lx1) / 2, ly1 + 2600), "LAUNDRY YARD", 2.0, cls="bp-note")
+    # driveway (site plan v6): it takes the whole gate and sweeps across to the straight run up the
+    # right side, so cars never cross a planted bed; the front walk stops at the driveway's edge
+    def qb(p0, p1, p2, n=24):
+        return [((1 - u) ** 2 * p0[0] + 2 * (1 - u) * u * p1[0] + u ** 2 * p2[0],
+                 (1 - u) ** 2 * p0[1] + 2 * (1 - u) * u * p1[1] + u ** 2 * p2[1]) for u in (i / n for i in range(n + 1))]
+    inner = qb((M.FRONT_GATE[0], 0), (7600, 6500), (14000, 8800)) + [(14000, hy0)]
+    outer = qb((M.FRONT_GATE[1], 0), (13600, 4200), (16800, 6800)) + [(16800, hy0)]
+    drive = Polygon(inner + outer[::-1]).buffer(0).intersection(box(M.HEDGE_T, -10, M.PLOT_W - M.HEDGE_T, hy0))
     dr = T(drive)
     sh.hatch(dr, "DOTS", 1.4, layer="SITE"); sh.outline(dr, "SITE")
+    # front walk: stepping stones + lavender, from the front door down to the driveway edge
+    walk_from = max(y for x, y in inner if x <= 10450 + 1) + 200
+    for y in range(int(walk_from), 20700, 800):
+        sh.rect(*R(9550, y), *R(10450, y + 500), "SITE")
+    for x in (9150, 10850):
+        for y in range(int(walk_from) + 100, 20600, 600):
+            sh.circle(R(x, y), 220, "PLANT")
+    # columnar thuja along the straight run only (clear of the sweep)
     for x in (13600, 17200):
-        for y in range(6000, 19000, 3000):
+        for y in range(10000, 19500, 3000):
             sh.circle(R(x, y), 450, "PLANT"); sh.circle(R(x, y), 150, "PLANT")
     # picnic tree: irregular canopy
     cx, cy, rr = 5200, 9500, 2800
     canopy = [(cx + (rr + (200 if i % 2 else -150)) * math.cos(i * math.pi / 9), cy + (rr + (200 if i % 2 else -150)) * math.sin(i * math.pi / 9)) for i in range(18)]
     sh.poly(Rp(canopy), "PLANT"); sh.circle(R(cx, cy), 250, "PLANT")
-    sh.text(R(cx, cy - 4200), "PICNIC TREE", 1.5, cls="bp-note")
-    sh.text(R(4600, 15800), "FRONT LAWN", 2.0, cls="bp-room-name")
+    sh.text(R(cx, cy - 4200), "PICNIC TREE", 2.0, cls="bp-note")
+    sh.text(R(4600, 15800), "FRONT LAWN", 2.8, cls="bp-room-name")
     # backyard path, lavender, foot rinse
     for y in range(37600, 48900, 800):
         sh.rect(*R(6500, y), *R(7900, y + 500), "SITE")
@@ -536,8 +536,8 @@ def site_sheet():
         for y in range(37600, 48800, 600):
             sh.circle(R(x, y), 220, "PLANT")
     sh.circle(R(9300, 37800), 300, "OPEN")
-    sh.text(R(9300, 37800 + 900), "FOOT RINSE", 1.4, align="BL", rot=0, cls="bp-note")
-    sh.text(R(14000, 43500), "BACKYARD", 2.0, cls="bp-room-name")
+    sh.text(R(9300, 37800 + 900), "FOOT RINSE", 1.8, align="BL", rot=0, cls="bp-note")
+    sh.text(R(14000, 43500), "BACKYARD", 2.8, cls="bp-room-name")
     # bluff edge, cliff face, stairs, beach, sea
     edge = [(-3000, 50700), (1000, 50650), (4000, 50800), (8000, 50600), (12000, 50750), (16000, 50650), (20000, 50700), (23000, 50600)]
     toe = [(-3000, 55600), (1500, 55400), (6000, 55700), (11000, 55300), (15000, 55600), (20000, 55400), (23000, 55500)]

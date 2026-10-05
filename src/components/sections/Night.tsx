@@ -22,23 +22,21 @@ export function Night() {
           scrollTrigger: {
             trigger: root.current,
             start: "top top",
-            end: "+=260%",
+            end: "+=170%",
             pin: true,
             scrub: 0.4,
             onUpdate: (self) => root.current?.setAttribute("data-chrome", self.progress > 0.86 ? "dark" : "light"),
           },
         });
-        items.forEach((el, i) => {
-          tl.to(el, { opacity: 1, duration: 0.3 }, i * 0.5);
-          if (i < items.length - 1) tl.to(el, { opacity: 0.35, duration: 0.3 }, i * 0.5 + 0.4);
-        });
-        const rise = items.length * 0.5 + 0.1;
-        tl.to(".night-list", { autoAlpha: 0, y: -30, duration: 0.5 }, rise + 0.2);
-        tl.to(".night-arch", { yPercent: 0, scale: 1, duration: 1.5, ease: "power1.out" }, rise);
-        tl.fromTo(".night-arch-title", { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.6 }, rise + 0.7);
+        // one scroll lights the list top to bottom, and every line stays lit
+        items.forEach((el, i) => tl.to(el, { opacity: 1, duration: 0.2 }, 0.05 + i * 0.15));
+        const rise = 0.05 + items.length * 0.15 + 0.15;
+        tl.to(".night-list", { autoAlpha: 0, y: -30, duration: 0.4 }, rise + 0.15);
+        tl.to(".night-arch", { yPercent: 0, scale: 1, duration: 1.1, ease: "power1.out" }, rise);
+        tl.fromTo(".night-arch-title", { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.5 }, rise + 0.5);
         // widen past the screen edges, ERA's 125vw arch
-        tl.to(".night-arch-title", { autoAlpha: 0, y: -30, duration: 0.4 }, rise + 1.9);
-        tl.to(".night-arch", { scale: 3.4, duration: 1, ease: "power2.in" }, rise + 1.9);
+        tl.to(".night-arch-title", { autoAlpha: 0, y: -30, duration: 0.35 }, rise + 1.45);
+        tl.to(".night-arch", { scale: 3.4, duration: 0.8, ease: "power2.in" }, rise + 1.45);
       });
     },
     { scope: root },

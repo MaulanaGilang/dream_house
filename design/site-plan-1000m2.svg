@@ -65,18 +65,18 @@
   <!-- Front door (aligned with plot centre / gate) -->
   <rect x="150" y="396" width="20" height="8" fill="#5a3f2a"/>
 
-  <!-- Front walk: narrow straight stepping-stone path, front door → gate -->
-  <rect x="155" y="404" width="10" height="200" fill="#c9c6bd"/>
-  <path d="M156 412h8M156 424h8M156 436h8M156 448h8M156 460h8M156 472h8M156 484h8M156 496h8M156 508h8M156 520h8M156 532h8M156 544h8M156 556h8M156 568h8M156 580h8M156 592h8" stroke="#9fae86" stroke-width="2"/>
-  <path d="M150 412V596M170 412V556" stroke="#9b7fc0" stroke-width="3" stroke-dasharray="4 4"/>
+  <!-- Front walk: narrow straight stepping-stone path, front door → driveway edge (≈7 m inside the gate) -->
+  <rect x="155" y="404" width="10" height="136" fill="#c9c6bd"/>
+  <path d="M156 412h8M156 424h8M156 436h8M156 448h8M156 460h8M156 472h8M156 484h8M156 496h8M156 508h8M156 520h8M156 532h8" stroke="#9fae86" stroke-width="2"/>
+  <path d="M150 412V538M170 412V538" stroke="#9b7fc0" stroke-width="3" stroke-dasharray="4 4"/>
 
-  <!-- Driveway: garage → straight down right side → curves into right half of gate -->
-  <path d="M214 400 L214 560 Q214 596 180 606 L178 610"
-        fill="none" stroke="#d9cfb8" stroke-width="20" stroke-linejoin="round" stroke-linecap="round"/>
-  <!-- Columnar Thuja, symmetric on both sides of the straight driveway -->
+  <!-- Driveway (v6): takes the whole gate and sweeps across to the straight run by the garage,
+       so cars never cross the lavender; the front walk ends at its edge -->
+  <path d="M128 610 Q136 545 200 522 L200 400 L228 400 L228 542 Q196 568 192 610 Z" fill="#d9cfb8"/>
+  <!-- Columnar Thuja along the straight run only, clear of the sweep -->
   <g fill="#3f6b2c" stroke="#2c4d1f" stroke-width="1">
-    <circle cx="197" cy="430" r="5"/><circle cx="197" cy="460" r="5"/><circle cx="197" cy="490" r="5"/><circle cx="197" cy="520" r="5"/><circle cx="197" cy="550" r="5"/>
-    <circle cx="231" cy="430" r="5"/><circle cx="231" cy="460" r="5"/><circle cx="231" cy="490" r="5"/><circle cx="231" cy="520" r="5"/><circle cx="231" cy="550" r="5"/>
+    <circle cx="196" cy="420" r="5"/><circle cx="196" cy="450" r="5"/><circle cx="196" cy="480" r="5"/><circle cx="196" cy="510" r="5"/>
+    <circle cx="232" cy="420" r="5"/><circle cx="232" cy="450" r="5"/><circle cx="232" cy="480" r="5"/><circle cx="232" cy="510" r="5"/>
   </g>
 
   <!-- Front lawn + picnic tree -->
@@ -88,7 +88,7 @@
   <path d="M68 120V600M252 120V600M68 600H128M192 600H252M68 120H100M164 120H252" stroke="#9b7fc0" stroke-width="3" stroke-dasharray="4 4"/>
   <path d="M73 125V595M247 125V595M73 595H128M192 595H247M73 125H100M164 125H247" stroke="#7a1f2b" stroke-width="2.5" stroke-dasharray="2 6"/>
 
-  <!-- Front gate (centred on plot, ≈6.4 m: footpath enters left half, driveway right half) -->
+  <!-- Front gate (centred on plot, ≈6.4 m: the driveway takes its whole width; walkers cross it to the walk) -->
   <rect x="128" y="604" width="64" height="14" fill="#4a3424"/>
   <path d="M128 604 Q160 588 192 604" fill="#4a3424"/>
   <text x="160" y="640" text-anchor="middle" fill="#3b3227">MAIN GATE (solid, arched, 3 m tall)</text>
@@ -110,15 +110,15 @@
 
   <!-- Changes -->
   <g transform="translate(400 120)" font-size="12" fill="#3b3227">
-    <text y="0" font-size="14">Changes (v6: 6 m garage)</text>
+    <text y="0" font-size="14">Changes (v6: 6 m garage, driveway sweep)</text>
     <text y="24">• Narrow straight stepping-stone</text>
-    <text y="40" x="10">walk (≈1 m) front door → gate</text>
+    <text y="40" x="10">walk (≈1 m) front door → driveway</text>
     <text y="60">• Front door moved to plot centre,</text>
     <text y="76" x="10">in line with the gate</text>
     <text y="96">• Columnar Thuja both sides of the</text>
     <text y="112" x="10">straight driveway, symmetric</text>
-    <text y="132">• Driveway no longer branches to</text>
-    <text y="148" x="10">the door; gate widened to ≈6.4 m</text>
+    <text y="132">• Driveway takes the whole gate and</text>
+    <text y="148" x="10">sweeps to the garage; gate ≈6.4 m</text>
   </g>
 
   <!-- Legend -->

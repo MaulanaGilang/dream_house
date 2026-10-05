@@ -20,8 +20,15 @@ export function Preloader() {
     () => {
       const el = root.current!;
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      // seen earlier this session: no intro, straight to the hero (the CSS already hides it)
-      if (document.documentElement.dataset.introSeen) {
+      // seen earlier this session: no intro, straight to the hero (the CSS already hides it). Read the
+      // flag itself too, so a client re-render that drops the <html> attribute cannot bring the intro back
+      let seen = !!document.documentElement.dataset.introSeen;
+      try {
+        seen ||= !!sessionStorage.getItem("lacasa:intro");
+      } catch {
+        /* storage blocked: treat as a first visit */
+      }
+      if (seen) {
         el.style.display = "none";
         intro.finish();
         return;
@@ -50,8 +57,8 @@ export function Preloader() {
       };
       start();
 
+      // the entrance itself is a CSS animation that starts at first paint (globals.css), so hydration cannot blink it
       const parts = gsap.utils.toArray<HTMLElement>("[data-part]", el);
-      gsap.from(parts, { autoAlpha: 0, y: 24, duration: 1, stagger: 0.07, ease: "power3.out", delay: 0.1 });
 
       const fill = gsap.quickTo(bar.current, "scaleY", { duration: 0.5, ease: "power2.out" });
       const fonts = document.fonts?.ready ?? Promise.resolve();
@@ -127,25 +134,25 @@ export function Preloader() {
         </div>
 
         <div className="grid grid-cols-1 items-center justify-items-center gap-[clamp(1rem,5vw,6rem)] sm:grid-cols-[1fr_auto_1fr] sm:justify-items-stretch">
-          <span data-part className="label justify-self-end tracking-[0.7em] max-sm:hidden">Above</span>
+          <span data-part style={{ ["--i" as string]: 2 }} className="label justify-self-end tracking-[0.7em] max-sm:hidden">Above</span>
           <div className="flex flex-col items-center">
-            <span data-part className="display text-center text-[clamp(3.6rem,2rem+6vw,8rem)] leading-[0.84]">
+            <span data-part style={{ ["--i" as string]: 1 }} className="display text-center text-[clamp(3.6rem,2rem+6vw,8rem)] leading-[0.84]">
               La
               <br />
               Casa
             </span>
-            <span data-part className="script -mt-[0.35em] ml-[1.2em] -rotate-12 text-[clamp(2.4rem,1.4rem+3vw,4.6rem)] text-silver">
+            <span data-part style={{ ["--i" as string]: 3 }} className="script -mt-[0.35em] ml-[1.2em] -rotate-12 text-[clamp(2.4rem,1.4rem+3vw,4.6rem)] text-silver">
               Indonesia
             </span>
           </div>
-          <span data-part className="label tracking-[0.7em] max-sm:hidden">the cove</span>
+          <span data-part style={{ ["--i" as string]: 2 }} className="label tracking-[0.7em] max-sm:hidden">the cove</span>
         </div>
 
         <div className="flex flex-col items-center gap-6">
-          <span data-part className="relative h-24 w-px overflow-hidden bg-cream/20">
+          <span data-part style={{ ["--i" as string]: 4 }} className="relative h-24 w-px overflow-hidden bg-cream/20">
             <span ref={bar} className="absolute inset-0 origin-top scale-y-0 bg-cream" />
           </span>
-          <p data-part className="label text-center opacity-75">
+          <p data-part style={{ ["--i" as string]: 5 }} className="label text-center opacity-75">
             La Casa
             <br />A house above the cove
           </p>

@@ -23,7 +23,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {/* the intro plays once per session (as on era-residence.com); flag repeat visits before first paint */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{if(sessionStorage.getItem("lacasa:intro"))document.documentElement.dataset.introSeen="1"}catch(e){}`,
+            __html: `try{if(sessionStorage.getItem("lacasa:intro")){document.documentElement.dataset.introSeen="1";var s=document.createElement("style");s.textContent=".intro{display:none!important}";document.head.appendChild(s)}}catch(e){}`,
           }}
         />
       </head>
