@@ -2,6 +2,7 @@
 
 import aerial from "@/assets/photos/aerial.webp";
 import bedroom2 from "@/assets/photos/bedroom-2.webp";
+import bootRoom from "@/assets/photos/boot-room.webp";
 import coveView from "@/assets/photos/cove-view.webp";
 import ensuite from "@/assets/photos/ensuite.webp";
 import entrance from "@/assets/photos/entrance.webp";
@@ -13,8 +14,10 @@ import kitchen from "@/assets/photos/kitchen.webp";
 import landing from "@/assets/photos/landing.webp";
 import laundry from "@/assets/photos/laundry.webp";
 import lavenderRoses from "@/assets/photos/lavender-roses.webp";
+import linen from "@/assets/photos/linen.webp";
 import living from "@/assets/photos/living.webp";
 import master from "@/assets/photos/master.webp";
+import pantry from "@/assets/photos/pantry.webp";
 import portal from "@/assets/photos/portal.webp";
 import rear from "@/assets/photos/rear.webp";
 import rearNight from "@/assets/photos/rear-night.webp";
@@ -28,8 +31,8 @@ import roomsFromPlans from "./blueprint-rooms.json";
 export const HOUSE_NAME = "La Casa";
 
 export const photos = {
-  aerial, bedroom2, coveView, ensuite, entrance, facade, garage, gate, guestBath, kitchen, landing, laundry,
-  lavenderRoses, living, master, portal, rear, rearNight, roseBranch, terrace, walkIn, workRoom, workout,
+  aerial, bedroom2, bootRoom, coveView, ensuite, entrance, facade, garage, gate, guestBath, kitchen, landing, laundry,
+  lavenderRoses, linen, living, master, pantry, portal, rear, rearNight, roseBranch, terrace, walkIn, workRoom, workout,
 };
 
 /** Net areas come straight from the CAD model (tools/blueprint). */
@@ -82,6 +85,9 @@ export const rooms: Room[] = [
   { id: "kitchen", name: "Kitchen and dining", floor: "Ground", image: kitchen,
     note: "Sage glazed tiles in the arched hood, a marble island and a walk-in pantry.",
     alt: "Kitchen with a sage tiled arched hood alcove, marble island and oak dining table" },
+  { id: "pantry", name: "Pantry", floor: "Ground", image: pantry,
+    note: "Oak shelves floor to ceiling behind a reeded-glass arched door, with a coffee counter under a run of sage tiles.",
+    alt: "Walk-in pantry with oak shelves of glass jars and ceramics, a marble counter with a coffee machine and sage tiles" },
   { id: "bedroom-2", name: "Bedroom two", floor: "Ground", image: bedroom2,
     note: "The guest room at the front, next to its own bathroom.",
     alt: "Ground floor bedroom with linen bedding, cane wardrobe and arched windows" },
@@ -91,9 +97,12 @@ export const rooms: Room[] = [
   { id: "workout", name: "Workout", floor: "Ground", image: workout,
     note: "A mat, a rack and an arched mirror, with a window to the side garden.",
     alt: "Small workout room with a rubber floor, dumbbell rack and arched mirror" },
+  { id: "boot-room", name: "Boot room", floor: "Ground", image: bootRoom,
+    note: "Between the garage and the entrance: a cane bench, hooks for beach towels and a tiled splash corner with a foot tap.",
+    alt: "Boot room with a long oak and cane bench, beach towels on brass hooks, open shoe cubbies and a terracotta-tiled corner" },
   { id: "garage", name: "Garage", floor: "Ground", image: garage,
-    note: "One car, boards and bikes on the wall, and a door through the boot room into the house.",
-    alt: "Garage with a dark green estate car, oak storage along one wall, two bicycles and two surfboards on racks" },
+    note: "Six metres wide for two cars side by side, with the motorbike across the back wall and boards on the side.",
+    alt: "Two-car garage with a silver Honda Civic Type R and a silver Nissan GT-R, a red Ducati Streetfighter in front and oak storage along one wall" },
   { id: "laundry", name: "Laundry yard", floor: "Ground", image: laundry,
     note: "Behind the garage under a pergola, with the foot rinse on the way in.",
     alt: "Laundry yard under a timber pergola with a washer, drying line and a brass foot rinse" },
@@ -114,13 +123,13 @@ export const rooms: Room[] = [
     alt: "Long work room with built-in shelves and a sit-stand desk facing arched balcony doors" },
 ];
 
-/** The walk from the road to the sand, measured along the plot (site plan v5). */
+/** The walk from the road to the sand, measured along the plot (site plan v6). */
 export const walk = [
   { at: "0 m", name: "Front gate" },
   { at: "21 m", name: "Front door" },
   { at: "34 m", name: "Terrace" },
   { at: "50 m", name: "Arched portal" },
-  { at: "âˆ’6 m", name: "The beach" },
+  { at: "−6 m", name: "The beach" },
 ];
 
 export const features = ["3 m hedge", "Two arched gates", "Covered terrace", "Foot rinse", "Thirty-six steps"];
@@ -139,5 +148,6 @@ export const roomLists = roomsFromPlans;
 /** Photo shown when a room is picked on a plan; rooms without a render show the drawing only. */
 export const planPhotos: Record<string, StaticImageData> = {
   living, kitchen, "bedroom-2": bedroom2, "guest-bath": guestBath, workout, laundry, terrace,
-  entrance, garage, master, ensuite, "walk-in": walkIn, landing, "work-room": workRoom, balcony: rear,
+  entrance, garage, "boot-room": bootRoom, pantry, master, ensuite, "walk-in": walkIn, landing, linen,
+  "work-room": workRoom, balcony: rear,
 };

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { ArchMark } from "@/components/brand/ArchMark";
 import { lockScroll } from "@/lib/scroll";
-import { photos } from "@/data/house";
+import { photos, rooms } from "@/data/house";
 
 const ring = "LA CASA · ABOVE THE COVE · INDONESIA · ";
 
@@ -14,7 +14,7 @@ const chapters = [
   { href: "#reasons", label: "Three reasons", note: "Why here", image: photos.portal },
   { href: "#cove", label: "The cove", note: "Six metres up", image: photos.coveView },
   { href: "#drawings", label: "The drawings", note: "A-01 to A-04", image: photos.aerial },
-  { href: "#rooms", label: "Rooms", note: "Thirteen spaces", image: photos.entrance },
+  { href: "#rooms", label: "Rooms", note: `${rooms.length} rooms`, image: photos.entrance },
   { href: "#materials", label: "Materials", note: "Plaster and glaze", image: photos.kitchen },
   { href: "#architecture", label: "Architecture", note: "11 by 13 m", image: photos.facade },
 ];

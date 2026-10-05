@@ -20,6 +20,12 @@ export function Preloader() {
     () => {
       const el = root.current!;
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      // seen earlier this session: no intro, straight to the hero (the CSS already hides it)
+      if (document.documentElement.dataset.introSeen) {
+        el.style.display = "none";
+        intro.finish();
+        return;
+      }
       if (!intro.done()) lockScroll(true);
 
       // the arch window: width w, top y (px); its photo is pinned to the viewport so it lines up with the hero
@@ -68,6 +74,11 @@ export function Preloader() {
         finished = true;
         lockScroll(false);
         intro.finish();
+        try {
+          sessionStorage.setItem("lacasa:intro", "1");
+        } catch {
+          /* private mode: the intro simply plays again next time */
+        }
         gsap.to(el, { autoAlpha: 0, duration: 0.25, onComplete: () => void (el.style.display = "none") });
       };
 
@@ -102,7 +113,7 @@ export function Preloader() {
   );
 
   return (
-    <div ref={root} aria-hidden="true" className="fixed inset-0 z-[80] overflow-hidden bg-maroon text-cream">
+    <div ref={root} aria-hidden="true" className="intro fixed inset-0 z-[80] overflow-hidden bg-maroon text-cream">
       <p className="script pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[clamp(14rem,34vw,34rem)] leading-none opacity-[0.05]">
         La Casa
       </p>

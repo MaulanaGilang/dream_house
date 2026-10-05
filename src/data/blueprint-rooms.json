@@ -48,12 +48,12 @@
     {
       "id": "garage",
       "label": "Garage",
-      "area": 40.3
+      "area": 44.1
     },
     {
       "id": "laundry",
       "label": "Laundry Yard",
-      "area": 25.4
+      "area": 27.8
     }
   ],
   "upper": [

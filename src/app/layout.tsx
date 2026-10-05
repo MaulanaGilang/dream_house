@@ -18,7 +18,15 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${display.variable} ${script.variable} ${body.variable} antialiased`}>
+    <html lang="en" className={`${display.variable} ${script.variable} ${body.variable} antialiased`} suppressHydrationWarning>
+      <head>
+        {/* the intro plays once per session (as on era-residence.com); flag repeat visits before first paint */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(sessionStorage.getItem("lacasa:intro"))document.documentElement.dataset.introSeen="1"}catch(e){}`,
+          }}
+        />
+      </head>
       <body>{children}</body>
     </html>
   );

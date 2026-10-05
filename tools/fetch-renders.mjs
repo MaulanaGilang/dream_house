@@ -30,11 +30,16 @@ const RENDERS = {
   "work-room": "hf_20261004_114456_6411475f-de81-4caa-b047-76f31f7f4f5e.png",
   // round 3: rooms that had no render, the entrance as a ruang tamu, and lavender + rose cut-outs
   entrance: "hf_20261005_072038_d7c9ece1-8855-4cab-9a69-9c460a32672f.png",
-  garage: "hf_20261005_072108_7cebce2f-cad0-4aa1-a1a6-d7f8ab46c2bb.png",
   "walk-in": "hf_20261005_072300_04b9a2ab-5474-4599-8d86-1fa48c32b5c5.png",
   landing: "hf_20261005_072108_32d4c471-711f-425e-b744-85a97fb3305e.png",
-  "lavender-roses": "hf_20261005_072038_33e759cd-b3f8-4b85-93cc-4b862bbc1c8c.png",
-  "rose-branch": "hf_20261005_072039_7c714bc3-8ab2-41ca-89e4-f3bd72c86390.png",
+  // two-car garage (6 m, site plan v6): silver Civic Type R + GT-R R35, Ducati Streetfighter V4
+  garage: "hf_20261005_083714_336ae2b5-e0af-4110-8142-64e3c4c45641.png",
+  "boot-room": "hf_20261005_083116_78e03f3d-ca77-4729-a14a-82a48573506c.png",
+  pantry: "hf_20261005_083656_fd5e097c-3e6f-43fd-afe6-05bf5d69a9e3.png",
+  linen: "hf_20261005_083117_e62beb2c-ee75-44cd-b007-2dcabd9eb877.png",
+  // maroon roses (recoloured from 33e759cd / 7c714bc3)
+  "lavender-roses": "hf_20261005_083117_ead68fe8-3d98-4418-9dff-ded6ba39bdd9.png",
+  "rose-branch": "hf_20261005_083116_c8c908c8-bf5f-4599-9138-61396032bc65.png",
 };
 
 // generated on a transparent background: keep the alpha, trim the empty margin

@@ -157,10 +157,10 @@ def furniture_ground(sh: Sheet):
     sh.rect(5700, 1640, 6540, 2540, F); sh.line((5700, 1640), (6540, 2540), F); sh.line((5700, 2540), (6540, 1640), F)
     # entrance, furnished as the ruang tamu (guest sitting room): two armchairs flanking the door,
     # coffee table, sofa with its back to the stair, sideboard on the right wall, rug dashed
-    sh.rect(7150, 1350, 10450, 3500, "ABOVE", "DASHED")
-    sh.rect(6850, 1050, 7600, 1800, F); sh.rect(10000, 1050, 10750, 1800, F)
-    sh.rect(8150, 1600, 9450, 2350, F)
-    sh.rect(7550, 2650, 10050, 3450, F); sh.rect(7550, 3150, 10050, 3450, F)
+    sh.rect(7000, 1350, 10200, 3500, "ABOVE", "DASHED")
+    sh.rect(6780, 1050, 7480, 1800, F); sh.rect(9700, 1050, 10400, 1800, F)
+    sh.rect(7900, 1600, 9200, 2350, F)
+    sh.rect(7300, 2650, 9800, 3450, F); sh.rect(7300, 3150, 9800, 3450, F)
     sh.rect(10560, 2600, 10940, 4100, F)
     # workout: mat, rack, mirror
     sh.rect(700, 5000, 2500, 5800, F); sh.rect(3200, 4700, 3900, 6500, F); sh.line((300, 4700), (300, 6500), F)
@@ -186,17 +186,21 @@ def furniture_ground(sh: Sheet):
     sh.rect(900, 14000, 3500, 15000, F)
     sh.rect(9900, 13300, 10600, 15300, F)
     sh.text((10250, 15500), "BBQ", 1.5, align="BC", cls="bp-note")
-    # garage: car + shelving
-    sh.rect(12500, 1100, 14400, 5800, F)
-    sh.rect(15700, 1000, 16200, 7400, F)
-    sh.rect(11400, 6800, 12800, 7700, F)
+    # garage: two cars side by side (Civic Type R 1.89 m, GT-R 1.90 m wide), the Ducati across the
+    # back wall, storage in both back corners
+    for x in (11600, 14300):
+        sh.rect(x, 800, x + 1900, 5400, F)
+        sh.rect(x + 150, 2300, x + 1750, 4000, F)  # glasshouse
+    sh.rect(13100, 6550, 15200, 7350, F); sh.circle((13450, 6950), 300, F); sh.circle((14850, 6950), 300, F)
+    sh.rect(11300, 6400, 12700, 7700, F)
+    sh.rect(15700, 6200, 16700, 7700, F)
     # laundry yard: washer, dryer, sink, drying lines
     for x in (11300, 12000):
         sh.rect(x, 12000, x + 600, 12700, F); sh.circle((x + 300, 12350), 220, F)
     sh.rect(12800, 12100, 13700, 12700, F)
-    for x in (14500, 15200, 15900):
+    for x in (14500, 15200, 15900, 16500):
         sh.line((x, 8700), (x, 11400), "ABOVE", "DASHED")
-    sh.rect(11000, 8000, 16300, 12800, "ABOVE", "DASHED")
+    sh.rect(11000, 8000, 16800, 12800, "ABOVE", "DASHED")
     sh.text((13650, 8300), "PERGOLA OVER", 1.4, align="BC", cls="bp-note")
 
 
@@ -371,9 +375,9 @@ def plan_sheet(slug, title, number, upper=False):
         rooms_y = [0, 3200, 6800, 13000, 16000]
         ylo = -1300
     else:
-        front_pts = [0, 1300, 2900, 4900, 5900, 7300, 9300, 9800, 10500, 11000, 12100, 15400, 16500]
+        front_pts = [0, 1300, 2900, 4900, 5900, 7550, 9550, 10000, 10600, 11000, 11500, 16500, 17000]
         left_pts = [0, 1300, 3100, 4400, 5000, 6200, 6800, 7600, 8600, 10200, 11800, 13000, 16000]
-        rooms_x = [0, 4200, 6600, 11000, 16500]
+        rooms_x = [0, 4200, 6600, 11000, 17000]
         rooms_y = [0, 4400, 6800, 13000, 16000]
         ylo = -900
     for a, b in zip(front_pts, front_pts[1:]):
@@ -388,7 +392,7 @@ def plan_sheet(slug, title, number, upper=False):
     sh.dim((0, 0), (0, 16000), -3400)
     if not upper:
         for a, b in ((0, 8000), (8000, 13000)):
-            sh.dim((16500, a), (16500, b), 1200)
+            sh.dim((17000, a), (17000, b), 1200)
 
     grid_and_marks(sh, [0, 4200, 5600, 8000, 11000], [0, 4400, 6800, 13000], 19800, -4900,
                    (0, 0, 11000, 16000))

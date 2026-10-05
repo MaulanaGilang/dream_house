@@ -1,4 +1,4 @@
-"""Cove House: the single measured model every drawing is built from.
+﻿"""Cove House: the single measured model every drawing is built from.
 
 Units are millimetres. Site origin is the front-left corner of the plot (road side);
 +x runs to the right when standing at the road facing the sea, +y runs toward the sea.
@@ -9,11 +9,11 @@ from shapely.ops import unary_union
 
 # --- site ---------------------------------------------------------------------
 PLOT_W, PLOT_D = 20_000, 50_000
-HOUSE_ORIGIN = (1_700, 21_000)          # house front-left corner in site coords
+HOUSE_ORIGIN = (1_450, 21_000)          # house front-left corner in site coords (garage centre stays at site x 15 450)
 HOUSE_W, HOUSE_D = 11_000, 13_000
 EXT_T, INT_T = 250, 120                  # wall thicknesses
-GARAGE = (11_000, 0, 16_500, 8_000)      # house coords
-LAUNDRY = (11_000, 8_000, 16_500, 13_000)
+GARAGE = (11_000, 0, 17_000, 8_000)      # house coords; 6.0 m wide for two cars and a motorbike (round 3)
+LAUNDRY = (11_000, 8_000, 17_000, 13_000)
 TERRACE = (0, 13_000, 11_000, 16_000)
 HEDGE_T, STONE_T = 1_000, 400
 FRONT_GATE = (6_800, 13_200)             # site x range
@@ -76,8 +76,8 @@ GF_OPENINGS = [
     # front facade (y = 0)
     dict(kind="window", axis="x", c=0, s=1300, e=2900, ext="min"),
     dict(kind="window", axis="x", c=0, s=4900, e=5900, ext="min"),
-    dict(kind="double", axis="x", c=0, s=7300, e=9300, ext="min", swing=1),
-    dict(kind="window", axis="x", c=0, s=9800, e=10500, ext="min"),
+    dict(kind="double", axis="x", c=0, s=7550, e=9550, ext="min", swing=1),   # on the plot centreline (site x 10 000)
+    dict(kind="window", axis="x", c=0, s=10000, e=10600, ext="min"),
     # left facade (x = 0)
     dict(kind="window", axis="y", c=0, s=1300, e=3100, ext="min"),
     dict(kind="window", axis="y", c=0, s=5000, e=6200, ext="min"),
@@ -99,7 +99,7 @@ GF_OPENINGS = [
     dict(kind="door", axis="x", c=8400, s=8400, e=9200, swing=-1, hinge="s"),
     dict(kind="arch", axis="y", c=5600, s=8400, e=12400),
     # garage + laundry yard
-    dict(kind="garage", axis="x", c=0, s=12100, e=15400, ext="min", t=200),
+    dict(kind="garage", axis="x", c=0, s=11500, e=16500, ext="min", t=200),   # 5.0 m two-car door
     dict(kind="arch", axis="x", c=13000, s=13500, e=14500, ext="max", t=200),
 ]
 
@@ -134,8 +134,8 @@ def opening_box(o):
 def ground_walls():
     parts = [
         ring(0, 0, HOUSE_W, HOUSE_D),
-        box(*GARAGE).difference(box(11_000, 200, 16_300, 7_800)),
-        box(11_000, 7_800, 16_500, 13_000).difference(box(11_000, 7_800, 16_300, 12_800)),
+        box(*GARAGE).difference(box(11_000, 200, 16_800, 7_800)),
+        box(11_000, 7_800, 17_000, 13_000).difference(box(11_000, 7_800, 16_800, 12_800)),
         wall(4200, 0, 4200, 6800), wall(0, 4400, 4200, 4400), wall(4200, 2600, 6600, 2600),
         wall(6600, 0, 6600, 2600), wall(5600, 4400, 5600, 13000), wall(5600, 7800, 8000, 7800),
         wall(8000, 4400, 8000, 8400), wall(8000, 4400, 11000, 4400), wall(8000, 6800, 11000, 6800),
@@ -190,10 +190,10 @@ UF_ROOMS = [
 # Where to place room tags when the polygon centroid is a poor spot (house coords)
 TAG_AT = {
     "entrance": (8800, 4000), "living": (2600, 9800), "kitchen": (7700, 12450), "bedroom-2": (3150, 950),
-    "guest-bath": (5400, 1250), "workout": (1700, 6250), "laundry": (12800, 10000), "pantry": (9300, 7750),
+    "guest-bath": (5400, 1250), "workout": (1700, 6250), "laundry": (13300, 10000), "pantry": (9300, 7750),
     "walk-in": (2500, 5650), "linen": (7000, 8400),
     "master": (3000, 12000), "work-room": (9500, 6800), "terrace": (6300, 14500),
-    "garage": (13750, 6600), "front-balcony": (9500, -650),
+    "garage": (14000, 6050), "front-balcony": (9500, -650),
 }
 
 # Stair: U-stair, 20 risers of 170 mm, 2 flights of 9 treads x 260 mm

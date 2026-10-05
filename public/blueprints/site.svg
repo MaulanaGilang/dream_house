@@ -9,14 +9,14 @@
 <path d="M60.0 895.0 L60.0 1945.0" pathLength="1"/>
 <path class="d" d="M235.0 895.0 L235.0 1945.0" pathLength="1" stroke-dasharray="16.0 10.0"/>
 <path class="d" d="M450.0 920.0 L450.0 1920.0 L2950.0 1920.0 L2950.0 920.0 Z" pathLength="1" stroke-dasharray="60.0 10.0 10.0 10.0 10.0 10.0"/>
-<path d="M1920.0 1555.0 L1920.0 1830.0 L2150.0 1830.0 L2150.0 1555.0 Z" pathLength="1"/>
-<path d="M1920.0 1589.38 L2150.0 1589.38" pathLength="1"/>
-<path d="M1920.0 1623.75 L2150.0 1623.75" pathLength="1"/>
-<path d="M1920.0 1658.12 L2150.0 1658.12" pathLength="1"/>
+<path d="M1920.0 1542.5 L1920.0 1842.5 L2150.0 1842.5 L2150.0 1542.5 Z" pathLength="1"/>
+<path d="M1920.0 1580.0 L2150.0 1580.0" pathLength="1"/>
+<path d="M1920.0 1617.5 L2150.0 1617.5" pathLength="1"/>
+<path d="M1920.0 1655.0 L2150.0 1655.0" pathLength="1"/>
 <path d="M1920.0 1692.5 L2150.0 1692.5" pathLength="1"/>
-<path d="M1920.0 1726.88 L2150.0 1726.88" pathLength="1"/>
-<path d="M1920.0 1761.25 L2150.0 1761.25" pathLength="1"/>
-<path d="M1920.0 1795.62 L2150.0 1795.62" pathLength="1"/>
+<path d="M1920.0 1730.0 L2150.0 1730.0" pathLength="1"/>
+<path d="M1920.0 1767.5 L2150.0 1767.5" pathLength="1"/>
+<path d="M1920.0 1805.0 L2150.0 1805.0" pathLength="1"/>
 <path d="M525.0 1397.5 L550.0 1397.5 L550.0 1442.5 L525.0 1442.5 Z" pathLength="1"/>
 <path d="M565.0 1397.5 L590.0 1397.5 L590.0 1442.5 L565.0 1442.5 Z" pathLength="1"/>
 <path d="M605.0 1397.5 L630.0 1397.5 L630.0 1442.5 L605.0 1442.5 Z" pathLength="1"/>
@@ -211,8 +211,8 @@
 <path d="M430.0 1610.0 L500.0 1610.0 L500.0 1580.0 L430.0 1580.0 Z" pathLength="1"/>
 <path d="M2965.0 1360.0 L2935.0 1360.0 L2935.0 1315.0 L2965.0 1315.0 Z" pathLength="1"/>
 <path d="M2935.0 1200.0 L2965.0 1200.0 L2965.0 1245.0 L2935.0 1245.0 Z" pathLength="1"/>
-<path d="M1450.0 955.0 L1450.0 1605.0 L2200.0 1605.0 L2200.0 955.0 Z" pathLength="1"/>
-<path d="M1480.0 1555.0 L1480.0 1850.0 L1920.0 1850.0 L1920.0 1555.0 Z" pathLength="1"/>
+<path d="M1450.0 942.5 L1450.0 1592.5 L2200.0 1592.5 L2200.0 942.5 Z" pathLength="1"/>
+<path d="M1480.0 1542.5 L1480.0 1862.5 L1920.0 1862.5 L1920.0 1542.5 Z" pathLength="1"/>
 <path d="M2970.0 1360.0 L2970.0 1200.0 L3030.0 1200.0 L3030.0 1010.0 L3030.0 950.0 L3150.0 950.0 L3150.0 1010.0 L3210.0 1010.0 L3210.0 1220.0 L3210.0 1280.0 L3090.0 1280.0 L3090.0 1220.0 L3030.0 1220.0 L3030.0 1360.0 Z" pathLength="1"/>
 </g>
 <g id="site-open" class="bp-layer bp-open" data-layer="open" fill="none" stroke="currentColor" stroke-width="2.80" stroke-linecap="round" stroke-linejoin="round">
@@ -222,17 +222,17 @@
 <path d="M610.0 1580.0 A160.0 160.0 0 0 0 450.0 1420.0" pathLength="1"/>
 <path d="M2935.0 1245.0 L2865.0 1245.0" pathLength="1"/>
 <path d="M2865.0 1245.0 A70.0 70.0 0 0 0 2935.0 1315.0" pathLength="1"/>
-<path d="M1775.0 1280.0 L1875.0 1280.0" pathLength="1"/>
-<path d="M1450.0 955.0 L1775.0 1280.0" pathLength="1"/>
-<path d="M1450.0 1605.0 L1775.0 1280.0" pathLength="1"/>
-<path d="M2200.0 955.0 L1875.0 1280.0" pathLength="1"/>
-<path d="M2200.0 1605.0 L1875.0 1280.0" pathLength="1"/>
-<path d="M1627.5 1702.5 L1772.5 1702.5" pathLength="1"/>
-<path d="M1480.0 1555.0 L1627.5 1702.5" pathLength="1"/>
-<path d="M1480.0 1850.0 L1627.5 1702.5" pathLength="1"/>
-<path d="M1920.0 1555.0 L1772.5 1702.5" pathLength="1"/>
-<path d="M1920.0 1850.0 L1772.5 1702.5" pathLength="1"/>
-<path d="M2200.0 1005.0 L2200.0 1555.0 L2300.0 1555.0 L2300.0 1005.0 Z" pathLength="1"/>
+<path d="M1775.0 1267.5 L1875.0 1267.5" pathLength="1"/>
+<path d="M1450.0 942.5 L1775.0 1267.5" pathLength="1"/>
+<path d="M1450.0 1592.5 L1775.0 1267.5" pathLength="1"/>
+<path d="M2200.0 942.5 L1875.0 1267.5" pathLength="1"/>
+<path d="M2200.0 1592.5 L1875.0 1267.5" pathLength="1"/>
+<path d="M1640.0 1702.5 L1760.0 1702.5" pathLength="1"/>
+<path d="M1480.0 1542.5 L1640.0 1702.5" pathLength="1"/>
+<path d="M1480.0 1862.5 L1640.0 1702.5" pathLength="1"/>
+<path d="M1920.0 1542.5 L1760.0 1702.5" pathLength="1"/>
+<path d="M1920.0 1862.5 L1760.0 1702.5" pathLength="1"/>
+<path d="M2200.0 992.5 L2200.0 1542.5 L2300.0 1542.5 L2300.0 992.5 Z" pathLength="1"/>
 <circle cx="2340.0" cy="1385.0" r="15.0" pathLength="1"/>
 <path d="M3030.0 1027.5 L3090.0 1027.5" pathLength="1"/>
 <path d="M3030.0 1045.0 L3090.0 1045.0" pathLength="1"/>
@@ -269,15 +269,15 @@
 <path d="M3150.0 1202.5 L3210.0 1202.5" pathLength="1"/>
 </g>
 <g id="site-above" class="bp-layer bp-above" data-layer="above" fill="none" stroke="currentColor" stroke-width="1.60" stroke-linecap="round" stroke-linejoin="round">
-<path class="d" d="M1500.0 1005.0 L1500.0 1555.0 L2150.0 1555.0 L2150.0 1005.0 Z" pathLength="1" stroke-dasharray="8.0 6.0"/>
+<path class="d" d="M1500.0 992.5 L1500.0 1542.5 L2150.0 1542.5 L2150.0 992.5 Z" pathLength="1" stroke-dasharray="8.0 6.0"/>
 </g>
 <g id="site-grid" class="bp-layer bp-grid" data-layer="grid" fill="none" stroke="currentColor" stroke-width="1.00" stroke-linecap="round" stroke-linejoin="round">
-<path class="d" d="M0.0 1455.0 L75.0 1455.0" pathLength="1" stroke-dasharray="60.0 10.0 10.0 10.0 10.0 10.0"/>
-<circle cx="-45.0" cy="1455.0" r="40.0" pathLength="1"/>
-<path d="M-72.5 1425.0 L-45.0 1380.0 L-17.5 1425.0 Z" pathLength="1"/>
-<path class="d" d="M3600.0 1455.0 L3525.0 1455.0" pathLength="1" stroke-dasharray="60.0 10.0 10.0 10.0 10.0 10.0"/>
-<circle cx="3645.0" cy="1455.0" r="40.0" pathLength="1"/>
-<path d="M3617.5 1425.0 L3645.0 1380.0 L3672.5 1425.0 Z" pathLength="1"/>
+<path class="d" d="M0.0 1442.5 L75.0 1442.5" pathLength="1" stroke-dasharray="60.0 10.0 10.0 10.0 10.0 10.0"/>
+<circle cx="-45.0" cy="1442.5" r="40.0" pathLength="1"/>
+<path d="M-72.5 1412.5 L-45.0 1367.5 L-17.5 1412.5 Z" pathLength="1"/>
+<path class="d" d="M3600.0 1442.5 L3525.0 1442.5" pathLength="1" stroke-dasharray="60.0 10.0 10.0 10.0 10.0 10.0"/>
+<circle cx="3645.0" cy="1442.5" r="40.0" pathLength="1"/>
+<path d="M3617.5 1412.5 L3645.0 1367.5 L3672.5 1412.5 Z" pathLength="1"/>
 </g>
 <g id="site-dim" class="bp-layer bp-dim" data-layer="dim" fill="none" stroke="currentColor" stroke-width="1.30" stroke-linecap="round" stroke-linejoin="round">
 <g class="bp-dim"><path d="M450.0 910.0 L450.0 828.0 M2950.0 910.0 L2950.0 828.0 M444.0 840.0 L2956.0 840.0 M445.5 844.5 L454.5 835.5 M2945.5 844.5 L2954.5 835.5" pathLength="1"/><text x="1700.0" y="834.0" font-size="18.0" text-anchor="middle" dominant-baseline="auto" fill="currentColor" stroke="none">50000</text></g>
@@ -290,9 +290,9 @@
 <g id="site-text" class="bp-layer bp-text" data-layer="text" fill="currentColor" stroke="currentColor" stroke-width="1.30" stroke-linecap="round" stroke-linejoin="round">
 <text x="150.0" y="1420.0" font-size="24.0" text-anchor="middle" dominant-baseline="central" transform="rotate(-90 150.0 1420.0)">ROAD</text>
 <text class="bp-note" x="2820.0" y="1150.0" font-size="14.0" text-anchor="middle" dominant-baseline="central">ARCHED PORTAL</text>
-<text class="bp-note" x="2250.0" y="1280.0" font-size="16.0" text-anchor="middle" dominant-baseline="central">TERRACE + BALCONY</text>
-<text class="bp-room-name" x="1710.0" y="1150.0" font-size="30.0" text-anchor="middle" dominant-baseline="central">HOUSE</text>
-<text class="bp-note" x="1710.0" y="1230.0" font-size="16.0" text-anchor="middle" dominant-baseline="central">2 FLOORS, RIDGE +9.47</text>
+<text class="bp-note" x="2250.0" y="1267.5" font-size="16.0" text-anchor="middle" dominant-baseline="central">TERRACE + BALCONY</text>
+<text class="bp-room-name" x="1710.0" y="1137.5" font-size="30.0" text-anchor="middle" dominant-baseline="central">HOUSE</text>
+<text class="bp-note" x="1710.0" y="1217.5" font-size="16.0" text-anchor="middle" dominant-baseline="central">2 FLOORS, RIDGE +9.47</text>
 <text class="bp-room-name" x="1630.0" y="1772.5" font-size="18.0" text-anchor="middle" dominant-baseline="central">GARAGE</text>
 <text class="bp-note" x="2280.0" y="1692.5" font-size="15.0" text-anchor="middle" dominant-baseline="central">LAUNDRY YARD</text>
 <text class="bp-note" x="715.0" y="1180.0" font-size="15.0" text-anchor="middle" dominant-baseline="central">PICNIC TREE</text>
@@ -306,8 +306,8 @@
 <circle cx="3300.0" cy="420.0" r="70.0" pathLength="1"/>
 <path d="M3359.5 420.0 L3274.76 401.15 L3300.0 420.0 L3274.76 438.85 Z" pathLength="1"/>
 <text x="3394.5" y="420.0" font-size="16.0" text-anchor="middle" dominant-baseline="central">PLAN N</text>
-<text x="-45.0" y="1455.0" font-size="24.0" text-anchor="middle" dominant-baseline="central">A</text>
-<text x="3645.0" y="1455.0" font-size="24.0" text-anchor="middle" dominant-baseline="central">A</text>
+<text x="-45.0" y="1442.5" font-size="24.0" text-anchor="middle" dominant-baseline="central">A</text>
+<text x="3645.0" y="1442.5" font-size="24.0" text-anchor="middle" dominant-baseline="central">A</text>
 <text class="bp-title" x="150.0" y="2510.0" font-size="42.0" text-anchor="start" dominant-baseline="hanging">LA CASA</text>
 <text class="bp-note" x="150.0" y="2590.0" font-size="20.0" text-anchor="start" dominant-baseline="hanging">Private residence above a cove</text>
 <text class="bp-note" x="150.0" y="2635.0" font-size="20.0" text-anchor="start" dominant-baseline="hanging">Indonesia</text>

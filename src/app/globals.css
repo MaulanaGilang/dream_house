@@ -47,6 +47,10 @@ html.is-locked {
   overflow: hidden;
 }
 
+html[data-intro-seen] .intro {
+  display: none;
+}
+
 /* top of the film darkened enough for white display type on a pale golden sky */
 .hero-scrim {
   background: linear-gradient(
