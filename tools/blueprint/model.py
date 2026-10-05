@@ -189,7 +189,7 @@ UF_ROOMS = [
 
 # Where to place room tags when the polygon centroid is a poor spot (house coords)
 TAG_AT = {
-    "entrance": (8400, 2100), "living": (2600, 9800), "kitchen": (7700, 12450), "bedroom-2": (3150, 950),
+    "entrance": (8800, 4000), "living": (2600, 9800), "kitchen": (7700, 12450), "bedroom-2": (3150, 950),
     "guest-bath": (5400, 1250), "workout": (1700, 6250), "laundry": (12800, 10000), "pantry": (9300, 7750),
     "walk-in": (2500, 5650), "linen": (7000, 8400),
     "master": (3000, 12000), "work-room": (9500, 6800), "terrace": (6300, 14500),

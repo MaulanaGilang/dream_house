@@ -1,21 +1,26 @@
-import type { StaticImageData } from "next/image";
+﻿import type { StaticImageData } from "next/image";
 
 import aerial from "@/assets/photos/aerial.webp";
 import bedroom2 from "@/assets/photos/bedroom-2.webp";
-import bougainvillea from "@/assets/photos/bougainvillea.webp";
 import coveView from "@/assets/photos/cove-view.webp";
 import ensuite from "@/assets/photos/ensuite.webp";
+import entrance from "@/assets/photos/entrance.webp";
 import facade from "@/assets/photos/facade.webp";
+import garage from "@/assets/photos/garage.webp";
 import gate from "@/assets/photos/gate.webp";
 import guestBath from "@/assets/photos/guest-bath.webp";
 import kitchen from "@/assets/photos/kitchen.webp";
+import landing from "@/assets/photos/landing.webp";
 import laundry from "@/assets/photos/laundry.webp";
+import lavenderRoses from "@/assets/photos/lavender-roses.webp";
 import living from "@/assets/photos/living.webp";
 import master from "@/assets/photos/master.webp";
 import portal from "@/assets/photos/portal.webp";
 import rear from "@/assets/photos/rear.webp";
 import rearNight from "@/assets/photos/rear-night.webp";
+import roseBranch from "@/assets/photos/rose-branch.webp";
 import terrace from "@/assets/photos/terrace.webp";
+import walkIn from "@/assets/photos/walk-in.webp";
 import workRoom from "@/assets/photos/work-room.webp";
 import workout from "@/assets/photos/workout.webp";
 import roomsFromPlans from "./blueprint-rooms.json";
@@ -23,8 +28,8 @@ import roomsFromPlans from "./blueprint-rooms.json";
 export const HOUSE_NAME = "La Casa";
 
 export const photos = {
-  aerial, bedroom2, bougainvillea, coveView, ensuite, facade, gate, guestBath, kitchen, laundry,
-  living, master, portal, rear, rearNight, terrace, workRoom, workout,
+  aerial, bedroom2, coveView, ensuite, entrance, facade, garage, gate, guestBath, kitchen, landing, laundry,
+  lavenderRoses, living, master, portal, rear, rearNight, roseBranch, terrace, walkIn, workRoom, workout,
 };
 
 /** Net areas come straight from the CAD model (tools/blueprint). */
@@ -68,6 +73,9 @@ export const reasons: Reason[] = [
 export type Room = { id: string; name: string; floor: "Ground" | "Upper"; note: string; image: StaticImageData; alt: string };
 
 export const rooms: Room[] = [
+  { id: "entrance", name: "Entrance sitting room", floor: "Ground", image: entrance,
+    note: "The ruang tamu: guests are received just inside the arched front door, on linen and cane around a travertine table.",
+    alt: "Front sitting room with a linen sofa and two cane armchairs around a travertine table, the arched oak front door beyond" },
   { id: "living", name: "Living room", floor: "Ground", image: living,
     note: "Arched doors to the terrace, a wide arch to the kitchen and a prayer corner by the side window.",
     alt: "Living room with linen sofas, a jute rug and tall arched doors to the terrace" },
@@ -83,18 +91,27 @@ export const rooms: Room[] = [
   { id: "workout", name: "Workout", floor: "Ground", image: workout,
     note: "A mat, a rack and an arched mirror, with a window to the side garden.",
     alt: "Small workout room with a rubber floor, dumbbell rack and arched mirror" },
+  { id: "garage", name: "Garage", floor: "Ground", image: garage,
+    note: "One car, boards and bikes on the wall, and a door through the boot room into the house.",
+    alt: "Garage with a dark green estate car, oak storage along one wall, two bicycles and two surfboards on racks" },
+  { id: "laundry", name: "Laundry yard", floor: "Ground", image: laundry,
+    note: "Behind the garage under a pergola, with the foot rinse on the way in.",
+    alt: "Laundry yard under a timber pergola with a washer, drying line and a brass foot rinse" },
+  { id: "landing", name: "Landing", floor: "Upper", image: landing,
+    note: "The stair arrives under a tall arched window to the front garden; the master suite on one side, the work room on the other.",
+    alt: "Upstairs landing with the stair rail on the left, a tall arched window ahead and arched doorways to either side" },
   { id: "master", name: "Master bedroom", floor: "Upper", image: master,
     note: "A king bed and tall arched doors to the long balcony over the terrace.",
     alt: "Master bedroom with a king bed and arched balcony doors with a view of the sea" },
+  { id: "walk-in", name: "Walk-in closet", floor: "Upper", image: walkIn,
+    note: "Oak and cane wardrobes on both walls, an island in the middle and an arch through to the ensuite.",
+    alt: "Walk-in closet with oak and woven cane wardrobes, a travertine-topped island and an arched door to the ensuite" },
   { id: "ensuite", name: "Ensuite", floor: "Upper", image: ensuite,
     note: "A stone tub under the front window and a sea-glass mosaic shower.",
     alt: "Ensuite with a freestanding stone tub and a blue-grey glazed mosaic shower" },
   { id: "work-room", name: "Work room", floor: "Upper", image: workRoom,
     note: "A sit-stand desk at the front balcony doors and shelves along one wall.",
     alt: "Long work room with built-in shelves and a sit-stand desk facing arched balcony doors" },
-  { id: "laundry", name: "Laundry yard", floor: "Ground", image: laundry,
-    note: "Behind the garage under a pergola, with the foot rinse on the way in.",
-    alt: "Laundry yard under a timber pergola with a washer, drying line and a brass foot rinse" },
 ];
 
 /** The walk from the road to the sand, measured along the plot (site plan v5). */
@@ -103,7 +120,7 @@ export const walk = [
   { at: "21 m", name: "Front door" },
   { at: "34 m", name: "Terrace" },
   { at: "50 m", name: "Arched portal" },
-  { at: "−6 m", name: "The beach" },
+  { at: "âˆ’6 m", name: "The beach" },
 ];
 
 export const features = ["3 m hedge", "Two arched gates", "Covered terrace", "Foot rinse", "Thirty-six steps"];
@@ -122,5 +139,5 @@ export const roomLists = roomsFromPlans;
 /** Photo shown when a room is picked on a plan; rooms without a render show the drawing only. */
 export const planPhotos: Record<string, StaticImageData> = {
   living, kitchen, "bedroom-2": bedroom2, "guest-bath": guestBath, workout, laundry, terrace,
-  entrance: facade, master, ensuite, "work-room": workRoom, balcony: rear,
+  entrance, garage, master, ensuite, "walk-in": walkIn, landing, "work-room": workRoom, balcony: rear,
 };

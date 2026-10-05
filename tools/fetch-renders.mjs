@@ -12,7 +12,8 @@ const OUT = path.resolve("src/assets/photos");
 const RENDERS = {
   gate: "hf_20261004_113715_db14bf50-bb32-4e73-bc34-2219e88afafd.png",
   facade: "hf_20261004_113715_afaec0b4-c045-4a2e-91b4-878ca7781254.png",
-  aerial: "hf_20261004_130315_060fd9d9-bca8-4686-8f66-323f95f4ed29.png",
+  // round 3: single front gate, driveway curving inside the hedge into its right half (site plan v5)
+  aerial: "hf_20261005_073219_579d86df-a750-43d9-95ff-f6ead4ac505e.png",
   portal: "hf_20261004_113715_91288aff-d94c-4b6b-b970-a1f7677f625e.png",
   "cove-view": "hf_20261004_113945_bcdab7e9-9b39-46f4-9c9e-aea680f1d977.png",
   rear: "hf_20261004_113945_6534d6f4-80b5-4582-a1e7-c8348032bd95.png",
@@ -27,8 +28,17 @@ const RENDERS = {
   master: "hf_20261004_114459_c9a6239c-abd4-4e16-864c-7f12fa6ee932.png",
   ensuite: "hf_20261004_114457_feafd5d7-e700-4e85-9a7a-2f2daabf1a69.png",
   "work-room": "hf_20261004_114456_6411475f-de81-4caa-b047-76f31f7f4f5e.png",
-  bougainvillea: "hf_20261004_114455_7af71c9f-a784-47f9-8ebc-15d6eb108a44.png",
+  // round 3: rooms that had no render, the entrance as a ruang tamu, and lavender + rose cut-outs
+  entrance: "hf_20261005_072038_d7c9ece1-8855-4cab-9a69-9c460a32672f.png",
+  garage: "hf_20261005_072108_7cebce2f-cad0-4aa1-a1a6-d7f8ab46c2bb.png",
+  "walk-in": "hf_20261005_072300_04b9a2ab-5474-4599-8d86-1fa48c32b5c5.png",
+  landing: "hf_20261005_072108_32d4c471-711f-425e-b744-85a97fb3305e.png",
+  "lavender-roses": "hf_20261005_072038_33e759cd-b3f8-4b85-93cc-4b862bbc1c8c.png",
+  "rose-branch": "hf_20261005_072039_7c714bc3-8ab2-41ca-89e4-f3bd72c86390.png",
 };
+
+// generated on a transparent background: keep the alpha, trim the empty margin
+const CUTOUTS = new Set(["lavender-roses", "rose-branch"]);
 
 await mkdir(RAW, { recursive: true });
 await mkdir(OUT, { recursive: true });
@@ -42,15 +52,8 @@ for (const [name, file] of Object.entries(RENDERS)) {
     if (!res.ok) throw new Error(`${name}: HTTP ${res.status}`);
     await writeFile(raw, Buffer.from(await res.arrayBuffer()));
   }
-  if (name === "bougainvillea") {
-    // studio shot on white: key the white out into alpha for a floating cut-out
-    const { data, info } = await sharp(raw).resize({ width: 1400 }).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
-    for (let i = 0; i < data.length; i += 4) {
-      const m = Math.min(data[i], data[i + 1], data[i + 2]);
-      const a = m > 244 ? 0 : m > 214 ? Math.round(((244 - m) / 30) * 255) : 255;
-      data[i + 3] = Math.min(data[i + 3], a);
-    }
-    const out = await sharp(data, { raw: info }).webp({ quality: 82, alphaQuality: 90 }).toFile(path.join(OUT, `${name}.webp`));
+  if (CUTOUTS.has(name)) {
+    const out = await sharp(raw).trim().resize({ width: 1200, withoutEnlargement: true }).webp({ quality: 84, alphaQuality: 90 }).toFile(path.join(OUT, `${name}.webp`));
     console.log(name.padEnd(14), `${out.width}x${out.height}`, `${Math.round(out.size / 1024)} KB`);
     continue;
   }

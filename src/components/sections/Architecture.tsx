@@ -1,9 +1,9 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import { photos } from "@/data/house";
 
 export function Architecture() {
   return (
-    <section aria-labelledby="arch-title">
+    <section id="architecture" aria-labelledby="arch-title">
       <div data-chrome="light" className="relative h-[100dvh] min-h-[560px] overflow-hidden text-white">
         <Image src={photos.facade} alt="The front of the house: cream plaster, arched windows, a small balcony over the arched front door" fill sizes="100vw" placeholder="blur" className="object-cover" />
         <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(to_bottom,oklch(20%_0.04_265/0.4)_0%,transparent_45%)]" />

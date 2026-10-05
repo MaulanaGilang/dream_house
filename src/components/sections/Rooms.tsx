@@ -1,48 +1,23 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { CaretLeft, CaretRight } from "@phosphor-icons/react/dist/ssr";
-import { gsap, useGSAP } from "@/lib/gsap";
 import { areaOf, photos, rooms } from "@/data/house";
 
-/** A cream arch rises over the night image ("Rooms to live in"), then the maroon block and the room carousel. */
+/** Follows the cream arch that closes the night scene: the maroon block, then the room carousel. */
 export function Rooms() {
-  const arch = useRef<HTMLDivElement>(null);
   const [i, setI] = useState(0);
   const room = rooms[i];
   const area = areaOf(room.id);
   const go = (d: number) => setI((v) => (v + d + rooms.length) % rooms.length);
 
-  useGSAP(
-    () => {
-      gsap.matchMedia().add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.fromTo(".arch-shape", { yPercent: 62, scale: 0.55 }, {
-          yPercent: 0, scale: 1, ease: "none",
-          scrollTrigger: { trigger: arch.current, start: "top top", end: "+=110%", pin: true, scrub: 0.6 },
-        });
-      });
-    },
-    { scope: arch },
-  );
-
   return (
-    <section id="rooms" aria-labelledby="rooms-title">
-      <div ref={arch} className="relative h-[100dvh] min-h-[560px] overflow-hidden">
-        <Image src={photos.rearNight} alt="" aria-hidden="true" fill sizes="100vw" className="object-cover" />
-        <div className="arch-shape absolute inset-x-[6vw] bottom-0 top-[6vh] origin-bottom rounded-t-[50vw] bg-cream md:inset-x-[16vw]">
-          <h2 id="rooms-title" className="display absolute inset-x-0 top-[22%] text-center text-[length:var(--text-mega)]">
-            Rooms
-            <br />
-            to
-            <span className="script -mt-[0.15em] block text-[length:var(--text-script)] normal-case">live in</span>
-          </h2>
-        </div>
-      </div>
-
-      <div className="wrap grid grid-cols-1 gap-12 py-[var(--space-section)] md:grid-cols-12 md:items-end">
+    <section aria-labelledby="rooms-title">
+      <div className="wrap grid grid-cols-1 gap-12 pb-[var(--space-section)] pt-[clamp(2rem,5vw,5rem)] motion-reduce:pt-[var(--space-section)] md:grid-cols-12 md:items-end">
+        <h2 id="rooms-title" className="label md:col-span-12">Rooms to live in</h2>
         <figure className="relative bg-maroon p-[clamp(1.5rem,4vw,4rem)] md:col-span-5">
-          <Image src={photos.bougainvillea} alt="" aria-hidden="true" width={500} height={500} className="pointer-events-none absolute -right-[12%] -top-[14%] w-[62%]" />
+          <Image src={photos.roseBranch} alt="" aria-hidden="true" width={600} height={593} className="pointer-events-none absolute -right-[16%] -top-[16%] w-[66%] rotate-[18deg]" />
           <div className="relative aspect-[4/5] overflow-hidden">
             <Image src={photos.living} alt="The living room with arched doors to the terrace" fill sizes="(min-width: 768px) 34vw, 86vw" placeholder="blur" className="object-cover" />
           </div>

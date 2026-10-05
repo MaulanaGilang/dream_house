@@ -43,6 +43,22 @@ html.lenis body {
   scroll-behavior: auto !important;
 }
 
+html.is-locked {
+  overflow: hidden;
+}
+
+/* top of the film darkened enough for white display type on a pale golden sky */
+.hero-scrim {
+  background: linear-gradient(
+    to bottom,
+    oklch(22% 0.05 255 / 0.62) 0%,
+    oklch(22% 0.05 255 / 0.3) 30%,
+    transparent 52%,
+    transparent 68%,
+    var(--color-scrim) 100%
+  );
+}
+
 body {
   background: var(--color-cream);
   color: var(--color-ink);

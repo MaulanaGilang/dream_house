@@ -142,7 +142,8 @@ export function BlueprintViewer() {
 
   return (
     <div ref={root} className="grid grid-cols-1 gap-10 lg:grid-cols-[12rem_minmax(0,1fr)_18rem] lg:items-start">
-      <dl className="grid grid-cols-3 gap-6 lg:grid-cols-1 lg:gap-8">
+      {/* side columns stick below the fixed emblem and menu button so the frame never covers them */}
+      <dl className="grid grid-cols-3 gap-6 lg:sticky lg:top-[9rem] lg:grid-cols-1 lg:gap-8">
         {[
           ["Bedrooms", "2"],
           ["Floor area", "286 m²"],
@@ -212,7 +213,7 @@ export function BlueprintViewer() {
         </div>
       </div>
 
-      <aside className="flex flex-col gap-6">
+      <aside className="flex flex-col gap-6 lg:sticky lg:top-[7rem]">
         {isPlan ? (
           <>
             <div className="relative aspect-[4/3] overflow-hidden bg-sky-2">

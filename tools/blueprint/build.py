@@ -155,8 +155,13 @@ def furniture_ground(sh: Sheet):
     sh.rect(4380, 1800, 4760, 2480, F); sh.circle((4570, 1950), 170, F)
     sh.rect(5000, 260, 6100, 760, F); sh.circle((5550, 510), 180, F)
     sh.rect(5700, 1640, 6540, 2540, F); sh.line((5700, 1640), (6540, 2540), F); sh.line((5700, 2540), (6540, 1640), F)
-    # entrance: console + bench
-    sh.rect(6720, 600, 7100, 2200, F); sh.rect(10300, 2600, 10690, 3900, F)
+    # entrance, furnished as the ruang tamu (guest sitting room): two armchairs flanking the door,
+    # coffee table, sofa with its back to the stair, sideboard on the right wall, rug dashed
+    sh.rect(7150, 1350, 10450, 3500, "ABOVE", "DASHED")
+    sh.rect(6850, 1050, 7600, 1800, F); sh.rect(10000, 1050, 10750, 1800, F)
+    sh.rect(8150, 1600, 9450, 2350, F)
+    sh.rect(7550, 2650, 10050, 3450, F); sh.rect(7550, 3150, 10050, 3450, F)
+    sh.rect(10560, 2600, 10940, 4100, F)
     # workout: mat, rack, mirror
     sh.rect(700, 5000, 2500, 5800, F); sh.rect(3200, 4700, 3900, 6500, F); sh.line((300, 4700), (300, 6500), F)
     # boot room: shelving + bench
