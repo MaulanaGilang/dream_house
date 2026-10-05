@@ -2,7 +2,8 @@
 
 import { useRef, useState } from "react";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
-import { getLenis, intro, loading } from "@/lib/scroll";
+import { intro, loading } from "@/lib/scroll";
+import { chapterSnap } from "@/lib/snap";
 import { ArchMark } from "@/components/brand/ArchMark";
 import film from "@/data/film.json";
 
@@ -234,31 +235,8 @@ export function Hero() {
           tl.fromTo(".hero-arc", { rotate: -18, autoAlpha: 0 }, { rotate: 0, autoAlpha: 1, duration: 0.12 }, 1.06);
           tl.fromTo(".hero-sky-copy", { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.08 }, 1.11);
 
-          // one gesture = one chapter, timed like era-residence.com's section snap: 40 ms after the scroll
-          // settles inside the film, a 1.2 s glide to the next stop in the direction of travel.
-          // (Lenis is created after this layout effect, so it is looked up when a glide starts)
-          const st = tl.scrollTrigger!;
-          let timer = 0;
-          let dir = 1;
-          let lastY = window.scrollY;
-          const snap = () => {
-            const y = window.scrollY;
-            if (y <= st.start + 1 || y >= st.end - 1) return;
-            const p = (tl.duration() * (y - st.start)) / (st.end - st.start);
-            if (STOPS.some((s) => Math.abs(s - p) < 0.006)) return;
-            const next = dir > 0 ? STOPS.find((s) => s > p) : [...STOPS].reverse().find((s) => s < p);
-            if (next === undefined) return;
-            const target = st.start + (next / tl.duration()) * (st.end - st.start);
-            getLenis()?.scrollTo(target, { duration: 1.2, easing: (t: number) => 1 - (1 - t) ** 3 });
-          };
-          const onScroll = () => {
-            const y = window.scrollY;
-            if (y !== lastY) dir = y > lastY ? 1 : -1;
-            lastY = y;
-            window.clearTimeout(timer);
-            if (getLenis()) timer = window.setTimeout(snap, 40);
-          };
-          window.addEventListener("scroll", onScroll, { passive: true });
+          // one gesture = one chapter (ERA's section-snap timing)
+          const stopSnap = chapterSnap(tl.scrollTrigger!, STOPS.map((s) => s / tl.duration()));
 
           const onResize = () => draw(true);
           window.addEventListener("resize", onResize);
@@ -268,8 +246,7 @@ export function Hero() {
             bitmaps.forEach((b) => b.close());
             bitmaps.clear();
             full?.bmp.close();
-            window.clearTimeout(timer);
-            window.removeEventListener("scroll", onScroll);
+            stopSnap();
             window.removeEventListener("resize", onResize);
           };
         },

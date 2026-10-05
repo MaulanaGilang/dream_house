@@ -13,7 +13,12 @@
     {
       "id": "entrance",
       "label": "Entrance",
-      "area": 21.0
+      "area": 16.8
+    },
+    {
+      "id": "hall",
+      "label": "Hall",
+      "area": 4.0
     },
     {
       "id": "workout",

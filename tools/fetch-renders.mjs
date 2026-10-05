@@ -13,7 +13,10 @@ const RENDERS = {
   gate: "hf_20261004_113715_db14bf50-bb32-4e73-bc34-2219e88afafd.png",
   facade: "hf_20261004_113715_afaec0b4-c045-4a2e-91b4-878ca7781254.png",
   // round 3: single front gate, driveway curving inside the hedge into its right half (site plan v5)
-  aerial: "hf_20261005_073219_579d86df-a750-43d9-95ff-f6ead4ac505e.png",
+  // round 5: two-car S driveway through the gate, walk stops at its edge (site plan v7; collage + clean-up)
+  aerial: "hf_20261005_125605_72afc591-8fde-44cc-ad32-4c2eaf0a3e00.png",
+  "front-balcony": "hf_20261005_130048_feb110a6-200b-4364-98ac-a4e9f9b29fb9.png",
+  hall: "hf_20261005_130115_21dabdf0-e1c5-48d6-b7aa-8008f427bc17.png",
   portal: "hf_20261004_113715_91288aff-d94c-4b6b-b970-a1f7677f625e.png",
   "cove-view": "hf_20261004_113945_bcdab7e9-9b39-46f4-9c9e-aea680f1d977.png",
   rear: "hf_20261004_113945_6534d6f4-80b5-4582-a1e7-c8348032bd95.png",

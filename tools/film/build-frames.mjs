@@ -1,10 +1,11 @@
 // Cut the La Casa tour film into scroll frames.
 // Sources (design/film, not in git):
-//   clip1b gate -> aerial (Kling 6a168cd4, round 3: one front gate, driveway curving inside the hedge into it)
-//   clip1c aerial -> roof (Kling 8d329856, ends on clip2's frame at 3.0 s)
-//   clip2  roof -> portal, used from 3.0 s (its first seconds showed the old driveway exit) to 6.4 s
-//          (later frames add pedestals that are not in the site plan)
-//   clip3  portal -> beach, clip4 cove drift. The joins are dissolves.
+//   clip1d gate -> aerial (Kling f8f5e1cd, round 5: two-car S driveway through the gate, site plan v7)
+//   clip1e aerial -> roof (Kling 2dc2301c, ends on clip2's frame at 3.0 s)
+//   clip2  roof -> back lawn, used from 3.0 s to 6.2 s (later frames add pedestals that are not in the plan)
+//   clip3c back lawn -> over the portal and the stone stairs -> turns to face the bluff from the water
+//          (Kling f74ae393, starts on clip2's 6.2 s frame, ends on clip4's first frame)
+//   clip4  cove drift. The joins are short dissolves.
 // Usage: node tools/film/build-frames.mjs
 import { execFileSync } from "node:child_process";
 import { mkdirSync, readdirSync, rmSync, writeFileSync } from "node:fs";
@@ -27,17 +28,17 @@ const norm = "scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:108
 const filter = [
   `[0:v]trim=0:10,setpts=PTS-STARTPTS,${norm}[a]`,
   `[1:v]trim=0:5,setpts=PTS-STARTPTS,${norm}[b]`,
-  `[2:v]trim=3.0:6.4,setpts=PTS-STARTPTS,${norm}[c]`,
+  `[2:v]trim=3.0:6.2,setpts=PTS-STARTPTS,${norm}[c]`,
   `[3:v]trim=0:10,setpts=PTS-STARTPTS,${norm}[d]`,
   `[4:v]trim=0:5,setpts=PTS-STARTPTS,${norm}[e]`,
   "[a][b]xfade=transition=fade:duration=0.3:offset=9.7[ab]",
   "[ab][c]xfade=transition=fade:duration=0.3:offset=14.4[abc]",
-  "[abc][d]xfade=transition=fade:duration=0.8:offset=17.0[abcd]",
-  "[abcd][e]xfade=transition=fade:duration=1.0:offset=26.0[film]",
+  "[abc][d]xfade=transition=fade:duration=0.3:offset=17.3[abcd]",
+  "[abcd][e]xfade=transition=fade:duration=0.3:offset=27.0[film]",
   `[film]fps=${FPS}[out]`,
 ].join(";");
 
-execFileSync(ffmpeg, ["-hide_banner", "-loglevel", "error", "-y", "-i", c("1b"), "-i", c("1c"), "-i", c(2), "-i", c(3), "-i", c(4),
+execFileSync(ffmpeg, ["-hide_banner", "-loglevel", "error", "-y", "-i", c("1d"), "-i", c("1e"), "-i", c(2), "-i", c("3c"), "-i", c(4),
   "-filter_complex", filter, "-map", "[out]", path.join(TMP, "f%04d.png")], { stdio: "inherit" });
 
 const frames = readdirSync(TMP).filter((f) => f.endsWith(".png")).sort();

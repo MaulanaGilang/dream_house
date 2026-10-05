@@ -3,8 +3,6 @@ import { Preloader } from "@/components/chrome/Preloader";
 import { RevealObserver } from "@/components/chrome/RevealObserver";
 import { SmoothScroll } from "@/components/chrome/SmoothScroll";
 import { Architecture } from "@/components/sections/Architecture";
-import { Bluff } from "@/components/sections/Bluff";
-import { Concept } from "@/components/sections/Concept";
 import { Drawings } from "@/components/sections/Drawings";
 import { Footer } from "@/components/sections/Footer";
 import { Hero } from "@/components/sections/Hero";
@@ -12,7 +10,7 @@ import { Materials } from "@/components/sections/Materials";
 import { Night } from "@/components/sections/Night";
 import { Reasons } from "@/components/sections/Reasons";
 import { Rooms } from "@/components/sections/Rooms";
-import { Walk } from "@/components/sections/Walk";
+import { Story } from "@/components/sections/Story";
 
 export default function Home() {
   return (
@@ -26,9 +24,7 @@ export default function Home() {
       <main>
         <Hero />
         <Reasons />
-        <Concept />
-        <Bluff />
-        <Walk />
+        <Story />
         <Drawings />
         <Night />
         <Rooms />

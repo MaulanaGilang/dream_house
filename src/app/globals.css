@@ -43,8 +43,10 @@ html.lenis body {
   scroll-behavior: auto !important;
 }
 
-html.is-locked {
-  overflow: hidden;
+/* while the intro or the menu holds the page still, Lenis swallows the wheel itself; the scrollbar
+   stays put (no overflow clip), so nothing jumps sideways when it comes back */
+html.lenis.lenis-stopped {
+  overflow: auto !important;
 }
 
 html[data-intro-seen] .intro {

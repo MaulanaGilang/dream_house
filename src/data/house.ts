@@ -7,9 +7,11 @@ import coveView from "@/assets/photos/cove-view.webp";
 import ensuite from "@/assets/photos/ensuite.webp";
 import entrance from "@/assets/photos/entrance.webp";
 import facade from "@/assets/photos/facade.webp";
+import frontBalcony from "@/assets/photos/front-balcony.webp";
 import garage from "@/assets/photos/garage.webp";
 import gate from "@/assets/photos/gate.webp";
 import guestBath from "@/assets/photos/guest-bath.webp";
+import hall from "@/assets/photos/hall.webp";
 import kitchen from "@/assets/photos/kitchen.webp";
 import landing from "@/assets/photos/landing.webp";
 import laundry from "@/assets/photos/laundry.webp";
@@ -31,7 +33,7 @@ import roomsFromPlans from "./blueprint-rooms.json";
 export const HOUSE_NAME = "La Casa";
 
 export const photos = {
-  aerial, bedroom2, bootRoom, coveView, ensuite, entrance, facade, garage, gate, guestBath, kitchen, landing, laundry,
+  aerial, bedroom2, bootRoom, coveView, ensuite, entrance, facade, frontBalcony, garage, gate, guestBath, hall, kitchen, landing, laundry,
   lavenderRoses, linen, living, master, pantry, portal, rear, rearNight, roseBranch, terrace, walkIn, workRoom, workout,
 };
 
@@ -80,6 +82,9 @@ export const rooms: Room[] = [
   { id: "entrance", name: "Entrance sitting room", floor: "Ground", image: entrance,
     note: "The ruang tamu: guests are received just inside the arched front door, on linen and cane around a travertine table.",
     alt: "Front sitting room with a linen sofa and two cane armchairs around a travertine table, the arched oak front door beyond" },
+  { id: "hall", name: "Inner hall", floor: "Ground", image: hall,
+    note: "Behind a wall and a short wing wall, out of the guests' sight: the foot of the stair, the guest bath and bedroom two.",
+    alt: "Small inner hall with the foot of a plastered stair, arched oak doors on the left and a rounded wing wall hiding it from the sitting room" },
   { id: "living", name: "Living room", floor: "Ground", image: living,
     note: "Arched doors to the terrace, a wide arch to the kitchen and a prayer corner by the side window.",
     alt: "Living room with linen sofas, a jute rug and tall arched doors to the terrace" },
@@ -122,6 +127,9 @@ export const rooms: Room[] = [
   { id: "work-room", name: "Work room", floor: "Upper", image: workRoom,
     note: "A sit-stand desk at the front balcony doors and shelves along one wall.",
     alt: "Long work room with built-in shelves and a sit-stand desk facing arched balcony doors" },
+  { id: "front-balcony", name: "Front balcony", floor: "Upper", image: frontBalcony,
+    note: "A coffee table's worth of balcony off the work room, above the front door, looking down the walk to the gate.",
+    alt: "Small limestone balcony with a bistro table and lavender pots, looking over the front garden, the S-shaped driveway and the gate" },
 ];
 
 /** The walk from the road to the sand, measured along the plot (site plan v6). */
@@ -149,6 +157,6 @@ export const roomLists = roomsFromPlans;
 /** Photo shown when a room is picked on a plan; rooms without a render show the drawing only. */
 export const planPhotos: Record<string, StaticImageData> = {
   living, kitchen, "bedroom-2": bedroom2, "guest-bath": guestBath, workout, laundry, terrace,
-  entrance, garage, "boot-room": bootRoom, pantry, master, ensuite, "walk-in": walkIn, landing, linen,
-  "work-room": workRoom, balcony: rear,
+  entrance, hall, garage, "boot-room": bootRoom, pantry, master, ensuite, "walk-in": walkIn, landing, linen,
+  "work-room": workRoom, balcony: rear, "front-balcony": frontBalcony,
 };

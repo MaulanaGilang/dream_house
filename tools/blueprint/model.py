@@ -140,6 +140,9 @@ def ground_walls():
         wall(6600, 0, 6600, 2600), wall(5600, 4400, 5600, 13000), wall(5600, 7800, 8000, 7800),
         wall(8000, 4400, 8000, 8400), wall(8000, 4400, 11000, 4400), wall(8000, 6800, 11000, 6800),
         wall(8000, 8400, 11000, 8400), wall(0, 6800, 4200, 6800),
+        # inner hall (round 5): a solid wall closes the stair off from the sitting room, and a short
+        # wing wall hides the guest-bath door; family and guests reach both around the corner
+        wall(6600, 4400, 8000, 4400), wall(6600, 2600, 6600, 3500),
     ]
     # terrace columns carrying the balcony above
     for x in (0, 2750, 5500, 8250, 11000):
@@ -165,7 +168,8 @@ def upper_walls():
 GF_ROOMS = [
     ("bedroom-2", "BEDROOM 2", box(0, 0, 4200, 4400)),
     ("guest-bath", "GUEST BATH", box(4200, 0, 6600, 2600)),
-    ("entrance", "ENTRANCE", unary_union([box(6600, 0, 11000, 4400), box(4200, 2600, 6600, 4400)])),
+    ("entrance", "ENTRANCE", box(6600, 0, 11000, 4400)),
+    ("hall", "HALL", box(4200, 2600, 6600, 4400)),
     ("workout", "WORKOUT", box(0, 4400, 4200, 6800)),
     ("boot-room", "BOOT ROOM", box(8000, 4400, 11000, 6800)),
     ("pantry", "PANTRY", box(8000, 6800, 11000, 8400)),
@@ -189,7 +193,7 @@ UF_ROOMS = [
 
 # Where to place room tags when the polygon centroid is a poor spot (house coords)
 TAG_AT = {
-    "entrance": (8800, 4000), "living": (2600, 9800), "kitchen": (7700, 12450), "bedroom-2": (3150, 950),
+    "entrance": (8800, 3900), "hall": (5300, 3600), "living": (2600, 9800), "kitchen": (7700, 12450), "bedroom-2": (3150, 950),
     "guest-bath": (5400, 1250), "workout": (1700, 6250), "laundry": (13300, 10000), "pantry": (9300, 7750),
     "walk-in": (2500, 5650), "linen": (7000, 8400),
     "master": (3000, 12000), "work-room": (9500, 6800), "terrace": (6300, 14500),

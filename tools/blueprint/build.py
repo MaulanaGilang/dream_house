@@ -504,24 +504,28 @@ def site_sheet():
     sh.text(R((lx0 + lx1) / 2, ly1 + 2600), "LAUNDRY YARD", 2.0, cls="bp-note")
     # driveway (site plan v6): it takes the whole gate and sweeps across to the straight run up the
     # right side, so cars never cross a planted bed; the front walk stops at the driveway's edge
-    def qb(p0, p1, p2, n=24):
-        return [((1 - u) ** 2 * p0[0] + 2 * (1 - u) * u * p1[0] + u ** 2 * p2[0],
-                 (1 - u) ** 2 * p0[1] + 2 * (1 - u) * u * p1[1] + u ** 2 * p2[1]) for u in (i / n for i in range(n + 1))]
-    inner = qb((M.FRONT_GATE[0], 0), (7600, 6500), (14000, 8800)) + [(14000, hy0)]
-    outer = qb((M.FRONT_GATE[1], 0), (13600, 4200), (16800, 6800)) + [(16800, hy0)]
-    drive = Polygon(inner + outer[::-1]).buffer(0).intersection(box(M.HEDGE_T, -10, M.PLOT_W - M.HEDGE_T, hy0))
+    # driveway (site plan v7): a 5 m two-car lane that enters through the gate and makes one smooth
+    # S into the straight run in front of the 5 m garage door; the front walk stops at its edge
+    from shapely.geometry import LineString
+    gc = M.HOUSE_ORIGIN[0] + (M.GARAGE[0] + M.GARAGE[2]) / 2          # garage centre, site x
+    p0, p1, p2, p3 = (sum(M.FRONT_GATE) / 2, 0), (sum(M.FRONT_GATE) / 2, 4800), (gc, 4200), (gc, 9800)
+    s_curve = [((1 - u) ** 3 * p0[0] + 3 * (1 - u) ** 2 * u * p1[0] + 3 * (1 - u) * u ** 2 * p2[0] + u ** 3 * p3[0],
+                (1 - u) ** 3 * p0[1] + 3 * (1 - u) ** 2 * u * p1[1] + 3 * (1 - u) * u ** 2 * p2[1] + u ** 3 * p3[1])
+               for u in (i / 48 for i in range(49))]
+    centre = LineString([(p0[0], -400)] + s_curve + [(gc, hy0)])
+    drive = centre.buffer(2500, cap_style=2, join_style=1).intersection(box(M.HEDGE_T, -10, M.PLOT_W - M.HEDGE_T, hy0))
     dr = T(drive)
     sh.hatch(dr, "DOTS", 1.4, layer="SITE"); sh.outline(dr, "SITE")
     # front walk: stepping stones + lavender, from the front door down to the driveway edge
-    walk_from = max(y for x, y in inner if x <= 10450 + 1) + 200
+    walk_from = next(y for y in range(0, 20000, 100) if not drive.intersects(box(9150, y, 10850, y + 100))) + 200
     for y in range(int(walk_from), 20700, 800):
         sh.rect(*R(9550, y), *R(10450, y + 500), "SITE")
     for x in (9150, 10850):
         for y in range(int(walk_from) + 100, 20600, 600):
             sh.circle(R(x, y), 220, "PLANT")
-    # columnar thuja along the straight run only (clear of the sweep)
-    for x in (13600, 17200):
-        for y in range(10000, 19500, 3000):
+    # columnar thuja either side of the straight run only (clear of the S)
+    for x in (gc - 3000, gc + 3000):
+        for y in range(11500, 19600, 2500):
             sh.circle(R(x, y), 450, "PLANT"); sh.circle(R(x, y), 150, "PLANT")
     # picnic tree: irregular canopy
     cx, cy, rr = 5200, 9500, 2800
