@@ -1,10 +1,11 @@
 // Cut the La Casa tour film into scroll frames.
 // Sources (design/film, not in git), three 10 s Kling 3.0 clips chained on shared keyframes:
-//   clipA gate -> aerial over the front garden (round 8: 3df837ca, -> aerial 8e38a77c)
-//   clipB aerial -> over the roof and the back balcony's cable pergola, level with the eave -> back lawn
-//         (round 8: db4f96a7, keyframes 8e38a77c -> 697198e4)
-//   clipC back lawn -> over the portal -> out over the cove -> turns to face the bluff and its stone
-//         stairs from the water (round 7: b591ba07, -> 2a9b662a). The joins are short dissolves.
+//   clipA gate -> aerial over the front garden (round 9: 90f643cb, -> aerial 9cd9aaf0)
+//   clipB aerial -> over the roof and the eave-level cable pergola -> back lawn: two 5 s halves through a
+//         mid keyframe that pins the geometry (0ca50a7a 9cd9aaf0 -> fb0121f3, 06b0f249 fb0121f3 -> 697198e4),
+//         joined into clipB.mp4 beforehand
+//   clipC back lawn -> over the portal -> out over the cove -> turns to face the bluff, the house centred
+//         behind the portal (round 9: 4e00309a, -> de3c1a2e). The joins are short dissolves.
 // Usage: node tools/film/build-frames.mjs
 import { execFileSync } from "node:child_process";
 import { mkdirSync, readdirSync, rmSync, writeFileSync } from "node:fs";

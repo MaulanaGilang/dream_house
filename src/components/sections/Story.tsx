@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
+import { gsap, useGSAP } from "@/lib/gsap";
 import { ArchMark } from "@/components/brand/ArchMark";
 import { photos, walk } from "@/data/house";
 
@@ -24,8 +24,7 @@ const BLOOMS: { img: "cascade" | "mound"; left: number; edge: "top" | "bottom"; 
 
 /**
  * The concept, "Above the cove" and the walk as ONE horizontal chapter: the page pins and the panels
- * travel sideways, while lush masses of maroon roses and lavender drift a little at their own depth. Once
- * the last panel stops, the walk draws itself left to right with the scroll. On phones the panels stack and one mass remains.
+ * travel sideways, while lush masses of maroon roses and lavender drift a little at their own depth. On phones the panels stack and one mass remains.
  */
 export function Story() {
   const root = useRef<HTMLElement>(null);
@@ -39,13 +38,10 @@ export function Story() {
         // the track's own width, not scrollWidth: flowers hanging past its end must not push the last
         // panel off centre
         const dist = () => el.offsetWidth - window.innerWidth;
-        // after the panels stop, the page stays pinned a little longer while the walk draws itself
-        const hold = () => window.innerHeight * 0.9;
-        const pin = ScrollTrigger.create({ trigger: root.current, start: "top top", end: () => `+=${dist() + hold()}`, pin: true, invalidateOnRefresh: true });
         const slide = gsap.to(el, {
           x: () => -dist(),
           ease: "none",
-          scrollTrigger: { trigger: root.current, start: "top top", end: () => `+=${dist()}`, scrub: 0.6, invalidateOnRefresh: true },
+          scrollTrigger: { trigger: root.current, start: "top top", end: () => `+=${dist()}`, pin: true, scrub: 0.6, invalidateOnRefresh: true },
         });
         // depth: the flowers drift a little against the track, nearer ones faster
         gsap.utils.toArray<HTMLElement>(".bloom").forEach((b) => {
@@ -61,23 +57,6 @@ export function Story() {
             xPercent: (1 - i) * 6, ease: "none",
             scrollTrigger: { trigger: ".cove-panel", containerAnimation: slide, start: "left right", end: "right left", scrub: 0.6 },
           });
-        });
-        // the walk is drawn left to right by the scroll while its panel stands still, each stop
-        // appearing as the line reaches it
-        const walkTl = gsap.timeline({
-          defaults: { ease: "none" },
-          // numeric positions from the pin: string ones on the pinned element would be pushed past it
-          scrollTrigger: { start: () => pin.start + dist(), end: () => pin.start + dist() + hold(), scrub: 0.6, invalidateOnRefresh: true },
-        });
-        walkTl.fromTo(".route", { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1 }, 0);
-        gsap.utils.toArray<SVGGElement>(".route-stop").forEach((s, i) => {
-          walkTl.fromTo(s, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.08 }, Math.max(0, STOPS[i] / 1200 - 0.04));
-        });
-      });
-      mm.add("(max-width: 1023px) and (prefers-reduced-motion: no-preference)", () => {
-        gsap.fromTo(".route", { strokeDashoffset: 1 }, {
-          strokeDashoffset: 0, ease: "none",
-          scrollTrigger: { trigger: ".walk-panel", start: "top 70%", end: "center 45%", scrub: 0.6 },
         });
       });
     },
@@ -155,7 +134,7 @@ export function Story() {
           </div>
           <div className="mx-auto mt-10 w-full max-w-[1400px] px-[var(--gutter)]">
             <svg viewBox="0 0 1200 260" className="w-full overflow-visible" role="img" aria-label="The walk from the front gate at 0 m, past the front door at 21 m, the terrace at 34 m and the arched portal at 50 m, down to the beach 6 m below">
-              <path className="route" d={ROUTE} fill="none" stroke="var(--color-ink)" strokeWidth="1.4" pathLength="1" strokeDasharray="1" />
+              <path className="route" d={ROUTE} fill="none" stroke="var(--color-ink)" strokeWidth="1.4" />
               {walk.map((w, i) => {
                 const x = STOPS[i];
                 const up = i % 2 === 0;

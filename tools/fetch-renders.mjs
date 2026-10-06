@@ -14,11 +14,11 @@ const RENDERS = {
   facade: "hf_20261004_113715_afaec0b4-c045-4a2e-91b4-878ca7781254.png",
   // round 3: single front gate, driveway curving inside the hedge into its right half (site plan v5)
   // round 5: two-car S driveway through the gate, walk stops at its edge (site plan v7; collage + clean-up)
-  aerial: "hf_20261006_033545_8e38a77c-4653-4718-b984-f3d8a3d6dc1b.png",
+  aerial: "hf_20261006_041955_9cd9aaf0-c365-4b8c-bbd0-7774f19b3e07.png",
   "front-balcony": "hf_20261005_130048_feb110a6-200b-4364-98ac-a4e9f9b29fb9.png",
   hall: "hf_20261005_130115_21dabdf0-e1c5-48d6-b7aa-8008f427bc17.png",
   portal: "hf_20261004_113715_91288aff-d94c-4b6b-b970-a1f7677f625e.png",
-  "cove-view": "hf_20261006_030133_ba2e90ad-6bc1-402d-8a7e-644b88fd03cc.png",
+  "cove-view": "hf_20261006_042002_de3c1a2e-7749-4a19-8498-bcb82de4af06.png",
   rear: "hf_20261006_025524_d431333f-753c-47bb-aae0-fb6b4482140c.png",
   terrace: "hf_20261004_113945_b97be51a-a64d-46ed-a51d-f5631e098aeb.png",
   laundry: "hf_20261004_113944_bd44d63f-d3fc-4c33-9ad3-1c56727a9ed0.png",
@@ -46,8 +46,9 @@ const RENDERS = {
 };
 
 // round 6: the back balcony gets a flowering pergola; round 7: rebuilt as ERA's cable pergola (square
-// limestone pillars, dark steel beams, taut cables): rear d431333f is the source for rear-night, master, cove-view; aerial 8e38a77c (canopy level with the
-// eave, as seen from a drone) is also the film's clip A/B keyframe; lush flower masses for the sideways story (ERA's bougainvillea, in maroon roses and lavender)
+// limestone pillars, dark steel beams, taut cables): rear d431333f is the source for rear-night and master. Round 9: aerial 9cd9aaf0 (one plain block, no side
+// terraces, canopy hidden behind the roof) and cove-view de3c1a2e (house centred behind the portal) are
+// also the film's keyframes; lush flower masses for the sideways story (ERA's bougainvillea, in maroon roses and lavender)
 Object.assign(RENDERS, {
   "bloom-cascade": "hf_20261005_140321_52f6ce6c-a4c4-4728-8a9f-efff0bf1f986.png",
   "bloom-mound": "hf_20261005_140322_4e59c7fc-8e7e-4f4c-9e73-d2dffde2a5b9.png",
