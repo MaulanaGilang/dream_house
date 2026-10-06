@@ -14,7 +14,7 @@ const RENDERS = {
   facade: "hf_20261004_113715_afaec0b4-c045-4a2e-91b4-878ca7781254.png",
   // round 3: single front gate, driveway curving inside the hedge into its right half (site plan v5)
   // round 5: two-car S driveway through the gate, walk stops at its edge (site plan v7; collage + clean-up)
-  aerial: "hf_20261006_025813_4762eca8-a7c8-4143-81c5-3cb57f71e1b3.png",
+  aerial: "hf_20261006_033545_8e38a77c-4653-4718-b984-f3d8a3d6dc1b.png",
   "front-balcony": "hf_20261005_130048_feb110a6-200b-4364-98ac-a4e9f9b29fb9.png",
   hall: "hf_20261005_130115_21dabdf0-e1c5-48d6-b7aa-8008f427bc17.png",
   portal: "hf_20261004_113715_91288aff-d94c-4b6b-b970-a1f7677f625e.png",
@@ -46,7 +46,8 @@ const RENDERS = {
 };
 
 // round 6: the back balcony gets a flowering pergola; round 7: rebuilt as ERA's cable pergola (square
-// limestone pillars, dark steel beams, taut cables): rear d431333f is the source for rear-night, master, aerial, cove-view; lush flower masses for the sideways story (ERA's bougainvillea, in maroon roses and lavender)
+// limestone pillars, dark steel beams, taut cables): rear d431333f is the source for rear-night, master, cove-view; aerial 8e38a77c (canopy level with the
+// eave, as seen from a drone) is also the film's clip A/B keyframe; lush flower masses for the sideways story (ERA's bougainvillea, in maroon roses and lavender)
 Object.assign(RENDERS, {
   "bloom-cascade": "hf_20261005_140321_52f6ce6c-a4c4-4728-8a9f-efff0bf1f986.png",
   "bloom-mound": "hf_20261005_140322_4e59c7fc-8e7e-4f4c-9e73-d2dffde2a5b9.png",

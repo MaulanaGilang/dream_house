@@ -2,9 +2,8 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { ArchMark } from "@/components/brand/ArchMark";
-import { WindBloom } from "@/components/brand/WindBloom";
 import { photos, walk } from "@/data/house";
 
 // One hand-set route curve; stops sit on it at these x positions (viewBox 0..1200).
@@ -25,8 +24,8 @@ const BLOOMS: { img: "cascade" | "mound"; left: number; edge: "top" | "bottom"; 
 
 /**
  * The concept, "Above the cove" and the walk as ONE horizontal chapter: the page pins and the panels
- * travel sideways, while lush masses of maroon roses and lavender move in the breeze (stems still, blooms
- * and leaf tips swaying) and drift at their own depth. On phones the panels stack and one mass remains.
+ * travel sideways, while lush masses of maroon roses and lavender drift a little at their own depth. Once
+ * the last panel stops, the walk draws itself left to right with the scroll. On phones the panels stack and one mass remains.
  */
 export function Story() {
   const root = useRef<HTMLElement>(null);
@@ -40,10 +39,13 @@ export function Story() {
         // the track's own width, not scrollWidth: flowers hanging past its end must not push the last
         // panel off centre
         const dist = () => el.offsetWidth - window.innerWidth;
+        // after the panels stop, the page stays pinned a little longer while the walk draws itself
+        const hold = () => window.innerHeight * 0.9;
+        const pin = ScrollTrigger.create({ trigger: root.current, start: "top top", end: () => `+=${dist() + hold()}`, pin: true, invalidateOnRefresh: true });
         const slide = gsap.to(el, {
           x: () => -dist(),
           ease: "none",
-          scrollTrigger: { trigger: root.current, start: "top top", end: () => `+=${dist()}`, pin: true, scrub: 0.6, invalidateOnRefresh: true },
+          scrollTrigger: { trigger: root.current, start: "top top", end: () => `+=${dist()}`, scrub: 0.6, invalidateOnRefresh: true },
         });
         // depth: the flowers drift a little against the track, nearer ones faster
         gsap.utils.toArray<HTMLElement>(".bloom").forEach((b) => {
@@ -60,13 +62,16 @@ export function Story() {
             scrollTrigger: { trigger: ".cove-panel", containerAnimation: slide, start: "left right", end: "right left", scrub: 0.6 },
           });
         });
-        gsap.fromTo(".route", { strokeDashoffset: 1 }, {
-          strokeDashoffset: 0, ease: "none",
-          scrollTrigger: { trigger: ".walk-panel", containerAnimation: slide, start: "left 85%", end: "center 55%", scrub: 0.6 },
+        // the walk is drawn left to right by the scroll while its panel stands still, each stop
+        // appearing as the line reaches it
+        const walkTl = gsap.timeline({
+          defaults: { ease: "none" },
+          // numeric positions from the pin: string ones on the pinned element would be pushed past it
+          scrollTrigger: { start: () => pin.start + dist(), end: () => pin.start + dist() + hold(), scrub: 0.6, invalidateOnRefresh: true },
         });
-        gsap.from(".route-stop", {
-          autoAlpha: 0, y: 12, stagger: 0.12, duration: 0.8, ease: "power2.out",
-          scrollTrigger: { trigger: ".walk-panel", containerAnimation: slide, start: "left 60%" },
+        walkTl.fromTo(".route", { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1 }, 0);
+        gsap.utils.toArray<SVGGElement>(".route-stop").forEach((s, i) => {
+          walkTl.fromTo(s, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.08 }, Math.max(0, STOPS[i] / 1200 - 0.04));
         });
       });
       mm.add("(max-width: 1023px) and (prefers-reduced-motion: no-preference)", () => {
@@ -91,11 +96,11 @@ export function Story() {
               className={`bloom absolute ${b.phone ? "" : "hidden lg:block"}`}
               style={{ left: `${b.left}vw`, [b.edge]: b.edge === "top" ? "-5vh" : "-4vh", width: `max(${b.w}vw, 15rem)` }}
             >
-              <WindBloom
-                image={b.img === "cascade" ? photos.bloomCascade : photos.bloomMound}
-                root={b.img === "cascade" ? "corner" : "base"}
-                seed={i}
-                className={`${b.flip ? "-scale-x-100" : ""} ${b.turn ? "rotate-180" : ""}`}
+              <Image
+                src={b.img === "cascade" ? photos.bloomCascade : photos.bloomMound}
+                alt=""
+                sizes="38vw"
+                className={`h-auto w-full ${b.flip ? "-scale-x-100" : ""} ${b.turn ? "rotate-180" : ""}`}
               />
             </div>
           ))}
