@@ -121,10 +121,6 @@ export function Preloader() {
 
   return (
     <div ref={root} aria-hidden="true" className="intro fixed inset-0 z-[80] overflow-hidden bg-maroon text-cream">
-      <p className="script pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[clamp(14rem,34vw,34rem)] leading-none opacity-[0.05]">
-        La Casa
-      </p>
-
       <div className="relative z-[1] flex h-full flex-col justify-between px-[var(--gutter)] py-[clamp(1.5rem,5vh,3.25rem)]">
         <div data-part className="flex justify-center">
           <svg viewBox="0 0 40 48" className="h-11 text-silver" aria-hidden="true">

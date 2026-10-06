@@ -254,12 +254,27 @@ export function Hero() {
         <div className="relative -mt-[0.46em] text-[clamp(4rem,1.4rem+7.4vw,11rem)]">
           <p className="hero-script script ml-[0.9em] -rotate-[10deg] pb-[0.15em] [text-shadow:0_2px_24px_oklch(20%_0.05_255/0.45)]">Indonesia</p>
         </div>
-        <div className="-mt-[clamp(1.5rem,3vw,3.5rem)] hidden w-full max-w-[1300px] grid-cols-[1fr_minmax(10rem,26vw)_1fr] items-center md:grid">
-          <p className="hero-flank caps justify-self-end text-right text-[clamp(1.8rem,0.8rem+1.8vw,3.4rem)]">A house</p>
-          <span />
-          <p className="hero-flank caps justify-self-start text-left text-[clamp(1.8rem,0.8rem+1.8vw,3.4rem)]">Above the cove</p>
-        </div>
-        <p className="hero-flank caps mt-2 text-[1.35rem] md:hidden">A house above the cove</p>
+        <p className="hero-flank caps mt-2 text-[1.35rem] [@media(min-width:1024px)_and_(min-aspect-ratio:16/10)]:hidden">A house above the cove</p>
+      </div>
+
+      {/* the flank words sit on the hedge either side of the gate: placed in the film frame's own
+          coordinates (it is drawn "cover"), so they stay on the hedge at any wide screen size */}
+      <div className="hero-title pointer-events-none absolute inset-0 hidden [container-type:size] [text-shadow:0_2px_30px_oklch(20%_0.05_255/0.45)] [@media(min-width:1024px)_and_(min-aspect-ratio:16/10)]:block">
+        {[
+          { text: "A house", x: 0.13 },
+          { text: "Above the cove", x: 0.87 },
+        ].map((f) => (
+          <span
+            key={f.text}
+            className="absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap"
+            style={{
+              left: `calc(50cqw + ${(f.x - 0.5).toFixed(2)} * max(100cqw, 177.78cqh))`,
+              top: "calc(50cqh + 0.155 * max(56.25cqw, 100cqh))",
+            }}
+          >
+            <span className="hero-flank caps block text-[clamp(1.8rem,0.8rem+1.8vw,3.4rem)]">{f.text}</span>
+          </span>
+        ))}
       </div>
 
       {chapters.map((c, i) => (

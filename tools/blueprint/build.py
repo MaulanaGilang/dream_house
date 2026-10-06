@@ -207,11 +207,18 @@ def furniture_ground(sh: Sheet):
 
 def furniture_upper(sh: Sheet):
     F = "FURN"
-    # back balcony: flowering timber pergola over (beams dashed, as everything overhead)
-    sh.rect(150, 13150, 10850, 15850, "ABOVE", "DASHED")
-    for x in range(1250, 10850, 1100):
-        sh.line((x, 13150), (x, 15850), "ABOVE", "DASHED")
-    sh.text((5500, 15400), "FLOWERING PERGOLA OVER", 1.6, align="BC", cls="bp-note")
+    # back balcony: ERA-style cable pergola. Five 350 mm limestone-clad pillars on the balustrade line
+    # over the terrace columns (cut, so drawn solid); overhead, dashed: a steel beam from each pillar
+    # back to the wall, and taut cables between the beams for the bougainvillea and roses
+    pillars = [(max(0, x - 175), 15650, min(11000, x + 175), 16000) for x in (175, 2750, 5500, 8250, 10825)]
+    for x0, y0, x1, y1 in pillars:
+        sh.hatch(box(x0, y0, x1, y1), "ANSI31", 0.55)
+        sh.rect(x0, y0, x1, y1, "WALL")
+        xc = (x0 + x1) / 2
+        sh.line((xc, 13000), (xc, y0), "ABOVE", "DASHED")
+    for y in range(13400, 15650, 375):
+        sh.line((175, y), (10825, y), "ABOVE", "HIDDEN")
+    sh.text((5500, 13350), "STEEL CABLE PERGOLA OVER, BOUGAINVILLEA + ROSES", 1.6, align="BC", cls="bp-note")
     # ensuite: freestanding tub under the arched window, shower, double vanity, WC
     from shapely.geometry import Point as Pt
     from shapely.affinity import scale as sc
@@ -372,6 +379,11 @@ def plan_sheet(slug, title, number, upper=False):
     stair(sh, upper)
     (furniture_upper if upper else furniture_ground)(sh)
     meta = room_tags(sh, rooms, solid)
+    # the stair is pickable on the web plan too, but carries no tag (it would sit on the treads)
+    s = M.STAIR
+    stair_net = box(s["x0"], s["y0"], s["x1"], s["y1"]).difference(solid)
+    sh.room("stairs", stair_net, "STAIR", stair_net.area / 1e6)
+    meta.append(dict(id="stairs", label="Stair", area=round(stair_net.area / 1e6, 1)))
 
     # dimension chains
     if upper:

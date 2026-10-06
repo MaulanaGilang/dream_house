@@ -14,21 +14,21 @@ const RENDERS = {
   facade: "hf_20261004_113715_afaec0b4-c045-4a2e-91b4-878ca7781254.png",
   // round 3: single front gate, driveway curving inside the hedge into its right half (site plan v5)
   // round 5: two-car S driveway through the gate, walk stops at its edge (site plan v7; collage + clean-up)
-  aerial: "hf_20261005_140821_729cb735-5e89-45cb-abe4-be159b5bb888.png",
+  aerial: "hf_20261006_025813_4762eca8-a7c8-4143-81c5-3cb57f71e1b3.png",
   "front-balcony": "hf_20261005_130048_feb110a6-200b-4364-98ac-a4e9f9b29fb9.png",
   hall: "hf_20261005_130115_21dabdf0-e1c5-48d6-b7aa-8008f427bc17.png",
   portal: "hf_20261004_113715_91288aff-d94c-4b6b-b970-a1f7677f625e.png",
-  "cove-view": "hf_20261005_140919_6f0ea3ee-f31a-4571-ad5e-322dbbfc6fe0.png",
-  rear: "hf_20261005_140325_0df94bef-e3b8-4aa5-aff6-da8affde8bd9.png",
+  "cove-view": "hf_20261006_030133_ba2e90ad-6bc1-402d-8a7e-644b88fd03cc.png",
+  rear: "hf_20261006_025524_d431333f-753c-47bb-aae0-fb6b4482140c.png",
   terrace: "hf_20261004_113945_b97be51a-a64d-46ed-a51d-f5631e098aeb.png",
   laundry: "hf_20261004_113944_bd44d63f-d3fc-4c33-9ad3-1c56727a9ed0.png",
-  "rear-night": "hf_20261005_140919_b7faab45-b778-4004-93e8-df2dec54bdab.png",
+  "rear-night": "hf_20261006_025808_62f27fdb-cdc1-4498-9c1e-01f2af57f509.png",
   living: "hf_20261004_113944_a4f384f9-7bef-45d5-b3e4-da48355a69a1.png",
   kitchen: "hf_20261004_113945_d6172376-5667-4e81-a259-f6e862257505.png",
   "bedroom-2": "hf_20261004_113946_6e6b7e6f-3391-4e47-aeb9-9ab19cab398b.png",
   "guest-bath": "hf_20261004_114455_d51a88ff-2926-4130-bbcf-f0045dbbaa3e.png",
   workout: "hf_20261004_114456_10860f53-6e2f-44cf-bc8b-4b53e871292c.png",
-  master: "hf_20261005_140821_85ade713-32f9-4bc6-9482-5c6bbb6bf523.png",
+  master: "hf_20261006_025810_bc94dacc-11ed-4639-9f9f-efba95c2d541.png",
   ensuite: "hf_20261004_114457_feafd5d7-e700-4e85-9a7a-2f2daabf1a69.png",
   "work-room": "hf_20261004_114456_6411475f-de81-4caa-b047-76f31f7f4f5e.png",
   // round 3: rooms that had no render, the entrance as a ruang tamu, and lavender + rose cut-outs
@@ -45,8 +45,8 @@ const RENDERS = {
   "rose-branch": "hf_20261005_083116_c8c908c8-bf5f-4599-9138-61396032bc65.png",
 };
 
-// round 6: the back balcony gets a flowering pergola (rear, rear-night, master, aerial, cove-view
-// re-rendered from rear 0df94bef); lush flower masses for the sideways story (ERA's bougainvillea, in maroon roses and lavender)
+// round 6: the back balcony gets a flowering pergola; round 7: rebuilt as ERA's cable pergola (square
+// limestone pillars, dark steel beams, taut cables): rear d431333f is the source for rear-night, master, aerial, cove-view; lush flower masses for the sideways story (ERA's bougainvillea, in maroon roses and lavender)
 Object.assign(RENDERS, {
   "bloom-cascade": "hf_20261005_140321_52f6ce6c-a4c4-4728-8a9f-efff0bf1f986.png",
   "bloom-mound": "hf_20261005_140322_4e59c7fc-8e7e-4f4c-9e73-d2dffde2a5b9.png",

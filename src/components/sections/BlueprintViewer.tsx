@@ -39,6 +39,8 @@ export function BlueprintViewer() {
   const isPlan = sheet === "ground" || sheet === "upper";
   const roomList = isPlan ? roomLists[sheet] : [];
   const pickedRoom = roomList.find((r) => r.id === picked) ?? null;
+  // the stair is seen from the inner hall downstairs and from the landing upstairs
+  const pickedPhoto = !pickedRoom ? undefined : pickedRoom.id === "stairs" ? (sheet === "upper" ? photos.landing : photos.hall) : planPhotos[pickedRoom.id];
 
   // load each sheet SVG once; tab switches after that are instant
   useEffect(() => {
@@ -218,8 +220,8 @@ export function BlueprintViewer() {
         {isPlan ? (
           <>
             <div className="relative aspect-[4/3] overflow-hidden bg-sky-2">
-              {pickedRoom && planPhotos[pickedRoom.id] ? (
-                <Image key={pickedRoom.id} src={planPhotos[pickedRoom.id]} alt={`Render of the ${pickedRoom.label.toLowerCase()}`} fill sizes="18rem" placeholder="blur" className="object-cover" />
+              {pickedRoom && pickedPhoto ? (
+                <Image key={`${sheet}-${pickedRoom.id}`} src={pickedPhoto} alt={pickedRoom.id === "stairs" ? `The stair, seen from the ${sheet === "upper" ? "landing" : "inner hall"}` : `Render of the ${pickedRoom.label.toLowerCase()}`} fill sizes="18rem" placeholder="blur" className="object-cover" />
               ) : (
                 <p className="body-small absolute inset-0 grid place-items-center p-6 text-center text-ink-2">
                   {pickedRoom ? "No render of this room. The drawing shows it all." : "Pick a room on the plan."}

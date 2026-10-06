@@ -4,6 +4,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { ArchMark } from "@/components/brand/ArchMark";
+import { WindBloom } from "@/components/brand/WindBloom";
 import { photos, walk } from "@/data/house";
 
 // One hand-set route curve; stops sit on it at these x positions (viewBox 0..1200).
@@ -14,17 +15,18 @@ const STOPS = [60, 300, 560, 830, 1150];
  * Flower masses on the sideways track (left in vw from the start of the track). Each one sits across the
  * join of two panels, ERA style, so the planting carries on from one slide into the next.
  */
-const BLOOMS: { img: "cascade" | "mound"; left: number; edge: "top" | "bottom"; w: number; flip?: boolean; depth: number; phone?: boolean }[] = [
+const BLOOMS: { img: "cascade" | "mound"; left: number; edge: "top" | "bottom"; w: number; flip?: boolean; turn?: boolean; depth: number; phone?: boolean }[] = [
   { img: "cascade", left: -6, edge: "top", w: 38, depth: 0.3, phone: true },
   { img: "mound", left: 80, edge: "bottom", w: 34, flip: true, depth: 0.7 },
-  { img: "cascade", left: 226, edge: "top", w: 36, flip: true, depth: 0.5 },
+  // turned upside down so it hangs from the top edge: its only straight cut stays above the screen
+  { img: "mound", left: 251, edge: "top", w: 18, turn: true, depth: 0.2 },
   { img: "mound", left: 330, edge: "bottom", w: 26, depth: 0.8 },
 ];
 
 /**
  * The concept, "Above the cove" and the walk as ONE horizontal chapter: the page pins and the panels
- * travel sideways, while lush masses of maroon roses and lavender sway in the breeze and drift at their
- * own depth. On phones the panels stack and one mass remains at the top.
+ * travel sideways, while lush masses of maroon roses and lavender move in the breeze (stems still, blooms
+ * and leaf tips swaying) and drift at their own depth. On phones the panels stack and one mass remains.
  */
 export function Story() {
   const root = useRef<HTMLElement>(null);
@@ -33,16 +35,11 @@ export function Story() {
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        // every mass breathes in the breeze, each on its own clock, pivoting where it is rooted
-        gsap.utils.toArray<HTMLElement>(".bloom-sway").forEach((el, i) => {
-          gsap.fromTo(el, { rotation: -1.6 - (i % 2) }, { rotation: 1.8 + (i % 3) * 0.6, duration: 3.6 + (i % 3) * 0.8, ease: "sine.inOut", yoyo: true, repeat: -1, delay: -i * 0.9 });
-          gsap.to(el, { scale: 1.025, duration: 5 + i, ease: "sine.inOut", yoyo: true, repeat: -1 });
-        });
-      });
       mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
         const el = track.current!;
-        const dist = () => el.scrollWidth - window.innerWidth;
+        // the track's own width, not scrollWidth: flowers hanging past its end must not push the last
+        // panel off centre
+        const dist = () => el.offsetWidth - window.innerWidth;
         const slide = gsap.to(el, {
           x: () => -dist(),
           ease: "none",
@@ -94,19 +91,12 @@ export function Story() {
               className={`bloom absolute ${b.phone ? "" : "hidden lg:block"}`}
               style={{ left: `${b.left}vw`, [b.edge]: b.edge === "top" ? "-5vh" : "-4vh", width: `max(${b.w}vw, 15rem)` }}
             >
-              <div
-                className="bloom-sway will-change-transform"
-                style={{ transformOrigin: b.edge === "top" ? (b.flip ? "100% 0%" : "0% 0%") : "50% 100%" }}
-              >
-                <Image
-                  src={b.img === "cascade" ? photos.bloomCascade : photos.bloomMound}
-                  alt=""
-                  width={1024}
-                  height={1024}
-                  sizes="38vw"
-                  className={`h-auto w-full ${b.flip ? "-scale-x-100" : ""}`}
-                />
-              </div>
+              <WindBloom
+                image={b.img === "cascade" ? photos.bloomCascade : photos.bloomMound}
+                root={b.img === "cascade" ? "corner" : "base"}
+                seed={i}
+                className={`${b.flip ? "-scale-x-100" : ""} ${b.turn ? "rotate-180" : ""}`}
+              />
             </div>
           ))}
         </div>

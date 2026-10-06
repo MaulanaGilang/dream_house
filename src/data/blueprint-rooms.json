@@ -59,6 +59,11 @@
       "id": "laundry",
       "label": "Laundry Yard",
       "area": 27.8
+    },
+    {
+      "id": "stairs",
+      "label": "Stair",
+      "area": 7.5
     }
   ],
   "upper": [
@@ -101,6 +106,11 @@
       "id": "front-balcony",
       "label": "Balcony",
       "area": 3.2
+    },
+    {
+      "id": "stairs",
+      "label": "Stair",
+      "area": 7.6
     }
   ]
 }

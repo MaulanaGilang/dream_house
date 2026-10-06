@@ -415,5 +415,6 @@
 <path class="bp-room" data-room="terrace" d="M2115.0 845.0 L2115.0 545.0 L1015.0 545.0 L1015.0 845.0 Z"><title>Covered Terrace, 32.4 m²</title></path>
 <path class="bp-room" data-room="garage" d="M2715.0 2145.0 L2715.0 1345.0 L2115.0 1345.0 L2115.0 2145.0 Z"><title>Garage, 44.1 m²</title></path>
 <path class="bp-room" data-room="laundry" d="M2715.0 1345.0 L2715.0 845.0 L2115.0 845.0 L2115.0 1345.0 Z"><title>Laundry Yard, 27.8 m²</title></path>
+<path class="bp-room" data-room="stairs" d="M1581.0 1705.0 L1581.0 1371.0 L1809.0 1371.0 L1809.0 1459.0 L1809.0 1471.0 L1809.0 1699.0 L1669.0 1699.0 L1669.0 1705.0 Z"><title>Stair, 7.5 m²</title></path>
 </g>
 </svg>
