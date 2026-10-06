@@ -189,6 +189,16 @@
 <path d="M1850.0 2145.0 L1850.0 2265.0 L2080.0 2265.0 L2080.0 2145.0" pathLength="1"/>
 </g>
 <g id="upper-above" class="bp-layer bp-above" data-layer="above" fill="none" stroke="currentColor" stroke-width="1.60" stroke-linecap="round" stroke-linejoin="round">
+<path class="d" d="M1030.0 830.0 L2100.0 830.0 L2100.0 560.0 L1030.0 560.0 Z" pathLength="1" stroke-dasharray="16.0 10.0"/>
+<path class="d" d="M1140.0 830.0 L1140.0 560.0" pathLength="1" stroke-dasharray="16.0 10.0"/>
+<path class="d" d="M1250.0 830.0 L1250.0 560.0" pathLength="1" stroke-dasharray="16.0 10.0"/>
+<path class="d" d="M1360.0 830.0 L1360.0 560.0" pathLength="1" stroke-dasharray="16.0 10.0"/>
+<path class="d" d="M1470.0 830.0 L1470.0 560.0" pathLength="1" stroke-dasharray="16.0 10.0"/>
+<path class="d" d="M1580.0 830.0 L1580.0 560.0" pathLength="1" stroke-dasharray="16.0 10.0"/>
+<path class="d" d="M1690.0 830.0 L1690.0 560.0" pathLength="1" stroke-dasharray="16.0 10.0"/>
+<path class="d" d="M1800.0 830.0 L1800.0 560.0" pathLength="1" stroke-dasharray="16.0 10.0"/>
+<path class="d" d="M1910.0 830.0 L1910.0 560.0" pathLength="1" stroke-dasharray="16.0 10.0"/>
+<path class="d" d="M2020.0 830.0 L2020.0 560.0" pathLength="1" stroke-dasharray="16.0 10.0"/>
 <path class="d" d="M1015.0 585.0 L1035.0 585.0 L1035.0 545.0 L1015.0 545.0 Z" pathLength="1" stroke-dasharray="16.0 10.0"/>
 <path class="d" d="M1270.0 585.0 L1310.0 585.0 L1310.0 545.0 L1270.0 545.0 Z" pathLength="1" stroke-dasharray="16.0 10.0"/>
 <path class="d" d="M1545.0 585.0 L1585.0 585.0 L1585.0 545.0 L1545.0 545.0 Z" pathLength="1" stroke-dasharray="16.0 10.0"/>
@@ -261,6 +271,7 @@
 </g>
 <g id="upper-text" class="bp-layer bp-text" data-layer="text" fill="currentColor" stroke="currentColor" stroke-width="1.30" stroke-linecap="round" stroke-linejoin="round">
 <text x="1754.5" y="1740.0" font-size="18.0" text-anchor="middle" dominant-baseline="central">DN</text>
+<text class="bp-note" x="1565.0" y="605.0" font-size="16.0" text-anchor="middle" dominant-baseline="auto">FLOWERING PERGOLA OVER</text>
 <text class="bp-note" x="2410.0" y="1745.0" font-size="16.0" text-anchor="middle" dominant-baseline="central">GARAGE ROOF</text>
 <text class="bp-note" x="2410.0" y="1775.0" font-size="16.0" text-anchor="middle" dominant-baseline="central">BELOW</text>
 <text class="bp-room-name" x="1304.5" y="1955.5" font-size="32.0" text-anchor="middle" dominant-baseline="central">ENSUITE</text>

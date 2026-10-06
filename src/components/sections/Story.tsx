@@ -10,26 +10,21 @@ import { photos, walk } from "@/data/house";
 const ROUTE = "M20 150 C140 150 160 92 280 112 S420 196 540 150 S700 70 820 118 S980 210 1080 160 S1160 120 1180 128";
 const STOPS = [60, 300, 560, 830, 1150];
 
-/** The garland: cut-outs strung along the whole track (left in % of the track), so they bridge every panel. */
-const GARLAND: { left: number; edge: "top" | "bottom"; w: number; rot: number; flip?: boolean; img: "a" | "b"; depth: number; phone?: boolean }[] = [
-  { left: -2, edge: "top", w: 19, rot: 180, img: "a", depth: 0.4, phone: true },
-  { left: 9, edge: "bottom", w: 16, rot: -8, img: "b", depth: 0.8 },
-  { left: 17, edge: "top", w: 14, rot: 160, flip: true, img: "b", depth: 0.5 },
-  { left: 24, edge: "bottom", w: 21, rot: 12, img: "a", depth: 1, phone: true },
-  { left: 33, edge: "top", w: 16, rot: 200, img: "a", depth: 0.7 },
-  { left: 42, edge: "bottom", w: 15, rot: -14, flip: true, img: "b", depth: 0.6 },
-  { left: 50, edge: "top", w: 19, rot: 170, img: "b", depth: 0.9, phone: true },
-  { left: 59, edge: "bottom", w: 17, rot: 6, img: "a", depth: 0.5 },
-  { left: 67, edge: "top", w: 14, rot: 190, flip: true, img: "a", depth: 0.8 },
-  { left: 75, edge: "bottom", w: 20, rot: -10, img: "b", depth: 1, phone: true },
-  { left: 84, edge: "top", w: 16, rot: 175, img: "b", depth: 0.6 },
-  { left: 93, edge: "bottom", w: 17, rot: 14, flip: true, img: "a", depth: 0.7 },
+/**
+ * Flower masses on the sideways track (left in vw from the start of the track). Each one sits across the
+ * join of two panels, ERA style, so the planting carries on from one slide into the next.
+ */
+const BLOOMS: { img: "cascade" | "mound"; left: number; edge: "top" | "bottom"; w: number; flip?: boolean; depth: number; phone?: boolean }[] = [
+  { img: "cascade", left: -6, edge: "top", w: 38, depth: 0.3, phone: true },
+  { img: "mound", left: 80, edge: "bottom", w: 34, flip: true, depth: 0.7 },
+  { img: "cascade", left: 226, edge: "top", w: 36, flip: true, depth: 0.5 },
+  { img: "mound", left: 330, edge: "bottom", w: 26, depth: 0.8 },
 ];
 
 /**
- * Concept, the bluff and the walk as ONE horizontal chapter: the page pins and the content travels
- * sideways while a garland of maroon roses and lavender, strung across every panel, sways and drifts at
- * its own depth. On phones the panels stack and only a few flowers remain.
+ * The concept, "Above the cove" and the walk as ONE horizontal chapter: the page pins and the panels
+ * travel sideways, while lush masses of maroon roses and lavender sway in the breeze and drift at their
+ * own depth. On phones the panels stack and one mass remains at the top.
  */
 export function Story() {
   const root = useRef<HTMLElement>(null);
@@ -39,10 +34,10 @@ export function Story() {
     () => {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        // every flower breathes in the breeze, each on its own clock
+        // every mass breathes in the breeze, each on its own clock, pivoting where it is rooted
         gsap.utils.toArray<HTMLElement>(".bloom-sway").forEach((el, i) => {
-          gsap.fromTo(el, { rotation: -3 - (i % 3) }, { rotation: 3 + (i % 2) * 2, duration: 3.2 + (i % 4) * 0.7, ease: "sine.inOut", yoyo: true, repeat: -1, delay: -i * 0.6 });
-          gsap.to(el, { y: (i % 2 ? -1 : 1) * 10, duration: 4.5 + (i % 3), ease: "sine.inOut", yoyo: true, repeat: -1 });
+          gsap.fromTo(el, { rotation: -1.6 - (i % 2) }, { rotation: 1.8 + (i % 3) * 0.6, duration: 3.6 + (i % 3) * 0.8, ease: "sine.inOut", yoyo: true, repeat: -1, delay: -i * 0.9 });
+          gsap.to(el, { scale: 1.025, duration: 5 + i, ease: "sine.inOut", yoyo: true, repeat: -1 });
         });
       });
       mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
@@ -53,15 +48,21 @@ export function Story() {
           ease: "none",
           scrollTrigger: { trigger: root.current, start: "top top", end: () => `+=${dist()}`, pin: true, scrub: 0.6, invalidateOnRefresh: true },
         });
-        // depth: the garland drifts a little against the track, nearer flowers faster
+        // depth: the flowers drift a little against the track, nearer ones faster
         gsap.utils.toArray<HTMLElement>(".bloom").forEach((b) => {
           const d = Number(b.dataset.depth ?? 0.5);
-          gsap.fromTo(b, { x: () => window.innerWidth * 0.12 * d }, {
-            x: () => -window.innerWidth * 0.12 * d, ease: "none",
+          gsap.fromTo(b, { x: () => window.innerWidth * 0.1 * d }, {
+            x: () => -window.innerWidth * 0.1 * d, ease: "none",
             scrollTrigger: { trigger: root.current, start: "top top", end: () => `+=${dist()}`, scrub: 0.6, invalidateOnRefresh: true },
           });
         });
-        // the route draws itself as the walk panel slides in
+        // the stacked words slide past each other a little, as ERA's "New Golden Mile" does
+        gsap.utils.toArray<HTMLElement>(".cove-word").forEach((w, i) => {
+          gsap.fromTo(w, { xPercent: (i - 1) * 12 }, {
+            xPercent: (1 - i) * 6, ease: "none",
+            scrollTrigger: { trigger: ".cove-panel", containerAnimation: slide, start: "left right", end: "right left", scrub: 0.6 },
+          });
+        });
         gsap.fromTo(".route", { strokeDashoffset: 1 }, {
           strokeDashoffset: 0, ease: "none",
           scrollTrigger: { trigger: ".walk-panel", containerAnimation: slide, start: "left 85%", end: "center 55%", scrub: 0.6 },
@@ -82,59 +83,71 @@ export function Story() {
   );
 
   return (
-    <section ref={root} id="cove" aria-label="The concept, the bluff and the walk" className="relative overflow-hidden lg:h-[100dvh]">
-      <div ref={track} className="relative flex flex-col lg:h-full lg:w-max lg:flex-row lg:items-center">
-        {/* garland across the whole track */}
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0">
-          {GARLAND.map((g, i) => (
+    <section ref={root} id="cove" aria-label="The concept, above the cove and the walk" className="relative overflow-hidden lg:h-[100dvh]">
+      <div ref={track} className="relative flex flex-col lg:h-full lg:w-[350vw] lg:flex-row">
+        {/* flower masses across the panel joins */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-[2]">
+          {BLOOMS.map((b, i) => (
             <div
               key={i}
-              data-depth={g.depth}
-              className={`bloom absolute ${g.phone ? "" : "hidden lg:block"}`}
-              style={{ left: `${g.left}%`, [g.edge]: g.edge === "top" ? "-7vh" : "-9vh", width: `min(${g.w}vw, ${g.w * 15}px)` }}
+              data-depth={b.depth}
+              className={`bloom absolute ${b.phone ? "" : "hidden lg:block"}`}
+              style={{ left: `${b.left}vw`, [b.edge]: b.edge === "top" ? "-5vh" : "-4vh", width: `max(${b.w}vw, 15rem)` }}
             >
-              <div className="bloom-sway origin-center will-change-transform">
-                <Image src={g.img === "a" ? photos.lavenderRoses : photos.roseBranch} alt="" width={600} height={600} className="h-auto w-full" style={{ transform: `rotate(${g.rot}deg)${g.flip ? " scaleX(-1)" : ""}` }} />
+              <div
+                className="bloom-sway will-change-transform"
+                style={{ transformOrigin: b.edge === "top" ? (b.flip ? "100% 0%" : "0% 0%") : "50% 100%" }}
+              >
+                <Image
+                  src={b.img === "cascade" ? photos.bloomCascade : photos.bloomMound}
+                  alt=""
+                  width={1024}
+                  height={1024}
+                  sizes="38vw"
+                  className={`h-auto w-full ${b.flip ? "-scale-x-100" : ""}`}
+                />
               </div>
             </div>
           ))}
         </div>
 
-        {/* 1 · the concept */}
+        {/* 1 · the concept, set wide and centred as ERA's */}
         <article aria-labelledby="concept-title" className="relative z-[1] flex w-full shrink-0 flex-col items-center justify-center px-[var(--gutter)] py-[var(--space-section)] text-center lg:h-full lg:w-[100vw] lg:py-0">
           <p className="label">The concept</p>
-          <h2 id="concept-title" className="caps mt-8 max-w-[24ch] text-[length:var(--text-statement)] leading-[0.95]">
+          <h2 id="concept-title" className="caps mt-10 max-w-[30ch] text-[clamp(2.2rem,1rem+3vw,4.6rem)] leading-[0.98]">
             La Casa is a family house of two floors and two bedrooms, closed in by a hedge and open to the sea
           </h2>
-          <p className="body-small mt-12 max-w-[40ch] text-ink-2">
+          <p className="body-small mt-12 max-w-[42ch] text-ink-2">
             Soft-modern Mediterranean, between classic and modern: lime plaster, rounded corners, tall arches on both floors
             and a low terracotta roof with wide eaves for tropical rain.
           </p>
           <ArchMark className="mt-12 h-10" />
         </article>
 
-        {/* 2 · six metres above the sea */}
-        <div className="relative z-[1] flex shrink-0 flex-col gap-12 px-[var(--gutter)] py-[var(--space-section)] lg:h-full lg:flex-row lg:items-center lg:gap-[6vw] lg:px-[4vw] lg:py-0">
-          <h2 id="bluff-title" className="display flex flex-col text-[length:var(--text-mega)] lg:flex-row lg:items-center lg:gap-[4vw]">
-            <span>Six</span>
-            <span className="label tracking-[0.9em] lg:order-first">Indonesia</span>
-            <span>metres</span>
+        {/* 2 · above the cove: stacked words around a tall photo, as ERA's "New Golden Mile" */}
+        <article aria-labelledby="cove-title" className="cove-panel relative z-[1] flex w-full shrink-0 flex-col gap-10 px-[var(--gutter)] py-[var(--space-section)] lg:block lg:h-full lg:w-[150vw] lg:p-0">
+          <h2 id="cove-title" className="display relative z-[1] flex flex-col text-[clamp(4.5rem,1rem+10vw,12.5rem)] leading-[0.86] lg:absolute lg:left-[24vw] lg:top-1/2 lg:-translate-y-1/2">
+            <span className="cove-word block lg:pl-[9vw]">Above</span>
+            <span className="cove-word block lg:pl-[22vw]">the</span>
+            <span className="cove-word block">cove</span>
           </h2>
-          <figure className="relative aspect-[4/5] w-full shrink-0 overflow-hidden lg:aspect-auto lg:h-[70dvh] lg:w-[32vw]">
-            <Image src={photos.portal} alt="The arched plaster portal in the back hedge, with the cove and its headlands beyond" fill sizes="(min-width: 1024px) 32vw, 92vw" placeholder="blur" className="object-cover" />
+          <p className="caps text-[clamp(1.3rem,0.6rem+1.4vw,2.4rem)] tracking-[0.75em] lg:absolute lg:left-[3vw] lg:top-1/2 lg:-translate-y-1/2" aria-hidden="true">
+            Indonesia
+          </p>
+          <figure className="relative aspect-[4/5] w-full overflow-hidden lg:absolute lg:left-[55vw] lg:top-[6vh] lg:aspect-auto lg:h-[88dvh] lg:w-[36vw]">
+            <Image src={photos.portal} alt="The arched plaster portal in the back hedge, with the cove and its headlands beyond" fill sizes="(min-width: 1024px) 36vw, 92vw" placeholder="blur" className="object-cover" />
           </figure>
-          <p className="display text-[length:var(--text-mega)] lg:whitespace-nowrap">above the sea</p>
-          <div className="max-w-[30ch] shrink-0 lg:max-w-[26ch]">
-            <h3 className="caps text-[length:var(--text-caps)]">A cove for one house</h3>
+          <div className="max-w-[34ch] lg:absolute lg:bottom-[8vh] lg:left-[95vw]">
+            <h3 className="caps text-[clamp(1.8rem,1rem+1.6vw,3rem)] leading-none">Six metres above the sea</h3>
             <p className="body-small mt-5 text-ink-2">
               Behind the arched portal the garden stops at a limestone bluff. Stone stairs in three flights of twelve go
               down to white sand, closed in by two headlands so the beach is seen only from the house and the sea.
             </p>
           </div>
-          <figure className="relative aspect-[16/10] w-full shrink-0 overflow-hidden lg:aspect-auto lg:h-[56dvh] lg:w-[44vw]">
-            <Image src={photos.coveView} alt="The beach, the bluff with its stone stairs and the arched portal, seen from the water" fill sizes="(min-width: 1024px) 44vw, 92vw" placeholder="blur" className="object-cover" />
+          <figure className="relative aspect-[16/10] w-full overflow-hidden lg:absolute lg:left-[95vw] lg:top-[8vh] lg:aspect-auto lg:h-[48dvh] lg:w-[44vw]">
+            <Image src={photos.coveView} alt="The beach, the bluff with its stone stairs and the arched portal, seen from the water" fill sizes="(min-width: 1024px) 46vw, 92vw" placeholder="blur" className="object-cover" />
           </figure>
-        </div>
+        </article>
 
         {/* 3 · from the road down to the sand */}
         <article aria-labelledby="walk-title" className="walk-panel relative z-[1] flex w-full shrink-0 flex-col justify-center py-[var(--space-section)] lg:h-full lg:w-[100vw] lg:py-0">

@@ -1,11 +1,9 @@
 // Cut the La Casa tour film into scroll frames.
-// Sources (design/film, not in git):
-//   clip1d gate -> aerial (Kling f8f5e1cd, round 5: two-car S driveway through the gate, site plan v7)
-//   clip1e aerial -> roof (Kling 2dc2301c, ends on clip2's frame at 3.0 s)
-//   clip2  roof -> back lawn, used from 3.0 s to 6.2 s (later frames add pedestals that are not in the plan)
-//   clip3c back lawn -> over the portal and the stone stairs -> turns to face the bluff from the water
-//          (Kling f74ae393, starts on clip2's 6.2 s frame, ends on clip4's first frame)
-//   clip4  cove drift. The joins are short dissolves.
+// Sources (design/film, not in git), round 6, three 10 s Kling 3.0 clips chained on shared keyframes:
+//   clipA gate -> aerial over the front garden (a76b20f7; S driveway, site plan v7)
+//   clipB aerial -> over the roof and the flowering back-balcony pergola -> back lawn (085ddc61)
+//   clipC back lawn -> over the portal -> out over the cove -> turns to face the bluff and its stone
+//         stairs from the water (338b17ed). The joins are short dissolves.
 // Usage: node tools/film/build-frames.mjs
 import { execFileSync } from "node:child_process";
 import { mkdirSync, readdirSync, rmSync, writeFileSync } from "node:fs";
@@ -18,6 +16,8 @@ const SRC = path.resolve("design/film");
 const OUT = path.resolve("public/film");
 const TMP = path.join(os.tmpdir(), "lacasa-frames");
 const FPS = 12;
+// film time (s) of each scroll chapter: the full aerial over the front garden, the view over the house to the cove
+const CHAPTER_SECONDS = [9.7, 20.6];
 
 rmSync(TMP, { recursive: true, force: true });
 mkdirSync(TMP, { recursive: true });
@@ -27,18 +27,14 @@ const c = (n) => path.join(SRC, `clip${n}.mp4`);
 const norm = "scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080,setsar=1,fps=24,format=yuv420p";
 const filter = [
   `[0:v]trim=0:10,setpts=PTS-STARTPTS,${norm}[a]`,
-  `[1:v]trim=0:5,setpts=PTS-STARTPTS,${norm}[b]`,
-  `[2:v]trim=3.0:6.2,setpts=PTS-STARTPTS,${norm}[c]`,
-  `[3:v]trim=0:10,setpts=PTS-STARTPTS,${norm}[d]`,
-  `[4:v]trim=0:5,setpts=PTS-STARTPTS,${norm}[e]`,
+  `[1:v]trim=0:10,setpts=PTS-STARTPTS,${norm}[b]`,
+  `[2:v]trim=0:10,setpts=PTS-STARTPTS,${norm}[c]`,
   "[a][b]xfade=transition=fade:duration=0.3:offset=9.7[ab]",
-  "[ab][c]xfade=transition=fade:duration=0.3:offset=14.4[abc]",
-  "[abc][d]xfade=transition=fade:duration=0.3:offset=17.3[abcd]",
-  "[abcd][e]xfade=transition=fade:duration=0.3:offset=27.0[film]",
+  "[ab][c]xfade=transition=fade:duration=0.3:offset=19.4[film]",
   `[film]fps=${FPS}[out]`,
 ].join(";");
 
-execFileSync(ffmpeg, ["-hide_banner", "-loglevel", "error", "-y", "-i", c("1d"), "-i", c("1e"), "-i", c(2), "-i", c("3c"), "-i", c(4),
+execFileSync(ffmpeg, ["-hide_banner", "-loglevel", "error", "-y", "-i", c("A"), "-i", c("B"), "-i", c("C"),
   "-filter_complex", filter, "-map", "[out]", path.join(TMP, "f%04d.png")], { stdio: "inherit" });
 
 const frames = readdirSync(TMP).filter((f) => f.endsWith(".png")).sort();
@@ -52,7 +48,7 @@ for (const [i, f] of frames.entries()) {
   const src = path.join(TMP, f);
   // WebP rather than AVIF: same weight here, but it decodes several times faster while scrubbing
   const name = `f${String(i + 1).padStart(3, "0")}.webp`;
-  const d = await sharp(src).resize({ width: 1920 }).webp({ quality: 74, effort: 4 })
+  const d = await sharp(src).resize({ width: 1920 }).webp({ quality: 84, effort: 4 })
     .toFile(path.join(OUT, "desktop", name));
   const meta = await sharp(src).metadata();
   const cw = Math.round((meta.height * 9) / 16);
@@ -64,6 +60,8 @@ for (const [i, f] of frames.entries()) {
 }
 console.log(`${frames.length} frames · desktop ${(bytes.desktop / 1e6).toFixed(1)} MB · mobile ${(bytes.mobile / 1e6).toFixed(1)} MB`);
 rmSync(TMP, { recursive: true, force: true });
-writeFileSync(path.resolve("src/data/film.json"), JSON.stringify({ count: frames.length }) + "\n");
-// light 1280 px set the canvas shows while gliding
-execFileSync(process.execPath, [path.resolve("tools/film/build-lite.mjs")], { stdio: "inherit" });
+// the hero's scroll chapters, as fractions of the film: the drone over the front garden, then over
+// the house to the cove (the last chapter is the end of the film, the house seen from the cove)
+const total = frames.length / FPS;
+const chapters = CHAPTER_SECONDS.map((t) => Number((t / total).toFixed(3)));
+writeFileSync(path.resolve("src/data/film.json"), JSON.stringify({ count: frames.length, chapters }) + "\n");

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { CaretLeft, CaretRight, DownloadSimple } from "@phosphor-icons/react/dist/ssr";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
-import { planPhotos, roomLists, sheets, type SheetId } from "@/data/house";
+import { photos, planPhotos, roomLists, sheets, type SheetId } from "@/data/house";
 
 const notes: Record<"site" | "section", { term: string; detail: string }[]> = {
   site: [
@@ -246,6 +246,15 @@ export function BlueprintViewer() {
             </ul>
           </>
         ) : (
+          <>
+          {sheet === "site" && (
+            <figure>
+              <div className="relative aspect-[4/3] overflow-hidden bg-sky-2">
+                <Image src={photos.coveView} alt="The stone stairs down the bluff from the arched portal to the beach" fill sizes="18rem" placeholder="blur" className="object-cover" />
+              </div>
+              <figcaption className="label mt-3 opacity-70">The stone stairs, from the cove</figcaption>
+            </figure>
+          )}
           <dl className="grid gap-3">
             {notes[sheet as "site" | "section"].map((n) => (
               <div key={n.term} className="flex items-baseline justify-between gap-4 border-b border-ink/15 pb-3">
@@ -254,6 +263,7 @@ export function BlueprintViewer() {
               </div>
             ))}
           </dl>
+          </>
         )}
         <a
           href={`/blueprints/${meta.number}-${meta.id}.dxf`}

@@ -39,18 +39,25 @@ export function Rooms() {
 
       <div className="pb-[var(--space-section)]">
         <div className="relative mx-auto aspect-[16/9] w-[min(92vw,1300px)] overflow-hidden bg-cream-2">
-          {rooms.map((r, k) => (
-            <Image
-              key={r.id}
-              src={r.image}
-              alt={r.alt}
-              fill
-              sizes="(min-width: 1400px) 1300px, 92vw"
-              placeholder="blur"
-              aria-hidden={k !== i}
-              className={`object-cover transition-[opacity,transform] duration-[1000ms] ease-[var(--ease-out)] ${k === i ? "scale-100 opacity-100" : "scale-[1.03] opacity-0"}`}
-            />
-          ))}
+          {/* only the current room and its neighbours are mounted, and fetched at once (not lazily), so
+              the next slide is already sharp when you get to it */}
+          {rooms.map((r, k) => {
+            const d = Math.min((k - i + rooms.length) % rooms.length, (i - k + rooms.length) % rooms.length);
+            if (d > 1) return null;
+            return (
+              <Image
+                key={r.id}
+                src={r.image}
+                alt={r.alt}
+                fill
+                loading="eager"
+                sizes="(min-width: 1400px) 1300px, 92vw"
+                quality={85}
+                aria-hidden={k !== i}
+                className={`object-cover transition-[opacity,transform] duration-[1000ms] ease-[var(--ease-out)] ${k === i ? "scale-100 opacity-100" : "scale-[1.03] opacity-0"}`}
+              />
+            );
+          })}
         </div>
         <div className="wrap mt-8 flex flex-col items-center gap-4 text-center" aria-live="polite">
           <div className="flex items-center gap-4">
@@ -68,7 +75,7 @@ export function Rooms() {
           </div>
           <h3 className="display text-[clamp(2.8rem,1.6rem+4vw,6rem)]">{room.name}</h3>
           <p className="label opacity-70">
-            {room.floor} floor{area ? `, ${area.toFixed(1)} m² net` : ""}
+            {room.floor === "Garden" ? "Garden and bluff" : `${room.floor} floor`}{area ? `, ${area.toFixed(1)} m² net` : ""}
           </p>
           <p className="body-small max-w-[44ch] text-ink-2">{room.note}</p>
         </div>

@@ -26,12 +26,27 @@ export function Reasons() {
         const layers = gsap.utils.toArray<HTMLElement>(".reason-layer");
         const pics = gsap.utils.toArray<HTMLElement>(".reason-pic");
         const copies = gsap.utils.toArray<HTMLElement>(".reason-copy");
-        // the arch window is written out by hand each frame: browsers shorten inset(... round ...), which
-        // throws off GSAP's string interpolation, so one progress value drives the whole shape
+        // A true arch window (straight sides, semicircular head), as in the intro: it rises narrow from
+        // the bottom, then widens past the screen edges. Drawn as a clip-path path in px from one
+        // progress value p (0 = hidden below, 1 = the whole screen).
         const arch = (el: HTMLElement, p: number) => {
-          el.style.clipPath = `inset(${(p * 100).toFixed(2)}% 0% 0% 0% round ${(48 * p).toFixed(2)}vw ${(48 * p).toFixed(2)}vw 0 0)`;
+          const vw = stage.current!.clientWidth;
+          const vh = stage.current!.clientHeight;
+          const w0 = Math.min(vw * 0.3, vh * 0.42);
+          const full = Math.max(vw, vh) * 1.7;
+          const rEnd = full / 2;
+          const yEnd = Math.sqrt(rEnd * rEnd - (vw / 2) ** 2) - rEnd - 10; // arc clears the top corners
+          const rise = gsap.parseEase("power3.out")(Math.min(1, p / 0.45));
+          const widen = gsap.parseEase("power2.inOut")(Math.max(0, (p - 0.4) / 0.6));
+          const w = w0 + (full - w0) * widen;
+          const yMid = vh * 0.18;
+          const y = vh + 20 + (yMid - vh - 20) * rise + (yEnd - yMid) * widen;
+          const r = w / 2;
+          const x0 = vw / 2 - r;
+          const x1 = vw / 2 + r;
+          el.style.clipPath = `path("M${x0.toFixed(1)} ${vh + 2} L${x0.toFixed(1)} ${(y + r).toFixed(1)} A${r.toFixed(1)} ${r.toFixed(1)} 0 0 1 ${x1.toFixed(1)} ${(y + r).toFixed(1)} L${x1.toFixed(1)} ${vh + 2} Z")`;
         };
-        layers.slice(1).forEach((el) => arch(el, 1));
+        layers.slice(1).forEach((el) => arch(el, 0));
         gsap.set(copies.slice(1), { autoAlpha: 0, y: 70 });
         const tl = gsap.timeline({
           defaults: { ease: "none" },
@@ -44,19 +59,23 @@ export function Reasons() {
             onUpdate: (self) => setActive(Math.round(self.progress * (n - 1))),
           },
         });
+        const states = layers.map(() => ({ p: 0 }));
+        const repaint = () => layers.forEach((el, i) => i > 0 && arch(el, states[i].p));
+        window.addEventListener("resize", repaint);
         for (let i = 1; i < n; i++) {
           const at = i - 1 + 0.12;
-          const s = { p: 1 };
-          tl.to(s, { p: 0, duration: 0.7, ease: "power2.inOut", onUpdate: () => arch(layers[i], s.p) }, at)
+          const s = states[i];
+          tl.to(s, { p: 1, duration: 0.75, onUpdate: () => arch(layers[i], s.p) }, at)
             .to(pics[i - 1], { scale: 1.08, yPercent: -4, duration: 0.7 }, at)
             .to(copies[i - 1], { autoAlpha: 0, y: -50, duration: 0.3 }, at)
-            .to(copies[i], { autoAlpha: 1, y: 0, duration: 0.35, ease: "power2.out" }, at + 0.45);
+            .to(copies[i], { autoAlpha: 1, y: 0, duration: 0.3, ease: "power2.out" }, at + 0.5);
         }
         tl.to({}, { duration: 0.18 }, n - 1 - 0.18);
         trigger.current = tl.scrollTrigger!;
         const stop = chapterSnap(tl.scrollTrigger!, reasons.map((_, i) => i / (n - 1)));
         return () => {
           stop();
+          window.removeEventListener("resize", repaint);
           trigger.current = null;
           layers.forEach((el) => (el.style.clipPath = ""));
         };

@@ -2,6 +2,8 @@
 
 import aerial from "@/assets/photos/aerial.webp";
 import bedroom2 from "@/assets/photos/bedroom-2.webp";
+import bloomCascade from "@/assets/photos/bloom-cascade.webp";
+import bloomMound from "@/assets/photos/bloom-mound.webp";
 import bootRoom from "@/assets/photos/boot-room.webp";
 import coveView from "@/assets/photos/cove-view.webp";
 import ensuite from "@/assets/photos/ensuite.webp";
@@ -33,7 +35,7 @@ import roomsFromPlans from "./blueprint-rooms.json";
 export const HOUSE_NAME = "La Casa";
 
 export const photos = {
-  aerial, bedroom2, bootRoom, coveView, ensuite, entrance, facade, frontBalcony, garage, gate, guestBath, hall, kitchen, landing, laundry,
+  aerial, bedroom2, bloomCascade, bloomMound, bootRoom, coveView, ensuite, entrance, facade, frontBalcony, garage, gate, guestBath, hall, kitchen, landing, laundry,
   lavenderRoses, linen, living, master, pantry, portal, rear, rearNight, roseBranch, terrace, walkIn, workRoom, workout,
 };
 
@@ -76,7 +78,7 @@ export const reasons: Reason[] = [
   },
 ];
 
-export type Room = { id: string; name: string; floor: "Ground" | "Upper"; note: string; image: StaticImageData; alt: string };
+export type Room = { id: string; name: string; floor: "Ground" | "Upper" | "Garden"; note: string; image: StaticImageData; alt: string };
 
 export const rooms: Room[] = [
   { id: "entrance", name: "Entrance sitting room", floor: "Ground", image: entrance,
@@ -130,6 +132,12 @@ export const rooms: Room[] = [
   { id: "front-balcony", name: "Front balcony", floor: "Upper", image: frontBalcony,
     note: "A coffee table's worth of balcony off the work room, above the front door, looking down the walk to the gate.",
     alt: "Small limestone balcony with a bistro table and lavender pots, looking over the front garden, the S-shaped driveway and the gate" },
+  { id: "balcony", name: "Back balcony", floor: "Upper", image: rear,
+    note: "Eleven metres long over the terrace, shaded by a pergola grown over with crimson bougainvillea and climbing roses.",
+    alt: "The back of the house: a flowering pergola of crimson bougainvillea and roses over the long upper balcony, four arches below" },
+  { id: "stairs", name: "Stone stairs", floor: "Garden", image: coveView,
+    note: "Through the arched portal and down the six-metre bluff: three flights of twelve limestone steps with an iron rail, to the sand.",
+    alt: "Stone switchback stairs with a black wrought-iron rail down the limestone bluff from the arched portal to the beach" },
 ];
 
 /** The walk from the road to the sand, measured along the plot (site plan v6). */

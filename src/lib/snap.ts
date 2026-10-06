@@ -8,7 +8,8 @@ import { getLenis } from "@/lib/scroll";
  * inside a pinned scene, a 1.2 s glide to the next stop in the direction of travel. `stops` are scroll
  * progress values (0..1) of the trigger. Lenis is created after layout effects, so it is looked up late.
  */
-export function chapterSnap(st: ScrollTrigger, stops: number[]) {
+export function chapterSnap(st: ScrollTrigger, stops: number[], opts: { duration?: number } = {}) {
+  const duration = opts.duration ?? 1.2;
   let timer = 0;
   let dir = 1;
   let lastY = window.scrollY;
@@ -19,7 +20,8 @@ export function chapterSnap(st: ScrollTrigger, stops: number[]) {
     if (stops.some((s) => Math.abs(s - p) < 0.004)) return;
     const next = dir > 0 ? stops.find((s) => s > p) : [...stops].reverse().find((s) => s < p);
     if (next === undefined) return;
-    getLenis()?.scrollTo(st.start + next * (st.end - st.start), { duration: 1.2, easing: (t: number) => 1 - (1 - t) ** 3 });
+    const easing = duration > 1.4 ? (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2) : (t: number) => 1 - (1 - t) ** 3;
+    getLenis()?.scrollTo(st.start + next * (st.end - st.start), { duration, easing });
   };
   const onScroll = () => {
     const y = window.scrollY;

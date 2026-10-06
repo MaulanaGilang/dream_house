@@ -14,7 +14,7 @@ const tiles = [
 export function Materials() {
   return (
     <section id="materials" aria-labelledby="materials-title" className="relative overflow-hidden py-[var(--space-section)]">
-      <Image src={photos.lavenderRoses} alt="" aria-hidden="true" width={700} height={707} className="pointer-events-none absolute -right-[6vw] -top-[2vw] w-[min(30vw,420px)] rotate-[150deg]" />
+      <Image src={photos.lavenderRoses} alt="" aria-hidden="true" width={700} height={707} className="pointer-events-none absolute -right-[6vw] -top-[2vw] w-[min(30vw,420px)] -scale-x-100 -rotate-[150deg]" />
       <div className="wrap relative">
         <h2 id="materials-title" data-reveal className="caps mx-auto max-w-[22ch] text-center text-[length:var(--text-statement)] leading-[0.95]">
           Plaster outside, glaze inside

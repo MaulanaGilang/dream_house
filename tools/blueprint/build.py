@@ -207,6 +207,11 @@ def furniture_ground(sh: Sheet):
 
 def furniture_upper(sh: Sheet):
     F = "FURN"
+    # back balcony: flowering timber pergola over (beams dashed, as everything overhead)
+    sh.rect(150, 13150, 10850, 15850, "ABOVE", "DASHED")
+    for x in range(1250, 10850, 1100):
+        sh.line((x, 13150), (x, 15850), "ABOVE", "DASHED")
+    sh.text((5500, 15400), "FLOWERING PERGOLA OVER", 1.6, align="BC", cls="bp-note")
     # ensuite: freestanding tub under the arched window, shower, double vanity, WC
     from shapely.geometry import Point as Pt
     from shapely.affinity import scale as sc
