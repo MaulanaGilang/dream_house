@@ -40,18 +40,22 @@ execFileSync(ffmpeg, ["-hide_banner", "-loglevel", "error", "-y", "-i", c("A"), 
   "-filter_complex", filter, "-map", "[out]", path.join(TMP, "f%04d.png")], { stdio: "inherit" });
 
 const frames = readdirSync(TMP).filter((f) => f.endsWith(".png")).sort();
-for (const set of ["desktop", "mobile"]) {
+for (const set of ["desktop", "desktop-lite", "mobile"]) {
   rmSync(path.join(OUT, set), { recursive: true, force: true });
   mkdirSync(path.join(OUT, set), { recursive: true });
 }
 
-let bytes = { desktop: 0, mobile: 0 };
+let bytes = { desktop: 0, lite: 0, mobile: 0 };
 for (const [i, f] of frames.entries()) {
   const src = path.join(TMP, f);
   // WebP rather than AVIF: same weight here, but it decodes several times faster while scrubbing
   const name = `f${String(i + 1).padStart(3, "0")}.webp`;
   const d = await sharp(src).resize({ width: 1920 }).webp({ quality: 84, effort: 4 })
     .toFile(path.join(OUT, "desktop", name));
+  // light set for motion: the whole film loads fast and scrubs smoothly; the sharp frame replaces it at rest
+  const l = await sharp(src).resize({ width: 1280 }).webp({ quality: 72, effort: 4 })
+    .toFile(path.join(OUT, "desktop-lite", name));
+  bytes.lite += l.size;
   const meta = await sharp(src).metadata();
   const cw = Math.round((meta.height * 9) / 16);
   const m = await sharp(src).extract({ left: Math.round((meta.width - cw) / 2), top: 0, width: cw, height: meta.height })
@@ -60,7 +64,7 @@ for (const [i, f] of frames.entries()) {
   bytes.mobile += m.size;
   if (i === 0) await sharp(src).resize({ width: 1920 }).avif({ quality: 70 }).toFile(path.join(OUT, "poster.avif"));
 }
-console.log(`${frames.length} frames · desktop ${(bytes.desktop / 1e6).toFixed(1)} MB · mobile ${(bytes.mobile / 1e6).toFixed(1)} MB`);
+console.log(`${frames.length} frames · desktop ${(bytes.desktop / 1e6).toFixed(1)} MB · lite ${(bytes.lite / 1e6).toFixed(1)} MB · mobile ${(bytes.mobile / 1e6).toFixed(1)} MB`);
 rmSync(TMP, { recursive: true, force: true });
 // the hero's scroll chapters, as fractions of the film: the drone over the front garden, then over
 // the house to the cove (the last chapter is the end of the film, the house seen from the cove)

@@ -3,14 +3,12 @@
 import { useRef, useState } from "react";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { intro, loading } from "@/lib/scroll";
-import { chapterSnap } from "@/lib/snap";
 import { ArchMark } from "@/components/brand/ArchMark";
 import film from "@/data/film.json";
 
 /**
- * Film chapters as timeline positions: the film runs 0 → 1, the sky rises 1 → END. One scroll per
- * chapter: the gate, the drone over the front garden, the drone over the house to the cove, and the
- * house seen from the cove (the last frame of the film).
+ * Film chapters as timeline positions: the film runs 0 → 1, the sky rises 1 → END. The scroll moves the
+ * film freely (no snapping); each chapter's caption shows as the film passes it.
  */
 const END = 1.25;
 const chapters = [
@@ -18,7 +16,6 @@ const chapters = [
   { at: film.chapters[1], text: "Over the house to the cove" },
   { at: 1, text: "And down to a beach no one else can reach" },
 ];
-const STOPS = [0, ...chapters.map((c) => c.at), END];
 
 const frameUrl = (set: string, i: number) => `/film/${set}/f${String(i + 1).padStart(3, "0")}.webp`;
 const clamp = gsap.utils.clamp;
@@ -60,7 +57,11 @@ export function Hero() {
         { any: "all", motion: "(prefers-reduced-motion: no-preference)", narrow: "(max-width: 767px) and (orientation: portrait)" },
         (context) => {
           const { motion, narrow } = context.conditions as { motion: boolean; narrow: boolean };
-          const set = narrow ? "mobile" : "desktop";
+          // light frames while the film moves; on desktop the sharp 1920 frame replaces it once you stop
+          const set = narrow ? "mobile" : "desktop-lite";
+          const sharpSet = narrow ? null : "desktop";
+          let sharp: { i: number; bm: ImageBitmap } | null = null;
+          let restTimer = 0;
           const count = film.count;
           const blobs: (Blob | null)[] = new Array(count).fill(null);
           const state = { frame: 0 };
@@ -131,7 +132,7 @@ export function Hero() {
             const w = Math.round(cv.clientWidth * dpr);
             const h = Math.round(cv.clientHeight * dpr);
             prime(f); // evicts far frames first, so the frame picked below is never a closed bitmap
-            const hit = pick(Math.round(f));
+            const hit: [number, ImageBitmap] | null = sharp && sharp.i === Math.round(f) ? [-1 - sharp.i, sharp.bm] : pick(Math.round(f));
             if (!hit) return;
             const resized = cv.width !== w || cv.height !== h;
             if (resized) {
@@ -144,6 +145,25 @@ export function Hero() {
             const s = Math.max(cv.width / src.width, cv.height / src.height);
             ctx.imageSmoothingQuality = "high";
             ctx.drawImage(src, (cv.width - src.width * s) / 2, (cv.height - src.height * s) / 2, src.width * s, src.height * s);
+          };
+          // at rest: fetch and decode the full-resolution frame under the playhead, then draw it
+          const settle = () => {
+            window.clearTimeout(restTimer);
+            if (!sharpSet) return;
+            restTimer = window.setTimeout(() => {
+              const i = Math.round(clamp(0, count - 1, state.frame));
+              if (sharp?.i === i) return;
+              fetch(frameUrl(sharpSet, i))
+                .then((r) => (r.ok ? r.blob() : Promise.reject()))
+                .then((b) => createImageBitmap(b))
+                .then((bm) => {
+                  if (cancelled || Math.round(state.frame) !== i) return void bm.close();
+                  sharp?.bm.close();
+                  sharp = { i, bm };
+                  draw(true);
+                })
+                .catch(() => undefined);
+            }, 180);
           };
           const load = (i: number) =>
             fetch(frameUrl(set, i))
@@ -181,9 +201,11 @@ export function Hero() {
               start: "top top",
               end: "+=560%",
               pin: true,
-              scrub: 0.4,
+              // Lenis already smooths the scroll; a second scrub lag on top made the film feel sluggish
+              scrub: true,
               onUpdate: (self) => {
                 draw();
+                settle();
                 // dark chrome once the sky has covered the film
                 root.current?.setAttribute("data-chrome", self.progress * END > 1.15 ? "dark" : "light");
               },
@@ -201,16 +223,16 @@ export function Hero() {
           tl.fromTo(".hero-arc-text", { wordSpacing: "0px" }, { wordSpacing: "46px", duration: END - 1.05 }, 1.05);
           tl.fromTo(".hero-sky-copy", { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.08 }, 1.12);
 
-          // one slow, smooth glide per chapter
-          const stopSnap = chapterSnap(tl.scrollTrigger!, STOPS.map((s) => s / tl.duration()), { duration: 1.8 });
-
+          settle();
           const onResize = () => draw(true);
           window.addEventListener("resize", onResize);
           return () => {
             cancelled = true;
             bitmaps.forEach((b) => b.close());
             bitmaps.clear();
-            stopSnap();
+            window.clearTimeout(restTimer);
+            sharp?.bm.close();
+            sharp = null;
             window.removeEventListener("resize", onResize);
           };
         },
