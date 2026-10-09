@@ -89,7 +89,7 @@ export function Story() {
         <article aria-labelledby="concept-title" className="relative z-[1] flex w-full shrink-0 flex-col items-center justify-center px-[var(--gutter)] py-[var(--space-section)] text-center lg:h-full lg:w-[100vw] lg:py-0">
           <p className="label">The concept</p>
           <h2 id="concept-title" className="caps mt-10 max-w-[30ch] text-[clamp(2.2rem,1rem+3vw,4.6rem)] leading-[0.98]">
-            La Casa is a family house of two floors and two bedrooms, closed in by a hedge and open to the sea
+            La Casa is a family house of two floors and three bedrooms, closed in by a hedge and open to the sea
           </h2>
           <p className="body-small mt-12 max-w-[42ch] text-ink-2">
             Soft-modern Mediterranean, between classic and modern: lime plaster, rounded corners, tall arches on both floors

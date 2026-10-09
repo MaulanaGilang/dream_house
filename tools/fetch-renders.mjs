@@ -10,14 +10,14 @@ const OUT = path.resolve("src/assets/photos");
 
 // name -> Higgsfield result file (the job id is in the name)
 const RENDERS = {
-  gate: "hf_20261004_113715_db14bf50-bb32-4e73-bc34-2219e88afafd.png",
-  facade: "hf_20261004_113715_afaec0b4-c045-4a2e-91b4-878ca7781254.png",
+  gate: "hf_20261009_050037_0255ab82-2acf-4efa-951b-c028ca7013a4.png",
+  facade: "hf_20261009_045910_93cdbbf8-0a70-41bd-90c9-6aff3d57a166.png",
   // round 3: single front gate, driveway curving inside the hedge into its right half (site plan v5)
   // round 5: two-car S driveway through the gate, walk stops at its edge (site plan v7; collage + clean-up)
-  aerial: "hf_20261006_041955_9cd9aaf0-c365-4b8c-bbd0-7774f19b3e07.png",
-  "front-balcony": "hf_20261005_130048_feb110a6-200b-4364-98ac-a4e9f9b29fb9.png",
+  aerial: "hf_20261009_045948_90bfdb9b-3f5b-4065-9050-419cd3c26999.png",
+  "front-balcony": "hf_20261009_050120_9101bd35-9919-4167-90f4-e4e1bf067dfd.png",
   hall: "hf_20261005_130115_21dabdf0-e1c5-48d6-b7aa-8008f427bc17.png",
-  portal: "hf_20261004_113715_91288aff-d94c-4b6b-b970-a1f7677f625e.png",
+  portal: "hf_20261009_050123_1f905cd2-cc39-4830-aaef-581d3f904f88.png",
   "cove-view": "hf_20261006_042002_de3c1a2e-7749-4a19-8498-bcb82de4af06.png",
   rear: "hf_20261006_025524_d431333f-753c-47bb-aae0-fb6b4482140c.png",
   terrace: "hf_20261004_113945_b97be51a-a64d-46ed-a51d-f5631e098aeb.png",
@@ -27,10 +27,10 @@ const RENDERS = {
   kitchen: "hf_20261004_113945_d6172376-5667-4e81-a259-f6e862257505.png",
   "bedroom-2": "hf_20261004_113946_6e6b7e6f-3391-4e47-aeb9-9ab19cab398b.png",
   "guest-bath": "hf_20261004_114455_d51a88ff-2926-4130-bbcf-f0045dbbaa3e.png",
-  workout: "hf_20261004_114456_10860f53-6e2f-44cf-bc8b-4b53e871292c.png",
+  workout: "hf_20261009_045913_d9a1f3b5-537d-40e2-a51e-02a098dacf56.png",
   master: "hf_20261006_025810_bc94dacc-11ed-4639-9f9f-efba95c2d541.png",
   ensuite: "hf_20261004_114457_feafd5d7-e700-4e85-9a7a-2f2daabf1a69.png",
-  "work-room": "hf_20261004_114456_6411475f-de81-4caa-b047-76f31f7f4f5e.png",
+  "work-room": "hf_20261009_045445_ba3e434a-188f-4a5d-94af-55c1956c774f.png",
   // round 3: rooms that had no render, the entrance as a ruang tamu, and lavender + rose cut-outs
   entrance: "hf_20261005_072038_d7c9ece1-8855-4cab-9a69-9c460a32672f.png",
   "walk-in": "hf_20261005_072300_04b9a2ab-5474-4599-8d86-1fa48c32b5c5.png",
@@ -52,6 +52,13 @@ const RENDERS = {
 Object.assign(RENDERS, {
   "bloom-cascade": "hf_20261005_140321_52f6ce6c-a4c4-4728-8a9f-efff0bf1f986.png",
   "bloom-mound": "hf_20261005_140322_4e59c7fc-8e7e-4f4c-9e73-d2dffde2a5b9.png",
+});
+
+// round 10: bedroom three on the ground floor, the workout upstairs behind a half-length work room
+// with a piano, a 4 m front balcony under its own flower canopy, and a rose + lavender border inside
+// the hedge (gate, facade, aerial, front-balcony, portal, workout, work-room above re-rendered)
+Object.assign(RENDERS, {
+  "bedroom-3": "hf_20261009_045703_1ff9184e-d247-43fc-a2d7-93d1de98a0de.png",
 });
 
 // generated on a transparent background: keep the alpha, trim the empty margin

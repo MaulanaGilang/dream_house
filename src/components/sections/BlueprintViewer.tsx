@@ -147,7 +147,7 @@ export function BlueprintViewer() {
     <div ref={root} className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_17rem] lg:items-start lg:gap-x-10">
       <dl className="flex flex-wrap gap-x-[clamp(2rem,5vw,5rem)] gap-y-4 lg:col-span-2">
         {[
-          ["Bedrooms", "2"],
+          ["Bedrooms", "3"],
           ["Floor area", "286 m²"],
           ["Plot", "1,000 m²"],
         ].map(([k, v]) => (

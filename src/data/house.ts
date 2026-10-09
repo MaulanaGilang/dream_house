@@ -2,6 +2,7 @@
 
 import aerial from "@/assets/photos/aerial.webp";
 import bedroom2 from "@/assets/photos/bedroom-2.webp";
+import bedroom3 from "@/assets/photos/bedroom-3.webp";
 import bloomCascade from "@/assets/photos/bloom-cascade.webp";
 import bloomMound from "@/assets/photos/bloom-mound.webp";
 import bootRoom from "@/assets/photos/boot-room.webp";
@@ -35,7 +36,7 @@ import roomsFromPlans from "./blueprint-rooms.json";
 export const HOUSE_NAME = "La Casa";
 
 export const photos = {
-  aerial, bedroom2, bloomCascade, bloomMound, bootRoom, coveView, ensuite, entrance, facade, frontBalcony, garage, gate, guestBath, hall, kitchen, landing, laundry,
+  aerial, bedroom2, bedroom3, bloomCascade, bloomMound, bootRoom, coveView, ensuite, entrance, facade, frontBalcony, garage, gate, guestBath, hall, kitchen, landing, laundry,
   lavenderRoses, linen, living, master, pantry, portal, rear, rearNight, roseBranch, terrace, walkIn, workRoom, workout,
 };
 
@@ -69,7 +70,7 @@ export const reasons: Reason[] = [
   },
   {
     title: "Made for a family",
-    text: "Every room opens through an arch, and every arch looks out to green or to the sea. Two bedrooms, a work room, and a terrace for long dinners.",
+    text: "Every room opens through an arch, and every arch looks out to green or to the sea. Three bedrooms, a work room with a piano, and a terrace for long dinners.",
     slides: [
       { image: terrace, alt: "The covered terrace under the arches with a long oak dining table" },
       { image: rear, alt: "The back of the house: four arches over the terrace and a balcony above with a flowering cable pergola" },
@@ -102,9 +103,9 @@ export const rooms: Room[] = [
   { id: "guest-bath", name: "Guest bath", floor: "Ground", image: guestBath,
     note: "Terracotta, sand and ochre glaze to two thirds height.",
     alt: "Guest bathroom with warm terracotta glazed tiles and an oak vanity" },
-  { id: "workout", name: "Workout", floor: "Ground", image: workout,
-    note: "A mat, a rack and an arched mirror, with a window to the side garden.",
-    alt: "Small workout room with a rubber floor, dumbbell rack and arched mirror" },
+  { id: "bedroom-3", name: "Bedroom three", floor: "Ground", image: bedroom3,
+    note: "A quiet double room behind bedroom two, with an arched window onto the roses and lavender along the hedge.",
+    alt: "Small bedroom with a linen double bed, oak nightstands, a cane wardrobe and an arched window onto roses and lavender" },
   { id: "boot-room", name: "Boot room", floor: "Ground", image: bootRoom,
     note: "Between the garage and the entrance: a cane bench, hooks for beach towels and a tiled splash corner with a foot tap.",
     alt: "Boot room with a long oak and cane bench, beach towels on brass hooks, open shoe cubbies and a terracotta-tiled corner" },
@@ -127,11 +128,14 @@ export const rooms: Room[] = [
     note: "A stone tub under the front window and a sea-glass mosaic shower.",
     alt: "Ensuite with a freestanding stone tub and a blue-grey glazed mosaic shower" },
   { id: "work-room", name: "Work room", floor: "Upper", image: workRoom,
-    note: "A sit-stand desk at the front balcony doors and shelves along one wall.",
-    alt: "Long work room with built-in shelves and a sit-stand desk facing arched balcony doors" },
+    note: "The front half of the old work room: a sit-stand desk at the balcony doors and a walnut upright piano on the landing wall.",
+    alt: "Work room with a walnut upright piano and bench, a short run of shelves and a sit-stand desk facing arched balcony doors" },
+  { id: "workout", name: "Workout", floor: "Upper", image: workout,
+    note: "The back half, through the work room: a mat, a rack and an arched mirror, with doors onto the back balcony and the sea.",
+    alt: "Workout room with a rubber floor, dumbbell rack and arched mirror, arched doors open onto the flowering back balcony and the sea" },
   { id: "front-balcony", name: "Front balcony", floor: "Upper", image: frontBalcony,
-    note: "A coffee table's worth of balcony off the work room, above the front door, looking down the walk to the gate.",
-    alt: "Small limestone balcony with a bistro table and lavender pots, looking over the front garden, the S-shaped driveway and the gate" },
+    note: "Four metres wide over the front door, under its own canopy of bougainvillea and roses on steel cables, looking down the walk to the gate.",
+    alt: "Front balcony with a bistro table under a canopy of crimson bougainvillea, looking over the front garden, the rose and lavender border, the driveway and the gate" },
   { id: "balcony", name: "Back balcony", floor: "Upper", image: rear,
     note: "Eleven metres long over the terrace. Five limestone pillars carry steel beams and taut cables, grown over with crimson bougainvillea and climbing roses.",
     alt: "The back of the house: square limestone pillars on the upper balcony with steel beams and cables grown over by crimson bougainvillea and roses, four arches below" },
@@ -164,7 +168,7 @@ export const roomLists = roomsFromPlans;
 
 /** Photo shown when a room is picked on a plan; rooms without a render show the drawing only. */
 export const planPhotos: Record<string, StaticImageData> = {
-  living, kitchen, "bedroom-2": bedroom2, "guest-bath": guestBath, workout, laundry, terrace,
+  living, kitchen, "bedroom-2": bedroom2, "bedroom-3": bedroom3, "guest-bath": guestBath, workout, laundry, terrace,
   entrance, hall, garage, "boot-room": bootRoom, pantry, master, ensuite, "walk-in": walkIn, landing, linen,
   "work-room": workRoom, balcony: rear, "front-balcony": frontBalcony,
 };

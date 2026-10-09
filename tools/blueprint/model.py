@@ -15,6 +15,12 @@ EXT_T, INT_T = 250, 120                  # wall thicknesses
 GARAGE = (11_000, 0, 17_000, 8_000)      # house coords; 6.0 m wide for two cars and a motorbike (round 3)
 LAUNDRY = (11_000, 8_000, 17_000, 13_000)
 TERRACE = (0, 13_000, 11_000, 16_000)
+# round 10: a third bedroom where the workout was (its back wall moved 600 mm into the living room),
+# the upper work room split in half (workout at the back), and a wider front balcony centred on the
+# front door with the same pillar + cable flower canopy as the back balcony
+BED3_Y1 = 7_400
+WORK_SPLIT = 6_500
+FRONT_BALCONY = (6_550, -1_500, 10_550, 0)
 HEDGE_T, STONE_T = 1_000, 400
 FRONT_GATE = (6_800, 13_200)             # site x range
 BACK_GATE = (6_500, 7_900)               # single solid arched door, 1.4 m, on the beach-path axis
@@ -22,6 +28,7 @@ BACK_PORTAL = (5_600, 8_800)             # arched plaster portal wall in the bac
 PORTAL_T = 600
 PORTAL_CROWN = 4_000
 BLUFF = 6_000                            # garden to beach, mm
+BORDER_ROSE, BORDER_LAVENDER = 700, 700  # flower border inside the hedge: hedge > roses > lavender (round 10)
 
 # levels (mm above garden level)
 LV_GARDEN, LV_GF, LV_1F = 0, 450, 3_850
@@ -123,6 +130,8 @@ UF_OPENINGS = [
     dict(kind="door", axis="y", c=4200, s=4600, e=5400, swing=-1, hinge="s"),
     dict(kind="door", axis="x", c=9000, s=6200, e=7000, swing=-1, hinge="s"),
     dict(kind="door", axis="y", c=8000, s=2800, e=3700, swing=1, hinge="s"),
+    # the workout room is reached through the work room
+    dict(kind="door", axis="x", c=WORK_SPLIT, s=10000, e=10800, swing=1, hinge="e"),
 ]
 
 
@@ -136,10 +145,10 @@ def ground_walls():
         ring(0, 0, HOUSE_W, HOUSE_D),
         box(*GARAGE).difference(box(11_000, 200, 16_800, 7_800)),
         box(11_000, 7_800, 17_000, 13_000).difference(box(11_000, 7_800, 16_800, 12_800)),
-        wall(4200, 0, 4200, 6800), wall(0, 4400, 4200, 4400), wall(4200, 2600, 6600, 2600),
+        wall(4200, 0, 4200, BED3_Y1), wall(0, 4400, 4200, 4400), wall(4200, 2600, 6600, 2600),
         wall(6600, 0, 6600, 2600), wall(5600, 4400, 5600, 13000), wall(5600, 7800, 8000, 7800),
         wall(8000, 4400, 8000, 8400), wall(8000, 4400, 11000, 4400), wall(8000, 6800, 11000, 6800),
-        wall(8000, 8400, 11000, 8400), wall(0, 6800, 4200, 6800),
+        wall(8000, 8400, 11000, 8400), wall(0, BED3_Y1, 4200, BED3_Y1),
         # inner hall (round 5): a solid wall closes the stair off from the sitting room, and a short
         # wing wall hides the guest-bath door; family and guests reach both around the corner
         wall(6600, 4400, 8000, 4400), wall(6600, 2600, 6600, 3500),
@@ -159,6 +168,7 @@ def upper_walls():
         wall(8000, 0, 8000, 13000), wall(5600, 0, 5600, 4400), wall(5600, 4400, 5600, 9000),
         wall(0, 3200, 5600, 3200), wall(4200, 3200, 4200, 6800), wall(0, 6800, 4200, 6800),
         wall(5600, 7800, 8000, 7800), wall(5600, 9000, 8000, 9000),
+        wall(8000, WORK_SPLIT, 11000, WORK_SPLIT),
     ]
     walls = unary_union(parts)
     holes = unary_union([opening_box(o) for o in UF_OPENINGS])
@@ -170,11 +180,11 @@ GF_ROOMS = [
     ("guest-bath", "GUEST BATH", box(4200, 0, 6600, 2600)),
     ("entrance", "ENTRANCE", box(6600, 0, 11000, 4400)),
     ("hall", "HALL", box(4200, 2600, 6600, 4400)),
-    ("workout", "WORKOUT", box(0, 4400, 4200, 6800)),
+    ("bedroom-3", "BEDROOM 3", box(0, 4400, 4200, BED3_Y1)),
     ("boot-room", "BOOT ROOM", box(8000, 4400, 11000, 6800)),
     ("pantry", "PANTRY", box(8000, 6800, 11000, 8400)),
     ("kitchen", "KITCHEN + DINING", box(5600, 7800, 11000, 13000).difference(box(8000, 7800, 11000, 8400))),
-    ("living", "LIVING", unary_union([box(0, 6800, 5600, 13000), box(4200, 4400, 5600, 6800)])),
+    ("living", "LIVING", unary_union([box(0, BED3_Y1, 5600, 13000), box(4200, 4400, 5600, BED3_Y1)])),
     ("terrace", "COVERED TERRACE", box(*TERRACE)),
     ("garage", "GARAGE", box(*GARAGE)),
     ("laundry", "LAUNDRY YARD", box(*LAUNDRY)),
@@ -186,18 +196,19 @@ UF_ROOMS = [
     ("walk-in", "WALK-IN", box(0, 3200, 4200, 6800)),
     ("linen", "LINEN", box(5600, 7800, 8000, 9000)),
     ("master", "MASTER BEDROOM", unary_union([box(0, 6800, 5600, 13000), box(5600, 9000, 8000, 13000)])),
-    ("work-room", "WORK ROOM", box(8000, 0, 11000, 13000)),
+    ("work-room", "WORK ROOM", box(8000, 0, 11000, WORK_SPLIT)),
+    ("workout", "WORKOUT", box(8000, WORK_SPLIT, 11000, 13000)),
     ("balcony", "BALCONY", box(0, 13000, 11000, 16000)),
-    ("front-balcony", "BALCONY", box(8250, -1300, 10750, 0)),
+    ("front-balcony", "BALCONY", box(*FRONT_BALCONY)),
 ]
 
 # Where to place room tags when the polygon centroid is a poor spot (house coords)
 TAG_AT = {
     "entrance": (8800, 3900), "hall": (5300, 3600), "living": (2600, 9800), "kitchen": (7700, 12450), "bedroom-2": (3150, 950),
-    "guest-bath": (5400, 1250), "workout": (1700, 6250), "laundry": (13300, 10000), "pantry": (9300, 7750),
+    "guest-bath": (5400, 1250), "bedroom-3": (1400, 6950), "laundry": (13300, 10000), "pantry": (9300, 7750),
     "walk-in": (2500, 5650), "linen": (7000, 8400),
-    "master": (3000, 12000), "work-room": (9500, 6800), "terrace": (6300, 14500),
-    "garage": (14000, 6050), "front-balcony": (9500, -650),
+    "master": (3000, 12000), "work-room": (9950, 4100), "workout": (9500, 7500), "terrace": (6300, 14500),
+    "garage": (14000, 6050), "front-balcony": (8550, -750),
 }
 
 # Stair: U-stair, 20 risers of 170 mm, 2 flights of 9 treads x 260 mm

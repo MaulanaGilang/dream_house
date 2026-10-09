@@ -5,7 +5,7 @@ export function Architecture() {
   return (
     <section id="architecture" aria-labelledby="arch-title">
       <div data-chrome="light" className="relative h-[100dvh] min-h-[560px] overflow-hidden text-white">
-        <Image src={photos.facade} alt="The front of the house: cream plaster, arched windows, a small balcony over the arched front door" fill sizes="100vw" placeholder="blur" className="object-cover" />
+        <Image src={photos.facade} alt="The front of the house: cream plaster, arched windows, a wide balcony under a canopy of bougainvillea over the arched front door" fill sizes="100vw" placeholder="blur" className="object-cover" />
         <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(to_bottom,oklch(20%_0.04_265/0.4)_0%,transparent_45%)]" />
         <h2 id="arch-title" className="display absolute inset-x-0 top-[7vh] text-center text-[clamp(3.4rem,0.6rem+12.6vw,15.5rem)] leading-[0.82]">
           Architecture

@@ -21,9 +21,9 @@
       "area": 4.0
     },
     {
-      "id": "workout",
-      "label": "Workout",
-      "area": 8.9
+      "id": "bedroom-3",
+      "label": "Bedroom 3",
+      "area": 11.2
     },
     {
       "id": "boot-room",
@@ -43,7 +43,7 @@
     {
       "id": "living",
       "label": "Living",
-      "area": 34.3
+      "area": 31.9
     },
     {
       "id": "terrace",
@@ -95,7 +95,12 @@
     {
       "id": "work-room",
       "label": "Work Room",
-      "area": 33.6
+      "area": 16.7
+    },
+    {
+      "id": "workout",
+      "label": "Workout",
+      "area": 16.7
     },
     {
       "id": "balcony",
@@ -105,7 +110,7 @@
     {
       "id": "front-balcony",
       "label": "Balcony",
-      "area": 3.2
+      "area": 6.0
     },
     {
       "id": "stairs",

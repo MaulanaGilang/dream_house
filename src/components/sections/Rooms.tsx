@@ -31,8 +31,8 @@ export function Rooms() {
             above the living floor, away from the garden.
           </p>
           <ul className="label mt-8 grid gap-1 opacity-80">
-            <li>Ground floor: living, kitchen, bedroom two, guest bath, workout</li>
-            <li>Upper floor: master suite, work room, long balcony</li>
+            <li>Ground floor: living, kitchen, bedrooms two and three, guest bath</li>
+            <li>Upper floor: master suite, work room with piano, workout, two balconies</li>
           </ul>
         </div>
       </div>

@@ -163,8 +163,11 @@ def furniture_ground(sh: Sheet):
     sh.rect(7900, 1600, 9200, 2350, F)
     sh.rect(7300, 2650, 9800, 3450, F); sh.rect(7300, 3150, 9800, 3450, F)
     sh.rect(10560, 2600, 10940, 4100, F)
-    # workout: mat, rack, mirror
-    sh.rect(700, 5000, 2500, 5800, F); sh.rect(3200, 4700, 3900, 6500, F); sh.line((300, 4700), (300, 6500), F)
+    # bedroom 3 (round 10, where the workout was): double bed against the bedroom-2 wall, nightstands,
+    # wardrobe on the back wall clear of the door swing
+    sh.rect(1500, 4520, 2900, 6520, F); sh.rect(1500, 4520, 2900, 4970, F)
+    sh.rect(1000, 4520, 1400, 4920, F); sh.rect(3000, 4520, 3400, 4920, F)
+    sh.rect(2600, 6740, 4080, 7340, F); sh.line((2600, 6740), (4080, 7340), F); sh.line((2600, 7340), (4080, 6740), F)
     # boot room: shelving + bench
     sh.rect(8120, 4520, 10600, 4960, F); sh.rect(8120, 6200, 9800, 6680, F)
     # pantry shelves
@@ -173,9 +176,9 @@ def furniture_ground(sh: Sheet):
     sh.rect(800, 11300, 4200, 12200, F); sh.rect(800, 11300, 1600, 12200, F)
     sh.rect(1600, 9400, 3600, 10500, F)
     sh.rect(4300, 9300, 5200, 10200, F); sh.rect(4300, 10500, 5200, 11400, F)
-    sh.rect(300, 6950, 2100, 8650, "ABOVE", "DASHED")
-    sh.rect(700, 7250, 1500, 8350, F)
-    sh.text((1200, 6950 + sh.p(1.6)), "PRAYER CORNER", 1.5, align="BC", cls="bp-note")
+    sh.rect(300, 7550, 2100, 9150, "ABOVE", "DASHED")
+    sh.rect(700, 7850, 1500, 8850, F)
+    sh.text((1200, 7550 + sh.p(1.6)), "PRAYER CORNER", 1.5, align="BC", cls="bp-note")
     # kitchen: run on the right wall with hood alcove, island, dining table for six
     sh.rect(10150, 10300, 10750, 12700, F); sh.rect(10150, 11000, 10750, 11900, "ABOVE", "DASHED")
     sh.circle((10450, 11200), 140, F); sh.circle((10450, 11700), 140, F)
@@ -235,16 +238,30 @@ def furniture_upper(sh: Sheet):
     sh.rect(250, 9000, 2350, 11000, F); sh.rect(250, 9000, 750, 11000, F)
     sh.rect(250, 8450, 700, 8900, F); sh.rect(250, 11100, 700, 11550, F)
     sh.rect(6100, 10000, 7000, 10900, F); sh.rect(6100, 11400, 7000, 12300, F); sh.circle((7450, 11150), 300, F)
-    # work room: sit-stand desk facing the balcony, chair, shelves, reading chair
+    # work room (front half): sit-stand desk facing the balcony, chair, upright piano and bench on the
+    # landing wall, shelves by the window
     sh.rect(8700, 1100, 10500, 1900, F); sh.circle((9600, 2500), 320, F)
-    sh.rect(8120, 4800, 8520, 9600, F)
-    sh.rect(9800, 10400, 10600, 11200, F); sh.circle((9300, 10800), 280, F)
+    sh.rect(8120, 4800, 8720, 6400, F); sh.rect(8120, 4800, 8720, 4920, F); sh.rect(8820, 5200, 9220, 6000, F)
+    sh.text((8420, 5600), "PIANO", 1.3, rot=90, cls="bp-note")
+    # workout (back half): mirror on the side wall, mat, rack by the balcony doors
+    sh.line((8100, 7000), (8100, 10400), F)
+    sh.rect(9300, 8800, 10600, 10800, F)
+    sh.rect(8150, 10600, 8850, 12400, F)
     # linen shelves
     sh.rect(5720, 7920, 6100, 8880, F)
     # balconies: balustrades
     sh.line((0, 15900), (11000, 15900), F); sh.line((0, 16000), (11000, 16000), F)
-    sh.poly([(8250, 0), (8250, -1300), (10750, -1300), (10750, 0)], F, closed=False)
-    sh.poly([(8350, 0), (8350, -1200), (10650, -1200), (10650, 0)], F, closed=False)
+    fx0, fy0, fx1, _ = M.FRONT_BALCONY
+    sh.poly([(fx0, 0), (fx0, fy0), (fx1, fy0), (fx1, 0)], F, closed=False)
+    sh.poly([(fx0 + 100, 0), (fx0 + 100, fy0 + 100), (fx1 - 100, fy0 + 100), (fx1 - 100, 0)], F, closed=False)
+    # front balcony canopy, as at the back: three limestone pillars on the balustrade, steel beams back
+    # to the wall (dashed, overhead) and cables between them for bougainvillea and roses
+    for xc in (fx0 + 175, (fx0 + fx1) / 2, fx1 - 175):
+        p = box(xc - 175, fy0, xc + 175, fy0 + 350)
+        sh.hatch(p, "ANSI31", 0.55); sh.outline(p, "WALL")
+        sh.line((xc, 0), (xc, fy0 + 350), "ABOVE", "DASHED")
+    for y in range(fy0 + 500, -150, 300):
+        sh.line((fx0 + 175, y), (fx1 - 175, y), "ABOVE", "HIDDEN")
     for x in (0, 2750, 5500, 8250, 11000):
         x0, x1 = max(0, x - 200), min(M.HOUSE_W, x + 200)
         sh.rect(x0, 15600, x1, 16000, "ABOVE", "DASHED")
@@ -367,7 +384,7 @@ def plan_sheet(slug, title, number, upper=False):
     if upper:
         # balcony slabs as thin outlines
         sh.rect(0, 13000, 11000, 16000, "OPEN")
-        sh.rect(8250, -1300, 10750, 0, "OPEN")
+        sh.rect(*M.FRONT_BALCONY, "OPEN")
     else:
         sh.rect(0, 13000, 11000, 16000, "OPEN")
         # front steps
@@ -391,12 +408,12 @@ def plan_sheet(slug, title, number, upper=False):
         left_pts = [0, 900, 2300, 3200, 4600, 5800, 6800, 7400, 8400, 11600, 12400, 13000, 16000]
         rooms_x = [0, 5600, 8000, 11000]
         rooms_y = [0, 3200, 6800, 13000, 16000]
-        ylo = -1300
+        ylo = M.FRONT_BALCONY[1]
     else:
         front_pts = [0, 1300, 2900, 4900, 5900, 7550, 9550, 10000, 10600, 11000, 11500, 16500, 17000]
-        left_pts = [0, 1300, 3100, 4400, 5000, 6200, 6800, 7600, 8600, 10200, 11800, 13000, 16000]
+        left_pts = [0, 1300, 3100, 4400, 5000, 6200, M.BED3_Y1, 7600, 8600, 10200, 11800, 13000, 16000]
         rooms_x = [0, 4200, 6600, 11000, 17000]
-        rooms_y = [0, 4400, 6800, 13000, 16000]
+        rooms_y = [0, 4400, M.BED3_Y1, 13000, 16000]
         ylo = -900
     for a, b in zip(front_pts, front_pts[1:]):
         sh.dim((a, ylo), (b, ylo), -1200)
@@ -540,6 +557,21 @@ def site_sheet():
     for x in (9150, 10850):
         for y in range(int(walk_from) + 100, 20600, 600):
             sh.circle(R(x, y), 220, "PLANT")
+    # flower border inside the hedge all round (round 10): stone wall > hedge > roses > lavender. It
+    # stops at the driveway, the portal path and the house block, where the strip narrows to roses only
+    inner = box(M.HEDGE_T, M.HEDGE_T, M.PLOT_W - M.HEDGE_T, M.PLOT_D - M.HEDGE_T)
+    in_rose = inner.buffer(-M.BORDER_ROSE, join_style=2)
+    in_lav = in_rose.buffer(-M.BORDER_LAVENDER, join_style=2)
+    hx0_, hy0_ = M.HOUSE_ORIGIN
+    block = unary_union([
+        box(hx0_, hy0_, hx0_ + M.LAUNDRY[2], hy0_ + M.HOUSE_D), box(hx0_, hy0_, hx0_ + M.HOUSE_W, hy0_ + M.TERRACE[3]),
+        drive.buffer(300), box(M.BACK_PORTAL[0], M.PLOT_D - 4000, M.BACK_PORTAL[1], M.PLOT_D),
+    ])
+    roses = inner.difference(in_rose).difference(block)
+    lavender = in_rose.difference(in_lav).difference(block)
+    sh.hatch(T(roses), "DOTS", 0.5, layer="PLANT"); sh.outline(T(roses), "PLANT")
+    sh.hatch(T(lavender), "ANSI31", 0.5, layer="PLANT"); sh.outline(T(lavender), "PLANT")
+    sh.text(R(3600, 2300), "ROSES + LAVENDER BORDER", 1.4, align="BL", rot=0, cls="bp-note")
     # columnar thuja either side of the straight run only (clear of the S)
     for x in (gc - 3000, gc + 3000):
         for y in range(11500, 19600, 2500):
